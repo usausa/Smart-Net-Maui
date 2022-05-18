@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFrameworks>net6.0</TargetFrameworks>
+	<UseMaui>true</UseMaui>
+    <CodeAnalysisRuleSet>..\Smart.Maui.ruleset</CodeAnalysisRuleSet>
+    <RootNamespace>Smart</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Usa.Smart.Maui</PackageId>
+    <Title>Smart.Maui</Title>
+    <Description>Smart Maui support library</Description>
+    <Summary>Smart Maui support library</Summary>
+    <PackageTags>smart maui mvvm</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Usa.Smart.Converter" Version="2.1.0" />
+    <PackageReference Include="Usa.Smart.Core" Version="2.1.0" />
+  </ItemGroup>
+
+</Project>
