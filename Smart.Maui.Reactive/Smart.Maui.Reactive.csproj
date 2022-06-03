@@ -10,8 +10,8 @@
   <PropertyGroup>
     <PackageId>Usa.Smart.Maui.Reactive</PackageId>
     <Title>Smart.Maui.Reactive</Title>
-    <Description>Smart Maui support library</Description>
-    <Summary>Smart Maui support library</Summary>
+    <Description>Smart MAUI support library</Description>
+    <Summary>Smart MAUI support library</Summary>
     <PackageTags>smart maui mvvm rx</PackageTags>
   </PropertyGroup>
 

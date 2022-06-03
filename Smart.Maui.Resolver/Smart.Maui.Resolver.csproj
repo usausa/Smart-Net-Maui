@@ -10,8 +10,8 @@
   <PropertyGroup>
     <PackageId>Usa.Smart.Maui.Resolver</PackageId>
     <Title>Smart.Maui.Resolver</Title>
-    <Description>Smart Maui support library resolver extension</Description>
-    <Summary>Smart Maui support library resolver extension</Summary>
+    <Description>Smart MAUI support library resolver extension</Description>
+    <Summary>Smart MAUI support library resolver extension</Summary>
     <PackageTags>smart maui mvvm di dependencyinjection</PackageTags>
   </PropertyGroup>
 

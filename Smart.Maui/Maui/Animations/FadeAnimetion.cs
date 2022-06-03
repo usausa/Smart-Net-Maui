@@ -1,0 +1,104 @@
+namespace Smart.Maui.Animations;
+
+using System.Globalization;
+
+public enum FadeDirection
+{
+    Up,
+    Down
+}
+
+public sealed class FadeToAnimation : AnimationBase
+{
+    public static readonly BindableProperty OpacityProperty = BindableProperty.Create(
+        nameof(Opacity),
+        typeof(double),
+        typeof(FadeToAnimation),
+        0.0d,
+        BindingMode.TwoWay);
+
+    public double Opacity
+    {
+        get => (double)GetValue(OpacityProperty);
+        set => SetValue(OpacityProperty, value);
+    }
+
+    protected override Task BeginAnimation()
+    {
+        return Target.FadeTo(Opacity, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), EasingHelper.GetEasing(Easing));
+    }
+}
+
+public sealed class FadeInAnimation : AnimationBase
+{
+    public static readonly BindableProperty DirectionProperty = BindableProperty.Create(
+        nameof(Direction),
+        typeof(FadeDirection),
+        typeof(FadeInAnimation),
+        FadeDirection.Up,
+        BindingMode.TwoWay);
+
+    public FadeDirection Direction
+    {
+        get => (FadeDirection)GetValue(DirectionProperty);
+        set => SetValue(DirectionProperty, value);
+    }
+
+    protected override Task BeginAnimation()
+    {
+        return Task.Run(() => Device.BeginInvokeOnMainThread(() =>
+            Target.Animate("FadeIn", FadeIn(), 16, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture))));
+    }
+
+    private Animation FadeIn()
+    {
+        var animation = new Animation();
+        animation.WithConcurrent(
+            x => Target!.Opacity = x,
+            0,
+            1,
+            Smart.Maui.Easing.CubicOut);
+        animation.WithConcurrent(
+            x => Target!.TranslationY = x,
+            Target!.TranslationY + ((Direction == FadeDirection.Up) ? 50 : -50),
+            Target!.TranslationY,
+            Smart.Maui.Easing.CubicOut);
+        return animation;
+    }
+}
+
+public sealed class FadeOutAnimation : AnimationBase
+{
+    public static readonly BindableProperty DirectionProperty = BindableProperty.Create(
+        nameof(Direction),
+        typeof(FadeDirection),
+        typeof(FadeOutAnimation),
+        FadeDirection.Up,
+        BindingMode.TwoWay);
+
+    public FadeDirection Direction
+    {
+        get => (FadeDirection)GetValue(DirectionProperty);
+        set => SetValue(DirectionProperty, value);
+    }
+
+    protected override Task BeginAnimation()
+    {
+        return Task.Run(() => Device.BeginInvokeOnMainThread(() =>
+            Target.Animate("FadeOut", FadeOut(), 16, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture))));
+    }
+
+    private Animation FadeOut()
+    {
+        var animation = new Animation();
+        animation.WithConcurrent(
+            x => Target!.Opacity = x,
+            1,
+            0);
+        animation.WithConcurrent(
+            x => Target!.TranslationY = x,
+            Target!.TranslationY,
+            Target!.TranslationY + ((Direction == FadeDirection.Up) ? 50 : -50));
+        return animation;
+    }
+}
