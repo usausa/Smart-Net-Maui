@@ -31,9 +31,9 @@ public sealed class CompareToColorExtension : IMarkupExtension<CompareConverter<
 {
     public ICompareExpression? Expression { get; set; }
 
-    public Color True { get; set; }
+    public Color True { get; set; } = Colors.Transparent;
 
-    public Color False { get; set; }
+    public Color False { get; set; } = Colors.Transparent;
 
     public CompareConverter<Color> ProvideValue(IServiceProvider serviceProvider) =>
         new() { Expression = Expression ?? CompareExpressions.Equal, TrueValue = True, FalseValue = False };

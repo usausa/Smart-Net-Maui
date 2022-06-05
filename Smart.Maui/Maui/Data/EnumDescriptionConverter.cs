@@ -13,10 +13,10 @@ public sealed class EnumDescriptionConverter : IValueConverter
             return null;
         }
 
-        if (value is Enum)
+        if (value is Enum enumValue)
         {
-            var type = value.GetType();
-            var mis = type.GetMember(value.ToString());
+            var type = enumValue.GetType();
+            var mis = type.GetMember(enumValue.ToString());
             if (mis.Length > 0)
             {
                 var attr = mis[0].GetCustomAttribute<DescriptionAttribute>();

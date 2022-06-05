@@ -30,9 +30,9 @@ public sealed class NullToTextExtension : IMarkupExtension<NullToObjectConverter
 
 public sealed class NullToColorExtension : IMarkupExtension<NullToObjectConverter<Color>>
 {
-    public Color Null { get; set; }
+    public Color Null { get; set; } = Colors.Transparent;
 
-    public Color NonNull { get; set; }
+    public Color NonNull { get; set; } = Colors.Transparent;
 
     public bool HandleEmptyString { get; set; }
 

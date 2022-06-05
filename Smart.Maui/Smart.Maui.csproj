@@ -40,11 +40,6 @@
 
   <ItemGroup>
     <Compile Remove="Maui\ElementExtensions.cs" />
-    <Compile Remove="Maui\Markup\BoolToExtension.cs" />
-    <Compile Remove="Maui\Markup\ColorBlendExtension.cs" />
-    <Compile Remove="Maui\Markup\CompareToExtension.cs" />
-    <Compile Remove="Maui\Markup\ContainsToExtension.cs" />
-    <Compile Remove="Maui\Markup\NullToExtension.cs" />
     <Compile Remove="Maui\Timer.cs" />
     <Compile Remove="Maui\VisualElementExtensions.cs" />
   </ItemGroup>
@@ -56,8 +51,11 @@
     <Compile Include="Maui\Data\BinaryConverter.cs" />
     <Compile Include="Maui\Data\BoolToObjectConverter.cs" />
     <Compile Include="Maui\Data\ChainConverter.cs" />
+    <Compile Include="Maui\Data\ColorBlendConverter.cs" />
     <Compile Include="Maui\Data\CompareConverter.cs" />
     <Compile Include="Maui\Data\ContainsConverter.cs" />
+    <Compile Include="Maui\Data\EnumDescriptionConverter.cs" />
+    <Compile Include="Maui\Data\MapToObjectConverter.cs" />
     <Compile Include="Maui\Data\MultiBinaryConverter.cs" />
     <Compile Include="Maui\Data\NullToObjectConverter.cs" />
     <Compile Include="Maui\Data\NullToParameterConverter.cs" />

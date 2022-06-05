@@ -26,9 +26,9 @@ public sealed class ContainsToTextExtension : IMarkupExtension<ContainsConverter
 
 public sealed class ContainsToColorExtension : IMarkupExtension<ContainsConverter<Color>>
 {
-    public Color True { get; set; }
+    public Color True { get; set; } = Colors.Transparent;
 
-    public Color False { get; set; }
+    public Color False { get; set; } = Colors.Transparent;
 
     public ContainsConverter<Color> ProvideValue(IServiceProvider serviceProvider) =>
         new() { TrueValue = True, FalseValue = False };

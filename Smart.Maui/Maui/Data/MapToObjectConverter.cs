@@ -55,6 +55,6 @@ public sealed class MapToColorConverter : MapToObjectConverter<Color>
 {
     public MapToColorConverter()
     {
-        DefaultValue = Color.Default;
+        DefaultValue = Colors.Transparent;
     }
 }

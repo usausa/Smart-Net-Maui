@@ -16,9 +16,9 @@ public sealed class BoolToTextExtension : IMarkupExtension<BoolToObjectConverter
 
 public sealed class BoolToColorExtension : IMarkupExtension<BoolToObjectConverter<Color>>
 {
-    public Color True { get; set; }
+    public Color True { get; set; } = Colors.Transparent;
 
-    public Color False { get; set; }
+    public Color False { get; set; } = Colors.Transparent;
 
     public BoolToObjectConverter<Color> ProvideValue(IServiceProvider serviceProvider) =>
         new() { TrueValue = True, FalseValue = False };

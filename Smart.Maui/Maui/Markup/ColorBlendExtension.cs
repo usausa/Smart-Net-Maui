@@ -4,7 +4,7 @@ using Smart.Maui.Data;
 
 public sealed class ColorBlendExtension : IMarkupExtension<ColorBlendConverter>
 {
-    public Color Color { get; set; }
+    public Color Color { get; set; } = Colors.Transparent;
 
     public double Raito { get; set; }
 

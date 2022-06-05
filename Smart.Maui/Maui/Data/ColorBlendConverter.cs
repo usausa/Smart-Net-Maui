@@ -6,7 +6,7 @@ public sealed class ColorBlendConverter : IValueConverter
 {
     private double raito;
 
-    public Color Color { get; set; }
+    public Color Color { get; set; } = Colors.Transparent;
 
     public double Raito
     {
@@ -29,9 +29,9 @@ public sealed class ColorBlendConverter : IValueConverter
             return null;
         }
 
-        var r = Math.Min((byte)Math.Round(color.R + ((Color.R - color.R) * raito)), (byte)255);
-        var g = Math.Min((byte)Math.Round(color.G + ((Color.G - color.G) * raito)), (byte)255);
-        var b = Math.Min((byte)Math.Round(color.B + ((Color.B - color.B) * raito)), (byte)255);
+        var r = Math.Min((byte)Math.Round(color.Red + ((Color.Red - color.Red) * raito)), (byte)255);
+        var g = Math.Min((byte)Math.Round(color.Green + ((Color.Green - color.Green) * raito)), (byte)255);
+        var b = Math.Min((byte)Math.Round(color.Blue + ((Color.Blue - color.Blue) * raito)), (byte)255);
         return new Color(r, g, b);
     }
 
