@@ -8,5 +8,7 @@ public interface IDialogService
 
     Task<string?> DisplayActionSheet(string? title, string? cancelButton, string? destroyButton, params string[] otherButtons);
 
-    Task DisplayActionSheet(string? title, params ActionSheetButton[] buttons);
+    Task DisplayActionSheet(string? title, params IActionSheetButton[] buttons);
+
+    // TODO prompt
 }

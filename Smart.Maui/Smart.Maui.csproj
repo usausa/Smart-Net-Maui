@@ -30,6 +30,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Maui\Components\ActionSheetButton.cs" />
+    <Compile Include="Maui\Components\DialogService.cs" />
+    <Compile Include="Maui\Components\IDialogService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Usa.Smart.Converter" Version="2.1.0" />
     <PackageReference Include="Usa.Smart.Core" Version="2.1.0" />
   </ItemGroup>

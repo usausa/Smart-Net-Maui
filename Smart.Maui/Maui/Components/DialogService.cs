@@ -4,20 +4,20 @@ public sealed class DialogService : IDialogService
 {
     public async Task<bool> DisplayAlert(string? title, string? message, string? acceptButton, string? cancelButton)
     {
-        return await Application.Current.MainPage.DisplayAlert(title, message, acceptButton, cancelButton);
+        return await (Application.Current?.MainPage?.DisplayAlert(title, message, acceptButton, cancelButton) ?? Task.FromResult(false));
     }
 
     public async Task DisplayAlert(string? title, string? message, string? cancelButton)
     {
-        await Application.Current.MainPage.DisplayAlert(title, message, cancelButton);
+        await (Application.Current?.MainPage?.DisplayAlert(title, message, cancelButton) ?? Task.CompletedTask);
     }
 
     public async Task<string?> DisplayActionSheet(string? title, string? cancelButton, string? destroyButton, params string[] otherButtons)
     {
-        return await Application.Current.MainPage.DisplayActionSheet(title, cancelButton, destroyButton, otherButtons);
+        return await (Application.Current?.MainPage?.DisplayActionSheet(title, cancelButton, destroyButton, otherButtons) ?? Task.FromResult(default(string)));
     }
 
-    public async Task DisplayActionSheet(string? title, params ActionSheetButton[] buttons)
+    public async Task DisplayActionSheet(string? title, params IActionSheetButton[] buttons)
     {
         var cancelButton = buttons.FirstOrDefault(b => b.ButtonType == ActionSheetButtonType.Cancel);
         var destroyButton = buttons.FirstOrDefault(b => b.ButtonType == ActionSheetButtonType.Destroy);
@@ -26,9 +26,9 @@ public sealed class DialogService : IDialogService
         var selectedText = await DisplayActionSheet(title, cancelButton?.Text, destroyButton?.Text, otherButtonTexts);
 
         var selectedButton = buttons.FirstOrDefault(b => b.Text == selectedText);
-        if ((selectedButton is not null) && selectedButton.Command.CanExecute(selectedText))
+        if (selectedButton is not null)
         {
-            selectedButton.Command.Execute(selectedText);
+            await selectedButton.Execute();
         }
     }
 }
