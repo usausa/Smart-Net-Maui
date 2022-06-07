@@ -30,8 +30,8 @@ public sealed class TranslateToAnimation : AnimationBase
         set => SetValue(TranslateYProperty, value);
     }
 
-    protected override Task BeginAnimation()
+    protected override Task BeginAnimation(VisualElement target)
     {
-        return Target.TranslateTo(TranslateX, TranslateY, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), EasingHelper.GetEasing(Easing));
+        return target.TranslateTo(TranslateX, TranslateY, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), Easing);
     }
 }

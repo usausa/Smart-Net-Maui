@@ -48,8 +48,8 @@ public sealed class EventTrigger : TriggerBase<BindableObject>
             throw new ArgumentException(nameof(EventName));
         }
 
-        var methodInfo = typeof(EventTrigger).GetTypeInfo().GetDeclaredMethod(nameof(OnEvent));
-        handler = methodInfo.CreateDelegate(eventInfo.EventHandlerType, this);
+        var methodInfo = typeof(EventTrigger).GetTypeInfo().GetDeclaredMethod(nameof(OnEvent))!;
+        handler = methodInfo.CreateDelegate(eventInfo.EventHandlerType!, this);
         eventInfo.AddEventHandler(AssociatedObject, handler);
     }
 

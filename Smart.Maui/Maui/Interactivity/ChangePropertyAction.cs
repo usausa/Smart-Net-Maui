@@ -78,6 +78,11 @@ public sealed class ChangePropertyAction : BindableObject, IAction
             property = target.GetType().GetRuntimeProperty(propertyName);
         }
 
+        if (property is null)
+        {
+            return;
+        }
+
         var value = Parameter;
         var propertyValue = (value is not null) || IsSet(ParameterProperty)
             ? value

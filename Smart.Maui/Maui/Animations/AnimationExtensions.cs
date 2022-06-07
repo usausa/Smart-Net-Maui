@@ -22,10 +22,10 @@ public static class AnimationExtensions
     public static Task<bool> ColorTo(this VisualElement self, Color fromColor, Color toColor, Action<Color> callback, uint length = 250, Easing? easing = null)
     {
         Color Transform(double x) => Color.FromRgba(
-            fromColor.R + (x * (toColor.R - fromColor.R)),
-            fromColor.G + (x * (toColor.G - fromColor.G)),
-            fromColor.B + (x * (toColor.B - fromColor.B)),
-            fromColor.A + (x * (toColor.A - fromColor.A)));
+            fromColor.Red + (x * (toColor.Red - fromColor.Red)),
+            fromColor.Green + (x * (toColor.Green - fromColor.Green)),
+            fromColor.Blue + (x * (toColor.Blue - fromColor.Blue)),
+            fromColor.Alpha + (x * (toColor.Alpha - fromColor.Alpha)));
         return ColorAnimation(self, "ColorTo", Transform, callback, length, easing);
     }
 

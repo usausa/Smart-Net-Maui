@@ -17,9 +17,9 @@ public sealed class RotateToAnimation : AnimationBase
         set => SetValue(RotationProperty, value);
     }
 
-    protected override Task BeginAnimation()
+    protected override Task BeginAnimation(VisualElement target)
     {
-        return Target.RotateTo(Rotation, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), EasingHelper.GetEasing(Easing));
+        return target.RotateTo(Rotation, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), Easing);
     }
 }
 
@@ -38,9 +38,9 @@ public sealed class RelRotateToAnimation : AnimationBase
         set => SetValue(RotationProperty, value);
     }
 
-    protected override Task BeginAnimation()
+    protected override Task BeginAnimation(VisualElement target)
     {
-        return Target.RelRotateTo(Rotation, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), EasingHelper.GetEasing(Easing));
+        return target.RelRotateTo(Rotation, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), Easing);
     }
 }
 
@@ -59,9 +59,9 @@ public sealed class RotateXToAnimation : AnimationBase
         set => SetValue(RotationProperty, value);
     }
 
-    protected override Task BeginAnimation()
+    protected override Task BeginAnimation(VisualElement target)
     {
-        return Target.RotateXTo(Rotation, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), EasingHelper.GetEasing(Easing));
+        return target.RotateXTo(Rotation, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), Easing);
     }
 }
 
@@ -80,8 +80,8 @@ public sealed class RotateYToAnimation : AnimationBase
         set => SetValue(RotationProperty, value);
     }
 
-    protected override Task BeginAnimation()
+    protected override Task BeginAnimation(VisualElement target)
     {
-        return Target.RotateYTo(Rotation, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), EasingHelper.GetEasing(Easing));
+        return target.RotateYTo(Rotation, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), Easing);
     }
 }

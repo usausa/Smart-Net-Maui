@@ -57,5 +57,5 @@ public abstract class RequestTriggerBase<TEventArgs> : TriggerBase<BindableObjec
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2109:ReviewVisibleEventHandlers", Justification = "Ignore")]
-    protected abstract void OnEventRequest(object sender, TEventArgs e);
+    protected abstract void OnEventRequest(object? sender, TEventArgs e);
 }

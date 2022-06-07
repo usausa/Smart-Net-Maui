@@ -6,6 +6,6 @@ public class DefaultFocusBehavior : BehaviorBase<VisualElement>
     {
         base.OnAttachedTo(bindable);
 
-        Device.BeginInvokeOnMainThread(() => bindable.Focus());
+        bindable.Dispatcher.Dispatch(() => bindable.Focus());
     }
 }

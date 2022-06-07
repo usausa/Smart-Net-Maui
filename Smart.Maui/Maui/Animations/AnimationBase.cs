@@ -25,9 +25,9 @@ public abstract class AnimationBase : BindableObject
 
     public static readonly BindableProperty EasingProperty = BindableProperty.Create(
         nameof(Easing),
-        typeof(EasingType),
+        typeof(Easing),
         typeof(AnimationBase),
-        EasingType.Linear,
+        Easing.Linear,
         BindingMode.TwoWay);
 
     public VisualElement? Target
@@ -48,21 +48,27 @@ public abstract class AnimationBase : BindableObject
         set => SetValue(DurationProperty, value);
     }
 
-    public EasingType Easing
+    public Easing Easing
     {
-        get => (EasingType)GetValue(EasingProperty);
+        get => (Easing)GetValue(EasingProperty);
         set => SetValue(EasingProperty, value);
     }
 
     public async Task Begin()
     {
+        var target = Target;
+        if (target is null)
+        {
+            return;
+        }
+
         if (Delay > 0)
         {
             await Task.Delay(Delay);
         }
 
-        await BeginAnimation();
+        await BeginAnimation(target);
     }
 
-    protected abstract Task BeginAnimation();
+    protected abstract Task BeginAnimation(VisualElement target);
 }

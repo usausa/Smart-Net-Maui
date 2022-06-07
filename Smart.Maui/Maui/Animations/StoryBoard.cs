@@ -16,11 +16,11 @@ public sealed class StoryBoard : AnimationBase
         Animations = animations;
     }
 
-    protected override async Task BeginAnimation()
+    protected override async Task BeginAnimation(VisualElement target)
     {
         foreach (var animation in Animations)
         {
-            animation.Target ??= Target;
+            animation.Target ??= target;
 
             await animation.Begin();
         }

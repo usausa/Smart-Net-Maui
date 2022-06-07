@@ -25,25 +25,4 @@ public static class ElementExtensions
             element = parent;
         }
     }
-
-    // ------------------------------------------------------------
-    // Children
-    // ------------------------------------------------------------
-
-    public static IEnumerable<T> FindChildren<T>(this Element parent)
-        where T : Element
-    {
-        foreach (var child in parent.LogicalChildren)
-        {
-            if (child is T typedChild)
-            {
-                yield return typedChild;
-            }
-
-            foreach (var descendant in child.FindChildren<T>())
-            {
-                yield return descendant;
-            }
-        }
-    }
 }

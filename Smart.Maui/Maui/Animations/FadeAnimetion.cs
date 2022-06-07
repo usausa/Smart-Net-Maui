@@ -23,9 +23,9 @@ public sealed class FadeToAnimation : AnimationBase
         set => SetValue(OpacityProperty, value);
     }
 
-    protected override Task BeginAnimation()
+    protected override Task BeginAnimation(VisualElement target)
     {
-        return Target.FadeTo(Opacity, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), EasingHelper.GetEasing(Easing));
+        return target.FadeTo(Opacity, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), Easing);
     }
 }
 
@@ -44,9 +44,9 @@ public sealed class FadeInAnimation : AnimationBase
         set => SetValue(DirectionProperty, value);
     }
 
-    protected override Task BeginAnimation()
+    protected override Task BeginAnimation(VisualElement target)
     {
-        return Task.Run(() => Device.BeginInvokeOnMainThread(() =>
+        return Task.Run(() => target.Dispatcher.Dispatch(() =>
             Target.Animate("FadeIn", FadeIn(), 16, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture))));
     }
 
@@ -57,12 +57,12 @@ public sealed class FadeInAnimation : AnimationBase
             x => Target!.Opacity = x,
             0,
             1,
-            Smart.Maui.Easing.CubicOut);
+            Easing.CubicOut);
         animation.WithConcurrent(
             x => Target!.TranslationY = x,
             Target!.TranslationY + ((Direction == FadeDirection.Up) ? 50 : -50),
             Target!.TranslationY,
-            Smart.Maui.Easing.CubicOut);
+            Easing.CubicOut);
         return animation;
     }
 }
@@ -82,9 +82,9 @@ public sealed class FadeOutAnimation : AnimationBase
         set => SetValue(DirectionProperty, value);
     }
 
-    protected override Task BeginAnimation()
+    protected override Task BeginAnimation(VisualElement target)
     {
-        return Task.Run(() => Device.BeginInvokeOnMainThread(() =>
+        return Task.Run(() => target.Dispatcher.Dispatch(() =>
             Target.Animate("FadeOut", FadeOut(), 16, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture))));
     }
 

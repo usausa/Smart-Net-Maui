@@ -93,8 +93,8 @@ public sealed class EventToCommandBehavior : BehaviorBase<BindableObject>
             throw new ArgumentException(nameof(EventName));
         }
 
-        var methodInfo = typeof(EventToCommandBehavior).GetTypeInfo().GetDeclaredMethod(nameof(OnEvent));
-        handler = methodInfo.CreateDelegate(eventInfo.EventHandlerType, this);
+        var methodInfo = typeof(EventToCommandBehavior).GetTypeInfo().GetDeclaredMethod(nameof(OnEvent))!;
+        handler = methodInfo.CreateDelegate(eventInfo.EventHandlerType!, this);
         eventInfo.AddEventHandler(AssociatedObject, handler);
     }
 

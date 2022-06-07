@@ -84,8 +84,8 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
             throw new ArgumentException(nameof(EventName));
         }
 
-        var methodInfo = typeof(CallMethodBehavior).GetTypeInfo().GetDeclaredMethod(nameof(OnEvent));
-        handler = methodInfo.CreateDelegate(eventInfo.EventHandlerType, this);
+        var methodInfo = typeof(CallMethodBehavior).GetTypeInfo().GetDeclaredMethod(nameof(OnEvent))!;
+        handler = methodInfo.CreateDelegate(eventInfo.EventHandlerType!, this);
         eventInfo.AddEventHandler(AssociatedObject, handler);
     }
 

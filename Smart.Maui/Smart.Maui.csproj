@@ -16,61 +16,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Maui\Animations\**" />
     <Compile Remove="Maui\Components\**" />
-    <Compile Remove="Maui\Data\**" />
-    <Compile Remove="Maui\Interactivity\**" />
-    <EmbeddedResource Remove="Maui\Animations\**" />
     <EmbeddedResource Remove="Maui\Components\**" />
-    <EmbeddedResource Remove="Maui\Data\**" />
-    <EmbeddedResource Remove="Maui\Interactivity\**" />
-    <MauiCss Remove="Maui\Animations\**" />
     <MauiCss Remove="Maui\Components\**" />
-    <MauiCss Remove="Maui\Data\**" />
-    <MauiCss Remove="Maui\Interactivity\**" />
-    <MauiXaml Remove="Maui\Animations\**" />
     <MauiXaml Remove="Maui\Components\**" />
-    <MauiXaml Remove="Maui\Data\**" />
-    <MauiXaml Remove="Maui\Interactivity\**" />
-    <None Remove="Maui\Animations\**" />
     <None Remove="Maui\Components\**" />
-    <None Remove="Maui\Data\**" />
-    <None Remove="Maui\Interactivity\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Maui\ElementExtensions.cs" />
-    <Compile Remove="Maui\Timer.cs" />
-    <Compile Remove="Maui\VisualElementExtensions.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Maui\Data\AllConverter.cs" />
-    <Compile Include="Maui\Data\AnyConverter.cs" />
-    <Compile Include="Maui\Data\ArrayIndexConverter.cs" />
-    <Compile Include="Maui\Data\BinaryConverter.cs" />
-    <Compile Include="Maui\Data\BoolToObjectConverter.cs" />
-    <Compile Include="Maui\Data\ChainConverter.cs" />
-    <Compile Include="Maui\Data\ColorBlendConverter.cs" />
-    <Compile Include="Maui\Data\CompareConverter.cs" />
-    <Compile Include="Maui\Data\ContainsConverter.cs" />
-    <Compile Include="Maui\Data\EnumDescriptionConverter.cs" />
-    <Compile Include="Maui\Data\MapToObjectConverter.cs" />
-    <Compile Include="Maui\Data\MultiBinaryConverter.cs" />
-    <Compile Include="Maui\Data\NullToObjectConverter.cs" />
-    <Compile Include="Maui\Data\NullToParameterConverter.cs" />
-    <Compile Include="Maui\Data\ObjectConvertConverter.cs" />
-    <Compile Include="Maui\Data\ObjectToBoolConverter.cs" />
-    <Compile Include="Maui\Data\ParameterEqualsConverter.cs" />
-    <Compile Include="Maui\Data\ReverseConverter.cs" />
-    <Compile Include="Maui\Data\SelectedItemConverter.cs" />
-    <Compile Include="Maui\Data\SelectedItemIndexConverter.cs" />
-    <Compile Include="Maui\Data\TappedItemConverter.cs" />
-    <Compile Include="Maui\Data\TappedItemIndexConverter.cs" />
-    <Compile Include="Maui\Data\TextReplaceConverter.cs" />
-    <Compile Include="Maui\Data\ToLowerConverter.cs" />
-    <Compile Include="Maui\Data\ToUpperConverter.cs" />
-    <Compile Include="Maui\Interactivity\BehaviorBase.cs" />
+    <Compile Remove="Maui\Animations\EasingHelper.cs" />
+    <Compile Remove="Maui\Animations\EasingType.cs" />
+    <Compile Remove="Maui\Internal\DispatcherTimer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,5 @@
 namespace Smart.Maui.Interactivity;
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "Ignore")]
 public sealed class TimerTrigger : TriggerBase<BindableObject>
 {
     public static readonly BindableProperty IntervalProperty = BindableProperty.Create(
@@ -26,25 +25,30 @@ public sealed class TimerTrigger : TriggerBase<BindableObject>
         set => SetValue(ParameterProperty, value);
     }
 
-    private Timer? timer;
+    private int running;
 
     protected override void OnAttachedTo(BindableObject bindable)
     {
         base.OnAttachedTo(bindable);
 
-        timer = new Timer(Interval, OnTick);
-        timer.Start();
+        bindable.Dispatcher.DispatchDelayed(Interval, OnTick);
     }
 
     protected override void OnDetachingFrom(BindableObject bindable)
     {
-        timer?.Stop();
+        Interlocked.Exchange(ref running, 0);
 
         base.OnDetachingFrom(bindable);
     }
 
     private void OnTick()
     {
-        InvokeActions(Parameter);
+        var state = Interlocked.Exchange(ref running, running) == 1;
+        if (state)
+        {
+            InvokeActions(Parameter);
+
+            AssociatedObject?.Dispatcher.DispatchDelayed(Interval, OnTick);
+        }
     }
 }

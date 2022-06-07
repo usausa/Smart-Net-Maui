@@ -8,7 +8,7 @@ public sealed class ColorAnimation : AnimationBase
         nameof(ToColor),
         typeof(Color),
         typeof(ColorAnimation),
-        Color.Default,
+        Colors.Transparent,
         BindingMode.TwoWay);
 
     public Color ToColor
@@ -17,11 +17,11 @@ public sealed class ColorAnimation : AnimationBase
         set => SetValue(ToColorProperty, value);
     }
 
-    protected override Task BeginAnimation()
+    protected override Task BeginAnimation(VisualElement target)
     {
         var fromColor = Target!.BackgroundColor;
         // ReSharper disable once AsyncVoidLambda
-        return Task.Run(() => Device.BeginInvokeOnMainThread(async () =>
-            await Target.ColorTo(fromColor, ToColor, c => Target.BackgroundColor = c, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture))));
+        return Task.Run(() => target.Dispatcher.Dispatch(async () =>
+            await target.ColorTo(fromColor, ToColor, c => target.BackgroundColor = c, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture))));
     }
 }
