@@ -10,5 +10,5 @@ public interface IDialogService
 
     Task DisplayActionSheet(string? title, params IActionSheetButton[] buttons);
 
-    // TODO prompt
+    Task<string?> DisplayPrompt(string? title, string? message, string accept = "OK", string cancel = "Cancel", string? placeholder = default, int maxLength = -1, Keyboard? keyboard = null, string initialValue = "");
 }

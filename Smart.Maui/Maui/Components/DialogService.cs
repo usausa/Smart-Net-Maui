@@ -31,4 +31,9 @@ public sealed class DialogService : IDialogService
             await selectedButton.Execute();
         }
     }
+
+    public async Task<string?> DisplayPrompt(string? title, string? message, string accept = "OK", string cancel = "Cancel", string? placeholder = default, int maxLength = -1, Keyboard? keyboard = null, string initialValue = "")
+    {
+        return await (Application.Current?.MainPage?.DisplayPromptAsync(title, message, accept, cancel, placeholder, maxLength, keyboard, initialValue) ?? Task.FromResult(default(string)));
+    }
 }
