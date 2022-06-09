@@ -1,5 +1,7 @@
 namespace Smart.Maui.Interactivity;
 
+using Microsoft.Maui.Dispatching;
+
 public sealed class TimerTrigger : TriggerBase<BindableObject>
 {
     public static readonly BindableProperty IntervalProperty = BindableProperty.Create(
@@ -25,30 +27,28 @@ public sealed class TimerTrigger : TriggerBase<BindableObject>
         set => SetValue(ParameterProperty, value);
     }
 
-    private int running;
+    private IDispatcherTimer? timer;
 
     protected override void OnAttachedTo(BindableObject bindable)
     {
         base.OnAttachedTo(bindable);
 
-        bindable.Dispatcher.DispatchDelayed(Interval, OnTick);
+        timer = bindable.Dispatcher.CreateTimer();
+        timer.Interval = Interval;
+        timer.Tick += OnTick;
+        timer.Start();
     }
 
     protected override void OnDetachingFrom(BindableObject bindable)
     {
-        Interlocked.Exchange(ref running, 0);
+        timer?.Stop();
+        timer = null;
 
         base.OnDetachingFrom(bindable);
     }
 
-    private void OnTick()
+    private void OnTick(object? sender, EventArgs e)
     {
-        var state = Interlocked.Exchange(ref running, running) == 1;
-        if (state)
-        {
-            InvokeActions(Parameter);
-
-            AssociatedObject?.Dispatcher.DispatchDelayed(Interval, OnTick);
-        }
+        InvokeActions(Parameter);
     }
 }
