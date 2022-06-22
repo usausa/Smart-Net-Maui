@@ -5,9 +5,7 @@ VisualStudioVersion = 17.3.32505.426
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart.Maui", "Smart.Maui\Smart.Maui.csproj", "{C4D6DDAF-F237-43F8-A0D7-D239628227DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart.Maui.Reactive", "Smart.Maui.Reactive\Smart.Maui.Reactive.csproj", "{0CC720E4-AA43-4AB4-A096-1E0D31ED233A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart.Maui.Resolver", "Smart.Maui.Resolver\Smart.Maui.Resolver.csproj", "{34803D02-682C-468E-BF5D-E190E7E05C13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart.Maui.Reactive", "Smart.Maui.Reactive\Smart.Maui.Reactive.csproj", "{0CC720E4-AA43-4AB4-A096-1E0D31ED233A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{19C1FD60-3C5A-40F5-B764-706CE64FCB7F}"
 	ProjectSection(SolutionItems) = preProject
@@ -36,10 +34,6 @@ Global
 		{0CC720E4-AA43-4AB4-A096-1E0D31ED233A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CC720E4-AA43-4AB4-A096-1E0D31ED233A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CC720E4-AA43-4AB4-A096-1E0D31ED233A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34803D02-682C-468E-BF5D-E190E7E05C13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34803D02-682C-468E-BF5D-E190E7E05C13}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{34803D02-682C-468E-BF5D-E190E7E05C13}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{34803D02-682C-468E-BF5D-E190E7E05C13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
