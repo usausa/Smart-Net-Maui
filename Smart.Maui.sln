@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart.Maui", "Smart.Maui\Sm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart.Maui.Reactive", "Smart.Maui.Reactive\Smart.Maui.Reactive.csproj", "{0CC720E4-AA43-4AB4-A096-1E0D31ED233A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{19C1FD60-3C5A-40F5-B764-706CE64FCB7F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{19C1FD60-3C5A-40F5-B764-706CE64FCB7F}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
