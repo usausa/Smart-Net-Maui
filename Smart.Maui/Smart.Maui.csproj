@@ -10,30 +10,10 @@
   <PropertyGroup>
     <PackageId>Usa.Smart.Maui</PackageId>
     <Title>Smart.Maui</Title>
-    <Description>Smart Maui support library</Description>
-    <Summary>Smart Maui support library</Summary>
+    <Description>Smart MAUI support library</Description>
+    <Summary>Smart MAUI support library</Summary>
     <PackageTags>smart maui mvvm</PackageTags>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Maui\Components\**" />
-    <EmbeddedResource Remove="Maui\Components\**" />
-    <MauiCss Remove="Maui\Components\**" />
-    <MauiXaml Remove="Maui\Components\**" />
-    <None Remove="Maui\Components\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Maui\Animations\EasingHelper.cs" />
-    <Compile Remove="Maui\Animations\EasingType.cs" />
-    <Compile Remove="Maui\Internal\DispatcherTimer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Maui\Components\ActionSheetButton.cs" />
-    <Compile Include="Maui\Components\DialogService.cs" />
-    <Compile Include="Maui\Components\IDialogService.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Usa.Smart.Converter" Version="2.1.0" />
