@@ -2,7 +2,7 @@ namespace Smart.Maui.Data;
 
 using System.Globalization;
 
-public sealed class ObjectToBoolConverter<T> : IValueConverter
+public class ObjectToBoolConverter<T> : IValueConverter
 {
     public T TrueValue { get; set; } = default!;
 
@@ -17,4 +17,12 @@ public sealed class ObjectToBoolConverter<T> : IValueConverter
     {
         return value is true ? TrueValue : FalseValue;
     }
+}
+
+public sealed class TextToBoolConverter : ObjectToBoolConverter<string?>
+{
+}
+
+public sealed class IntToBoolConverter : ObjectToBoolConverter<int>
+{
 }

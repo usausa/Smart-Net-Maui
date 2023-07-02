@@ -2,35 +2,35 @@ namespace Smart.Maui.Markup;
 
 using Smart.Maui.Data;
 
-public sealed class ContainsToBoolExtension : IMarkupExtension<ContainsConverter<bool>>
+public sealed class ContainsToBoolExtension : IMarkupExtension<ContainsToBoolConverter>
 {
     public bool Invert { get; set; }
 
-    public ContainsConverter<bool> ProvideValue(IServiceProvider serviceProvider) =>
+    public ContainsToBoolConverter ProvideValue(IServiceProvider serviceProvider) =>
         new() { TrueValue = !Invert, FalseValue = Invert };
 
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);
 }
 
-public sealed class ContainsToTextExtension : IMarkupExtension<ContainsConverter<string>>
+public sealed class ContainsToTextExtension : IMarkupExtension<ContainsToTextConverter>
 {
     public string True { get; set; } = string.Empty;
 
     public string False { get; set; } = string.Empty;
 
-    public ContainsConverter<string> ProvideValue(IServiceProvider serviceProvider) =>
+    public ContainsToTextConverter ProvideValue(IServiceProvider serviceProvider) =>
         new() { TrueValue = True, FalseValue = False };
 
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);
 }
 
-public sealed class ContainsToColorExtension : IMarkupExtension<ContainsConverter<Color>>
+public sealed class ContainsToColorExtension : IMarkupExtension<ContainsToColorConverter>
 {
     public Color True { get; set; } = Colors.Transparent;
 
     public Color False { get; set; } = Colors.Transparent;
 
-    public ContainsConverter<Color> ProvideValue(IServiceProvider serviceProvider) =>
+    public ContainsToColorConverter ProvideValue(IServiceProvider serviceProvider) =>
         new() { TrueValue = True, FalseValue = False };
 
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);

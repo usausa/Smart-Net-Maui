@@ -4,7 +4,7 @@ using System.Globalization;
 
 using Smart.Maui.Expressions;
 
-public sealed class CompareConverter<T> : IValueConverter
+public class CompareConverter<T> : IValueConverter
 {
     public T TrueValue { get; set; } = default!;
 
@@ -20,5 +20,27 @@ public sealed class CompareConverter<T> : IValueConverter
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         throw new NotSupportedException();
+    }
+}
+
+public sealed class CompareToBoolConverter : CompareConverter<bool>
+{
+    public CompareToBoolConverter()
+    {
+        TrueValue = true;
+        FalseValue = false;
+    }
+}
+
+public sealed class CompareToTextConverter : CompareConverter<string?>
+{
+}
+
+public sealed class CompareToColorConverter : CompareConverter<Color>
+{
+    public CompareToColorConverter()
+    {
+        TrueValue = Colors.Transparent;
+        FalseValue = Colors.Transparent;
     }
 }

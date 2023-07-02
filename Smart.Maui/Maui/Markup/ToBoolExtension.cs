@@ -2,25 +2,25 @@ namespace Smart.Maui.Markup;
 
 using Smart.Maui.Data;
 
-public sealed class TextToBoolExtension : IMarkupExtension<ObjectToBoolConverter<string>>
+public sealed class TextToBoolExtension : IMarkupExtension<TextToBoolConverter>
 {
-    public string True { get; set; } = string.Empty;
+    public string? True { get; set; }
 
-    public string False { get; set; } = string.Empty;
+    public string? False { get; set; }
 
-    public ObjectToBoolConverter<string> ProvideValue(IServiceProvider serviceProvider) =>
+    public TextToBoolConverter ProvideValue(IServiceProvider serviceProvider) =>
         new() { TrueValue = True, FalseValue = False };
 
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);
 }
 
-public sealed class IntToBoolExtension : IMarkupExtension<ObjectToBoolConverter<int>>
+public sealed class IntToBoolExtension : IMarkupExtension<IntToBoolConverter>
 {
     public int True { get; set; }
 
     public int False { get; set; }
 
-    public ObjectToBoolConverter<int> ProvideValue(IServiceProvider serviceProvider) =>
+    public IntToBoolConverter ProvideValue(IServiceProvider serviceProvider) =>
         new() { TrueValue = True, FalseValue = False };
 
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);

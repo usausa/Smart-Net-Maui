@@ -3,31 +3,31 @@ namespace Smart.Maui.Markup;
 using Smart.Maui.Data;
 using Smart.Maui.Expressions;
 
-public sealed class CompareToBoolExtension : IMarkupExtension<CompareConverter<bool>>
+public sealed class CompareToBoolExtension : IMarkupExtension<CompareToBoolConverter>
 {
     public ICompareExpression? Expression { get; set; }
 
-    public CompareConverter<bool> ProvideValue(IServiceProvider serviceProvider) =>
+    public CompareToBoolConverter ProvideValue(IServiceProvider serviceProvider) =>
         new() { Expression = Expression ?? CompareExpressions.Equal, TrueValue = true, FalseValue = false };
 
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);
 }
 
-public sealed class CompareToTextExtension : IMarkupExtension<CompareConverter<string>>
+public sealed class CompareToTextExtension : IMarkupExtension<CompareToTextConverter>
 {
     public ICompareExpression? Expression { get; set; }
 
-    public string True { get; set; } = string.Empty;
+    public string? True { get; set; }
 
-    public string False { get; set; } = string.Empty;
+    public string? False { get; set; }
 
-    public CompareConverter<string> ProvideValue(IServiceProvider serviceProvider) =>
+    public CompareToTextConverter ProvideValue(IServiceProvider serviceProvider) =>
         new() { Expression = Expression ?? CompareExpressions.Equal, TrueValue = True, FalseValue = False };
 
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);
 }
 
-public sealed class CompareToColorExtension : IMarkupExtension<CompareConverter<Color>>
+public sealed class CompareToColorExtension : IMarkupExtension<CompareToColorConverter>
 {
     public ICompareExpression? Expression { get; set; }
 
@@ -35,7 +35,7 @@ public sealed class CompareToColorExtension : IMarkupExtension<CompareConverter<
 
     public Color False { get; set; } = Colors.Transparent;
 
-    public CompareConverter<Color> ProvideValue(IServiceProvider serviceProvider) =>
+    public CompareToColorConverter ProvideValue(IServiceProvider serviceProvider) =>
         new() { Expression = Expression ?? CompareExpressions.Equal, TrueValue = True, FalseValue = False };
 
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);
