@@ -14,7 +14,7 @@ public sealed class MapToColorEntry : MapEntry<Color>
 {
 }
 
-public class MapToObjectConverter<T> : IValueConverter
+public sealed class MapToObjectConverter<T> : IValueConverter
 {
     public Collection<MapEntry<T>> Entries { get; } = new(new List<MapEntry<T>>());
 
@@ -48,13 +48,5 @@ public class MapToObjectConverter<T> : IValueConverter
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         throw new NotSupportedException();
-    }
-}
-
-public sealed class MapToColorConverter : MapToObjectConverter<Color>
-{
-    public MapToColorConverter()
-    {
-        DefaultValue = Colors.Transparent;
     }
 }
