@@ -4,53 +4,53 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddMauiInterfaces(this IServiceCollection services)
     {
-        services.AddSingleton(_ => AppActions.Current);
-        services.AddSingleton(_ => AppInfo.Current);
-        services.AddSingleton(_ => Browser.Default);
-        services.AddSingleton(_ => Launcher.Default);
-        services.AddSingleton(_ => Map.Default);
-        services.AddSingleton(_ => VersionTracking.Default);
+        services.AddSingleton(static _ => AppActions.Current);
+        services.AddSingleton(static _ => AppInfo.Current);
+        services.AddSingleton(static _ => Browser.Default);
+        services.AddSingleton(static _ => Launcher.Default);
+        services.AddSingleton(static _ => Map.Default);
+        services.AddSingleton(static _ => VersionTracking.Default);
 
-        services.AddSingleton(_ => Contacts.Default);
-        services.AddSingleton(_ => Email.Default);
-        services.AddSingleton(_ => Connectivity.Current);
-        services.AddSingleton(_ => PhoneDialer.Default);
-        services.AddSingleton(_ => Sms.Default);
-        services.AddSingleton(_ => WebAuthenticator.Default);
+        services.AddSingleton(static _ => Contacts.Default);
+        services.AddSingleton(static _ => Email.Default);
+        services.AddSingleton(static _ => Connectivity.Current);
+        services.AddSingleton(static _ => PhoneDialer.Default);
+        services.AddSingleton(static _ => Sms.Default);
+        services.AddSingleton(static _ => WebAuthenticator.Default);
 
-        services.AddSingleton(_ => DeviceDisplay.Current);
-        services.AddSingleton(_ => DeviceInfo.Current);
+        services.AddSingleton(static _ => DeviceDisplay.Current);
+        services.AddSingleton(static _ => DeviceInfo.Current);
 
-        services.AddSingleton(_ => Battery.Default);
+        services.AddSingleton(static _ => Battery.Default);
 
-        services.AddSingleton(_ => Accelerometer.Default);
-        services.AddSingleton(_ => Barometer.Default);
-        services.AddSingleton(_ => Compass.Default);
-        services.AddSingleton(_ => Gyroscope.Default);
-        services.AddSingleton(_ => Magnetometer.Default);
-        services.AddSingleton(_ => OrientationSensor.Default);
+        services.AddSingleton(static _ => Accelerometer.Default);
+        services.AddSingleton(static _ => Barometer.Default);
+        services.AddSingleton(static _ => Compass.Default);
+        services.AddSingleton(static _ => Gyroscope.Default);
+        services.AddSingleton(static _ => Magnetometer.Default);
+        services.AddSingleton(static _ => OrientationSensor.Default);
 
-        services.AddSingleton(_ => Flashlight.Default);
+        services.AddSingleton(static _ => Flashlight.Default);
 
-        services.AddSingleton(_ => Geocoding.Default);
-        services.AddSingleton(_ => Geolocation.Default);
+        services.AddSingleton(static _ => Geocoding.Default);
+        services.AddSingleton(static _ => Geolocation.Default);
 
-        services.AddSingleton(_ => Vibration.Default);
-        services.AddSingleton(_ => HapticFeedback.Default);
+        services.AddSingleton(static _ => Vibration.Default);
+        services.AddSingleton(static _ => HapticFeedback.Default);
 
-        services.AddSingleton(_ => MediaPicker.Default);
-        services.AddSingleton(_ => Screenshot.Default);
-        services.AddSingleton(_ => TextToSpeech.Default);
+        services.AddSingleton(static _ => MediaPicker.Default);
+        services.AddSingleton(static _ => Screenshot.Default);
+        services.AddSingleton(static _ => TextToSpeech.Default);
 
-        services.AddSingleton(_ => Clipboard.Default);
-        services.AddSingleton(_ => Share.Default);
+        services.AddSingleton(static _ => Clipboard.Default);
+        services.AddSingleton(static _ => Share.Default);
 
-        services.AddSingleton(_ => FilePicker.Default);
-        services.AddSingleton(_ => FileSystem.Current);
-        services.AddSingleton(_ => Preferences.Default);
-        services.AddSingleton(_ => SecureStorage.Default);
+        services.AddSingleton(static _ => FilePicker.Default);
+        services.AddSingleton(static _ => FileSystem.Current);
+        services.AddSingleton(static _ => Preferences.Default);
+        services.AddSingleton(static _ => SecureStorage.Default);
 
-        services.AddSingleton(_ => SemanticScreenReader.Default);
+        services.AddSingleton(static _ => SemanticScreenReader.Default);
 
         return services;
     }

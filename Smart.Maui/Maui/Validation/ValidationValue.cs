@@ -36,7 +36,7 @@ public sealed class ValidationValue<T> : NotificationValue<T>, IValidatable, IVa
     {
         Errors.Clear();
 
-        foreach (var message in Validators.Where(x => !x.Validate(Value)).Select(x => x.ErrorMessage))
+        foreach (var message in Validators.Where(x => !x.Validate(Value)).Select(static x => x.ErrorMessage))
         {
             Errors.Add(message);
         }

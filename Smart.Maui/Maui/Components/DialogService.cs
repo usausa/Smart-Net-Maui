@@ -19,9 +19,9 @@ public sealed class DialogService : IDialogService
 
     public async Task DisplayActionSheet(string? title, params IActionSheetButton[] buttons)
     {
-        var cancelButton = buttons.FirstOrDefault(b => b.ButtonType == ActionSheetButtonType.Cancel);
-        var destroyButton = buttons.FirstOrDefault(b => b.ButtonType == ActionSheetButtonType.Destroy);
-        var otherButtonTexts = buttons.Where(b => b.ButtonType == ActionSheetButtonType.Other).Select(b => b.Text).ToArray();
+        var cancelButton = buttons.FirstOrDefault(static b => b.ButtonType == ActionSheetButtonType.Cancel);
+        var destroyButton = buttons.FirstOrDefault(static b => b.ButtonType == ActionSheetButtonType.Destroy);
+        var otherButtonTexts = buttons.Where(static b => b.ButtonType == ActionSheetButtonType.Other).Select(static b => b.Text).ToArray();
 
         var selectedText = await DisplayActionSheet(title, cancelButton?.Text, destroyButton?.Text, otherButtonTexts);
 
