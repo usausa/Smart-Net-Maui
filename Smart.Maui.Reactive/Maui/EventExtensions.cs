@@ -7,6 +7,14 @@ using Microsoft.Maui.Devices.Sensors;
 
 public static class EventExtensions
 {
+    // Timer
+
+    public static IObservable<EventArgs> ObserveTickChanged(this IDispatcherTimer timer) =>
+        Observable.FromEvent<EventHandler, EventArgs>(static h => (_, e) => h(e), h => timer.Tick += h, h => timer.Tick -= h);
+
+    public static IObservable<EventArgs> ObserveTickChangedOnCurrentContext(this IDispatcherTimer timer) =>
+        timer.ObserveTickChanged().ObserveOn(SynchronizationContext.Current!);
+
     // Connectivity
 
     public static IObservable<ConnectivityChangedEventArgs> ObserveConnectivityChanged(this IConnectivity connectivity) =>
