@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-  <TargetFrameworks>net7.0</TargetFrameworks>
-	<UseMaui>true</UseMaui>
+    <TargetFrameworks>net7.0</TargetFrameworks>
+	  <UseMaui>true</UseMaui>
     <CodeAnalysisRuleSet>..\Smart.Maui.ruleset</CodeAnalysisRuleSet>
     <RootNamespace>Smart</RootNamespace>
   </PropertyGroup>
