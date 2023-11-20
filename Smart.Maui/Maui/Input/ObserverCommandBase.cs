@@ -15,7 +15,7 @@ public abstract class ObserveCommandBase<T>
 
     public event EventHandler? CanExecuteChanged;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "Ignore.")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1030:UseEventsWhereAppropriate", Justification = "Ignore.")]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void RaiseCanExecuteChanged()
     {
@@ -47,9 +47,8 @@ public abstract class ObserveCommandBase<T>
     public T Observe(INotifyPropertyChanged target)
     {
         observeObjects ??= new HashSet<INotifyPropertyChanged>();
-        if (!observeObjects.Contains(target))
+        if (observeObjects.Add(target))
         {
-            observeObjects.Add(target);
             target.PropertyChanged += HandleAllPropertyChanged;
         }
 
@@ -74,9 +73,8 @@ public abstract class ObserveCommandBase<T>
     public T ObserveCollection(INotifyCollectionChanged target)
     {
         observeCollections ??= new HashSet<INotifyCollectionChanged>();
-        if (!observeCollections.Contains(target))
+        if (observeCollections.Add(target))
         {
-            observeCollections.Add(target);
             target.CollectionChanged += HandleCollectionChanged;
         }
 

@@ -1,5 +1,6 @@
 namespace Smart.Maui.Interactivity;
 
+using System.Globalization;
 using System.Windows.Input;
 
 public sealed class ExecuteCommandAction : BindableObject, IAction
@@ -59,7 +60,7 @@ public sealed class ExecuteCommandAction : BindableObject, IAction
         var commandParameter = CommandParameter;
         var argument = (commandParameter is not null) || IsSet(CommandParameterProperty)
             ? commandParameter
-            : Converter?.Convert(parameter, typeof(object), ConverterParameter, null) ?? parameter;
+            : Converter?.Convert(parameter, typeof(object), ConverterParameter, CultureInfo.CurrentCulture) ?? parameter;
         if (command.CanExecute(argument))
         {
             command.Execute(argument);

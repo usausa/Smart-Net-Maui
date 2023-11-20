@@ -1,5 +1,6 @@
 namespace Smart.Maui.Interactivity;
 
+using System.Globalization;
 using System.Reflection;
 
 public sealed class ChangePropertyAction : BindableObject, IAction
@@ -86,7 +87,7 @@ public sealed class ChangePropertyAction : BindableObject, IAction
         var value = Parameter;
         var propertyValue = (value is not null) || IsSet(ParameterProperty)
             ? value
-            : Converter?.Convert(parameter, typeof(object), ConverterParameter, null) ?? parameter;
+            : Converter?.Convert(parameter, typeof(object), ConverterParameter, CultureInfo.CurrentCulture) ?? parameter;
         property.SetValue(target, propertyValue);
     }
 }

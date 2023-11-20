@@ -131,7 +131,7 @@ public abstract class ViewModelBase : NotificationObject, IDisposable
         return MakeDelegateCommand(execute, Functions.True);
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "Ignore")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "Ignore")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:MarkMembersAsStatic", Justification = "Ignore")]
     protected DelegateCommand MakeDelegateCommand(Action execute, Func<bool> canExecute)
     {
@@ -146,7 +146,7 @@ public abstract class ViewModelBase : NotificationObject, IDisposable
         return MakeDelegateCommand(execute, Functions<TParameter>.True);
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "Ignore")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "Ignore")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:MarkMembersAsStatic", Justification = "Ignore")]
     protected DelegateCommand<TParameter> MakeDelegateCommand<TParameter>(Action<TParameter> execute, Func<TParameter, bool> canExecute)
     {
@@ -165,7 +165,7 @@ public abstract class ViewModelBase : NotificationObject, IDisposable
         return MakeAsyncCommand(execute, Functions.True);
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "Ignore")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "Ignore")]
     protected AsyncCommand MakeAsyncCommand(Func<Task> execute, Func<bool> canExecute)
     {
         var command = new AsyncCommand(async () =>
@@ -185,7 +185,7 @@ public abstract class ViewModelBase : NotificationObject, IDisposable
         return MakeAsyncCommand(execute, Functions<TParameter>.True);
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "Ignore")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "Ignore")]
     protected AsyncCommand<TParameter> MakeAsyncCommand<TParameter>(Func<TParameter, Task> execute, Func<TParameter, bool> canExecute)
     {
         var command = new AsyncCommand<TParameter>(async parameter =>

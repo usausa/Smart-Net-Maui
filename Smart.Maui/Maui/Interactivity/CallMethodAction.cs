@@ -1,5 +1,6 @@
 namespace Smart.Maui.Interactivity;
 
+using System.Globalization;
 using System.Reflection;
 
 public sealed class CallMethodAction : BindableObject, IAction
@@ -94,7 +95,7 @@ public sealed class CallMethodAction : BindableObject, IAction
             var methodParameter = MethodParameter;
             var argument = (methodParameter is not null) || IsSet(MethodParameterProperty)
                 ? methodParameter
-                : Converter?.Convert(parameter, typeof(object), ConverterParameter, null) ?? parameter;
+                : Converter?.Convert(parameter, typeof(object), ConverterParameter, CultureInfo.CurrentCulture) ?? parameter;
             cachedMethod.Invoke(target, new[] { argument });
         }
         else

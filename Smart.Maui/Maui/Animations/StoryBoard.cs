@@ -1,6 +1,6 @@
 namespace Smart.Maui.Animations;
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "Ignore")]
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1002:DoNotExposeGenericLists", Justification = "Ignore")]
 [ContentProperty("Animations")]
 public sealed class StoryBoard : AnimationBase
 {

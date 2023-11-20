@@ -1,5 +1,6 @@
 namespace Smart.Maui.Interactivity;
 
+using System.Globalization;
 using System.Reflection;
 using System.Windows.Input;
 
@@ -117,7 +118,7 @@ public sealed class EventToCommandBehavior : BehaviorBase<BindableObject>
         var commandParameter = CommandParameter;
         var parameter = (commandParameter is not null) || IsSet(CommandParameterProperty)
             ? commandParameter
-            : Converter?.Convert(e, typeof(object), ConverterParameter, null) ?? e;
+            : Converter?.Convert(e, typeof(object), ConverterParameter, CultureInfo.CurrentCulture) ?? e;
         if (command.CanExecute(parameter))
         {
             command.Execute(parameter);
