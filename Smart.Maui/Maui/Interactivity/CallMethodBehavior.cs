@@ -96,6 +96,9 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
         handler = null;
     }
 
+#pragma warning disable IDE0079
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "UnusedParameter.Local", Justification = "Ignore")]
+#pragma warning restore IDE0079
     private void OnEvent(object sender, EventArgs e)
     {
         var target = TargetObject ?? BindingContext;
