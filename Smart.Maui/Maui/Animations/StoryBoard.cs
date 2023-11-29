@@ -8,7 +8,7 @@ public sealed class StoryBoard : AnimationBase
 
     public StoryBoard()
     {
-        Animations = new List<AnimationBase>();
+        Animations = [];
     }
 
     public StoryBoard(List<AnimationBase> animations)

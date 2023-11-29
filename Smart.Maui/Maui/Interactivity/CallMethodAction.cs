@@ -96,7 +96,7 @@ public sealed class CallMethodAction : BindableObject, IAction
             var argument = (methodParameter is not null) || IsSet(MethodParameterProperty)
                 ? methodParameter
                 : Converter?.Convert(parameter, typeof(object), ConverterParameter, CultureInfo.CurrentCulture) ?? parameter;
-            cachedMethod.Invoke(target, new[] { argument });
+            cachedMethod.Invoke(target, [argument]);
         }
         else
         {

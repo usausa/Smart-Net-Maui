@@ -20,7 +20,7 @@ public abstract class ViewModelBase : NotificationObject, IDisposable
     // Disposables
     // ------------------------------------------------------------
 
-    protected ICollection<IDisposable> Disposables => disposables ??= new ListDisposable();
+    protected ICollection<IDisposable> Disposables => disposables ??= [];
 
     // ------------------------------------------------------------
     // Busy
@@ -88,11 +88,11 @@ public abstract class ViewModelBase : NotificationObject, IDisposable
 
     protected void RegisterValidation(string group, params IValidatable[] validatables)
     {
-        validationGroup ??= new Dictionary<string, List<IValidatable>>();
+        validationGroup ??= [];
 
         if (!validationGroup.TryGetValue(group, out var list))
         {
-            list = new List<IValidatable>();
+            list = [];
             validationGroup[group] = list;
         }
 

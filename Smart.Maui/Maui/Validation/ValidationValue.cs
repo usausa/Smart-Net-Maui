@@ -9,9 +9,9 @@ public sealed class ValidationValue<T> : NotificationValue<T>, IValidatable, IVa
     private bool hasError;
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1002:DoNotExposeGenericLists", Justification = "Ignore")]
-    public List<IValidator<T>> Validators { get; } = new();
+    public List<IValidator<T>> Validators { get; } = [];
 
-    public ObservableCollection<string> Errors { get; } = new();
+    public ObservableCollection<string> Errors { get; } = [];
 
     public bool HasError
     {
