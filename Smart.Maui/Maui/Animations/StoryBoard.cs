@@ -1,20 +1,23 @@
 namespace Smart.Maui.Animations;
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1002:DoNotExposeGenericLists", Justification = "Ignore")]
 [ContentProperty("Animations")]
 public sealed class StoryBoard : AnimationBase
 {
+#pragma warning disable CA1002
     public List<AnimationBase> Animations { get; }
+#pragma warning restore CA1002
 
     public StoryBoard()
     {
         Animations = [];
     }
 
+#pragma warning disable CA1002
     public StoryBoard(List<AnimationBase> animations)
     {
         Animations = animations;
     }
+#pragma warning restore CA1002
 
     protected override async Task BeginAnimation(VisualElement target)
     {

@@ -3,7 +3,7 @@ namespace Smart.Maui.Data;
 using System.Collections;
 using System.Globalization;
 
-public class ContainsConverter<T> : IValueConverter
+public abstract class ContainsConverter<T> : IValueConverter
 {
     public T TrueValue { get; set; } = default!;
 

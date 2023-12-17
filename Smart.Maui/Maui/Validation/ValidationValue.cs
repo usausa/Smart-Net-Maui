@@ -8,8 +8,9 @@ public sealed class ValidationValue<T> : NotificationValue<T>, IValidatable, IVa
 {
     private bool hasError;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1002:DoNotExposeGenericLists", Justification = "Ignore")]
+#pragma warning disable CA1002
     public List<IValidator<T>> Validators { get; } = [];
+#pragma warning restore CA1002
 
     public ObservableCollection<string> Errors { get; } = [];
 

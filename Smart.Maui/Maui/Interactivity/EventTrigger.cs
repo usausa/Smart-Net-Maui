@@ -60,11 +60,12 @@ public sealed class EventTrigger : TriggerBase<BindableObject>
         handler = null;
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "UnusedParameter.Local", Justification = "Ignore")]
+    // ReSharper disable UnusedParameter.Local
     private void OnEvent(object sender, EventArgs e)
     {
         InvokeActions(e);
     }
+    // ReSharper restore UnusedParameter.Local
 
     private static void HandleEventNamePropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
     {

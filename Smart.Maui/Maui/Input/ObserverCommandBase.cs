@@ -15,12 +15,13 @@ public abstract class ObserveCommandBase<T>
 
     public event EventHandler? CanExecuteChanged;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1030:UseEventsWhereAppropriate", Justification = "Ignore.")]
+#pragma warning disable CA1030
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void RaiseCanExecuteChanged()
     {
         CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
+#pragma warning disable CA1030
 
     private void HandleAllPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {

@@ -106,7 +106,7 @@ public sealed class EventToCommandBehavior : BehaviorBase<BindableObject>
         handler = null;
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "UnusedParameter.Local", Justification = "Ignore")]
+    // ReSharper disable UnusedParameter.Local
     private void OnEvent(object sender, EventArgs e)
     {
         var command = Command;
@@ -124,6 +124,7 @@ public sealed class EventToCommandBehavior : BehaviorBase<BindableObject>
             command.Execute(parameter);
         }
     }
+    // ReSharper restore UnusedParameter.Local
 
     private static void HandleEventNamePropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
     {

@@ -3,14 +3,14 @@ namespace Smart.Maui.Data;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
-public class MapEntry<T>
+public abstract class MapEntry<T>
 {
     public object Key { get; set; } = default!;
 
     public T Value { get; set; } = default!;
 }
 
-public class MapToObjectConverter<T> : IValueConverter
+public abstract class MapToObjectConverter<T> : IValueConverter
 {
     public Collection<MapEntry<T>> Entries { get; } = new(new List<MapEntry<T>>());
 

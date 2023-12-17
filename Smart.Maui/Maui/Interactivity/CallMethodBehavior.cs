@@ -96,9 +96,7 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
         handler = null;
     }
 
-#pragma warning disable IDE0079
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "UnusedParameter.Local", Justification = "Ignore")]
-#pragma warning restore IDE0079
+    // ReSharper disable UnusedParameter.Local
     private void OnEvent(object sender, EventArgs e)
     {
         var target = TargetObject ?? BindingContext;
@@ -128,6 +126,7 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
 
         cachedMethod.Invoke(target, cachedMethod.GetParameters().Length > 0 ? [MethodParameter] : null);
     }
+    // ReSharper restore UnusedParameter.Local
 
     private static void HandleEventNamePropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
     {

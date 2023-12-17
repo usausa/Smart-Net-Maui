@@ -1,6 +1,6 @@
 namespace Smart.Maui.Interactivity;
 
-public class DefaultFocusBehavior : BehaviorBase<VisualElement>
+public sealed class DefaultFocusBehavior : BehaviorBase<VisualElement>
 {
     protected override void OnAttachedTo(VisualElement bindable)
     {

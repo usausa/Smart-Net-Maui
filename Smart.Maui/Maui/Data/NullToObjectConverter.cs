@@ -2,7 +2,7 @@ namespace Smart.Maui.Data;
 
 using System.Globalization;
 
-public class NullToObjectConverter<T> : IValueConverter
+public abstract class NullToObjectConverter<T> : IValueConverter
 {
     public T NullValue { get; set; } = default!;
 

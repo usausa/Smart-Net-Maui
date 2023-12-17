@@ -4,7 +4,7 @@ using System.Globalization;
 
 using Smart.Maui.Expressions;
 
-public class CompareConverter<T> : IValueConverter
+public abstract class CompareConverter<T> : IValueConverter
 {
     public T TrueValue { get; set; } = default!;
 

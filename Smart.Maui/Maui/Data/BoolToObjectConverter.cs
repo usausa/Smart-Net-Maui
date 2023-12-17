@@ -2,7 +2,7 @@ namespace Smart.Maui.Data;
 
 using System.Globalization;
 
-public class BoolToObjectConverter<T> : IValueConverter
+public abstract class BoolToObjectConverter<T> : IValueConverter
 {
     public T TrueValue { get; set; } = default!;
 
