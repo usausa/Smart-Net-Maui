@@ -6,7 +6,7 @@ using System.Globalization;
 [ContentProperty("Converters")]
 public sealed class ChainConverter : IValueConverter
 {
-    public Collection<IValueConverter> Converters { get; } = new(new List<IValueConverter>());
+    public Collection<IValueConverter> Converters { get; } = new([]);
 
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {

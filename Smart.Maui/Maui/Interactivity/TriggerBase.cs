@@ -4,7 +4,7 @@ namespace Smart.Maui.Interactivity;
 public abstract class TriggerBase<TBindable> : BehaviorBase<TBindable>
     where TBindable : BindableObject
 {
-    public IList<IAction> Actions { get; } = new List<IAction>();
+    public IList<IAction> Actions { get; } = [];
 
     protected void InvokeActions(object? parameter)
     {
