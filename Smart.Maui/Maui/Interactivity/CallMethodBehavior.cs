@@ -107,8 +107,8 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
         }
 
         if ((cachedMethod is null) ||
-            (cachedMethod.DeclaringType != target.GetType() ||
-             (cachedMethod.Name != methodName)))
+            (cachedMethod.DeclaringType != target.GetType()) ||
+            (cachedMethod.Name != methodName))
         {
             var methodInfo = target.GetType().GetRuntimeMethods().FirstOrDefault(m =>
                 m.Name == methodName &&

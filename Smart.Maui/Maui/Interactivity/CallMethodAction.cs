@@ -73,8 +73,8 @@ public sealed class CallMethodAction : BindableObject, IAction
         }
 
         if ((cachedMethod is null) ||
-            (cachedMethod.DeclaringType != target.GetType() ||
-            (cachedMethod.Name != methodName)))
+            (cachedMethod.DeclaringType != target.GetType()) ||
+            (cachedMethod.Name != methodName))
         {
             var methodInfo = target.GetType().GetRuntimeMethods().FirstOrDefault(m =>
                 m.Name == methodName &&
