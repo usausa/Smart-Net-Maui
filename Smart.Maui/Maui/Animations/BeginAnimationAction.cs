@@ -16,6 +16,7 @@ public sealed class BeginAnimationAction : ActionBase<VisualElement>
         set => SetValue(AnimationProperty, value);
     }
 
+    // ReSharper disable once AsyncVoidMethod
     protected override async void Invoke(VisualElement associatedObject, object? parameter)
     {
         if (Animation is not null)

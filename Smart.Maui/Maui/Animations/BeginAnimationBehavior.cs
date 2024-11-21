@@ -16,6 +16,7 @@ public sealed class BeginAnimationBehavior : BehaviorBase<VisualElement>
         set => SetValue(AnimationProperty, value);
     }
 
+    // ReSharper disable once AsyncVoidMethod
     protected override async void OnAttachedTo(VisualElement bindable)
     {
         base.OnAttachedTo(bindable);

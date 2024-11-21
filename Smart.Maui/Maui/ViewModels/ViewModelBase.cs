@@ -7,6 +7,7 @@ using Smart.Maui.Messaging;
 using Smart.Maui.Validation;
 
 #pragma warning disable IDE0032
+// ReSharper disable ReplaceWithFieldKeyword
 public abstract class ViewModelBase : NotificationObject, IDisposable
 {
     private ListDisposable? disposables;

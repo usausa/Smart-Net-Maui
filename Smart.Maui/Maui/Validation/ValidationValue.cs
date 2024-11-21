@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using Smart.ComponentModel;
 
 #pragma warning disable IDE0032
+// ReSharper disable ReplaceWithFieldKeyword
 public sealed class ValidationValue<T> : NotificationValue<T>, IValidatable, IValidationResult
 {
     private bool hasError;
