@@ -2,6 +2,7 @@ namespace Smart.Maui.Data;
 
 using System.Globalization;
 
+#pragma warning disable IDE0032
 public sealed class ColorBlendConverter : IValueConverter
 {
     private double raito;

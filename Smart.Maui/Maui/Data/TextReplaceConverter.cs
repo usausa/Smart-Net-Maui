@@ -3,6 +3,7 @@ namespace Smart.Maui.Data;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
+#pragma warning disable IDE0032
 public sealed class TextReplaceConverter : IValueConverter
 {
     private string pattern = string.Empty;

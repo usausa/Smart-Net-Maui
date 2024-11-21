@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 
 using Smart.ComponentModel;
 
+#pragma warning disable IDE0032
 public sealed class ValidationValue<T> : NotificationValue<T>, IValidatable, IValidationResult
 {
     private bool hasError;

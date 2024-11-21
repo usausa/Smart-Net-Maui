@@ -6,6 +6,7 @@ using Smart.Maui.Internal;
 using Smart.Maui.Messaging;
 using Smart.Maui.Validation;
 
+#pragma warning disable IDE0032
 public abstract class ViewModelBase : NotificationObject, IDisposable
 {
     private ListDisposable? disposables;
