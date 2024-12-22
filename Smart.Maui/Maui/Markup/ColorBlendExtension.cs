@@ -2,6 +2,7 @@ namespace Smart.Maui.Markup;
 
 using Smart.Maui.Data;
 
+[AcceptEmptyServiceProvider]
 public sealed class ColorBlendExtension : IMarkupExtension<ColorBlendConverter>
 {
     public Color Color { get; set; } = Colors.Transparent;

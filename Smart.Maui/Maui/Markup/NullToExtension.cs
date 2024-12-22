@@ -2,6 +2,7 @@ namespace Smart.Maui.Markup;
 
 using Smart.Maui.Data;
 
+[AcceptEmptyServiceProvider]
 public sealed class NullToBoolExtension : IMarkupExtension<NullToBoolConverter>
 {
     public bool Invert { get; set; }
@@ -14,6 +15,7 @@ public sealed class NullToBoolExtension : IMarkupExtension<NullToBoolConverter>
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);
 }
 
+[AcceptEmptyServiceProvider]
 public sealed class NullToTextExtension : IMarkupExtension<NullToTextConverter>
 {
     public string? Null { get; set; }
@@ -28,6 +30,7 @@ public sealed class NullToTextExtension : IMarkupExtension<NullToTextConverter>
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);
 }
 
+[AcceptEmptyServiceProvider]
 public sealed class NullToColorExtension : IMarkupExtension<NullToColorConverter>
 {
     public Color Null { get; set; } = Colors.Transparent;

@@ -3,6 +3,7 @@ namespace Smart.Maui.Markup;
 using Smart.Maui.Data;
 using Smart.Maui.Expressions;
 
+[AcceptEmptyServiceProvider]
 public sealed class CompareToBoolExtension : IMarkupExtension<CompareToBoolConverter>
 {
     public ICompareExpression? Expression { get; set; }
@@ -13,6 +14,7 @@ public sealed class CompareToBoolExtension : IMarkupExtension<CompareToBoolConve
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);
 }
 
+[AcceptEmptyServiceProvider]
 public sealed class CompareToTextExtension : IMarkupExtension<CompareToTextConverter>
 {
     public ICompareExpression? Expression { get; set; }
@@ -27,6 +29,7 @@ public sealed class CompareToTextExtension : IMarkupExtension<CompareToTextConve
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);
 }
 
+[AcceptEmptyServiceProvider]
 public sealed class CompareToColorExtension : IMarkupExtension<CompareToColorConverter>
 {
     public ICompareExpression? Expression { get; set; }

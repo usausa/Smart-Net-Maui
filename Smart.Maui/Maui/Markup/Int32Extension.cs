@@ -1,5 +1,6 @@
 namespace Smart.Maui.Markup;
 
+[AcceptEmptyServiceProvider]
 [ContentProperty("Value")]
 public sealed class Int32Extension : IMarkupExtension
 {

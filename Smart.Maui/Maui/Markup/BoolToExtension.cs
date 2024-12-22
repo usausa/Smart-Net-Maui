@@ -2,6 +2,7 @@ namespace Smart.Maui.Markup;
 
 using Smart.Maui.Data;
 
+[AcceptEmptyServiceProvider]
 public sealed class BoolToTextExtension : IMarkupExtension<BoolToTextConverter>
 {
     public string? True { get; set; }
@@ -14,6 +15,7 @@ public sealed class BoolToTextExtension : IMarkupExtension<BoolToTextConverter>
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);
 }
 
+[AcceptEmptyServiceProvider]
 public sealed class BoolToColorExtension : IMarkupExtension<BoolToColorConverter>
 {
     public Color True { get; set; } = Colors.Transparent;

@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 
 using Smart.Maui.Data;
 
+[AcceptEmptyServiceProvider]
 public sealed class TextReplaceExtension : IMarkupExtension<TextReplaceConverter>
 {
     public string Pattern { get; set; } = string.Empty;

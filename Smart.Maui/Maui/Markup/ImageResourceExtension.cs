@@ -1,5 +1,6 @@
 namespace Smart.Maui.Markup;
 
+[AcceptEmptyServiceProvider]
 [ContentProperty("Source")]
 public sealed class ImageResourceExtension : IMarkupExtension
 {
