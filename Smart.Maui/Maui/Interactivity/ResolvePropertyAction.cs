@@ -4,7 +4,7 @@ using System.Reflection;
 
 using Smart.Maui.Messaging;
 
-public sealed class ResolvePropertyAction : ActionBase<BindableObject, ResultEventArgs>
+public sealed class ResolvePropertyAction : ActionBase<BindableObject, ResolveEventArgs>
 {
     public static readonly BindableProperty TargetObjectProperty = BindableProperty.Create(
         nameof(TargetObject),
@@ -31,7 +31,7 @@ public sealed class ResolvePropertyAction : ActionBase<BindableObject, ResultEve
 
     private PropertyInfo? cachedProperty;
 
-    protected override void Invoke(BindableObject associatedObject, ResultEventArgs parameter)
+    protected override void Invoke(BindableObject associatedObject, ResolveEventArgs parameter)
     {
         var target = TargetObject ?? associatedObject;
         var propertyName = PropertyName;
