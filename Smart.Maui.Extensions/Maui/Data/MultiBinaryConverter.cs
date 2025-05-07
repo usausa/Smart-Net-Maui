@@ -2,7 +2,7 @@ namespace Smart.Maui.Data;
 
 using System.Globalization;
 
-using Smart.Maui.Expressions;
+using Smart.Mvvm.Expressions;
 
 public sealed class MultiBinaryConverter : IMultiValueConverter
 {

@@ -3,8 +3,6 @@ namespace Smart.Maui.Input;
 using System.Reflection;
 using System.Windows.Input;
 
-using Smart.Maui.Internal;
-
 public sealed class AsyncCommand : ObserveCommandBase<AsyncCommand>, ICommand, IDisposable
 {
     private readonly Func<Task> execute;

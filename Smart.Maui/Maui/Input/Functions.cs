@@ -1,4 +1,4 @@
-namespace Smart.Maui.Internal;
+namespace Smart.Maui.Input;
 
 internal static class Functions
 {

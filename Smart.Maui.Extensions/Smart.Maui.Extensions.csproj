@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
@@ -7,21 +7,23 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>Usa.Smart.Maui.Reactive</PackageId>
-    <Title>Smart.Maui.Reactive</Title>
+    <PackageId>Usa.Smart.Maui.Extensions</PackageId>
+    <Title>Smart.Maui.Extensions</Title>
     <Description>Smart MAUI support library</Description>
-    <PackageTags>smart maui mvvm rx</PackageTags>
+    <PackageTags>smart maui mvvm rx reactive</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Smart.Maui\Smart.Maui.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.60" />
     <PackageReference Include="System.Reactive" Version="6.0.1" />
+    <PackageReference Include="Usa.Smart.Converter" Version="2.4.0" />
     <PackageReference Include="Usa.Smart.Core" Version="2.4.1" />
+    <PackageReference Include="Usa.Smart.Mvvm" Version="1.0.1" />
     <PackageReference Include="Usa.Smart.Reactive" Version="2.4.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Smart.Maui\Smart.Maui.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@ namespace Smart.Maui.Interactivity;
 
 using System.Reflection;
 
-using Smart.Maui.Messaging;
+using Smart.Mvvm.Messaging;
 
 public sealed class ResolveMethodAction : ActionBase<BindableObject, ResolveEventArgs>
 {

@@ -1,38 +1,26 @@
 namespace Smart.Maui.Interactivity;
 
-using Smart.Maui.Expressions;
+using Smart.Mvvm.Expressions;
 
-public sealed class CompareStateBehavior : BehaviorBase<VisualElement>
+public sealed class CompareTrigger : TriggerBase<BindableObject>
 {
     public static readonly BindableProperty BindingProperty = BindableProperty.Create(
         nameof(Binding),
         typeof(object),
-        typeof(CompareStateBehavior),
+        typeof(CompareTrigger),
         propertyChanged: HandlePropertyChanged);
 
     public static readonly BindableProperty ParameterProperty = BindableProperty.Create(
         nameof(Parameter),
         typeof(object),
-        typeof(CompareStateBehavior),
+        typeof(CompareTrigger),
         propertyChanged: HandlePropertyChanged);
 
     public static readonly BindableProperty ExpressionProperty = BindableProperty.Create(
         nameof(Expression),
         typeof(ICompareExpression),
-        typeof(CompareStateBehavior),
+        typeof(CompareTrigger),
         CompareExpressions.Equal);
-
-    public static readonly BindableProperty TrueStateProperty = BindableProperty.Create(
-        nameof(TrueState),
-        typeof(string),
-        typeof(CompareStateBehavior),
-        string.Empty);
-
-    public static readonly BindableProperty FalseStateProperty = BindableProperty.Create(
-        nameof(FalseState),
-        typeof(string),
-        typeof(CompareStateBehavior),
-        string.Empty);
 
     public object? Binding
     {
@@ -52,18 +40,6 @@ public sealed class CompareStateBehavior : BehaviorBase<VisualElement>
         set => SetValue(ExpressionProperty, value);
     }
 
-    public string TrueState
-    {
-        get => (string)GetValue(TrueStateProperty);
-        set => SetValue(TrueStateProperty, value);
-    }
-
-    public string FalseState
-    {
-        get => (string)GetValue(FalseStateProperty);
-        set => SetValue(FalseStateProperty, value);
-    }
-
     private static void HandlePropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
     {
         if (oldValue == newValue)
@@ -71,18 +47,15 @@ public sealed class CompareStateBehavior : BehaviorBase<VisualElement>
             return;
         }
 
-        ((CompareStateBehavior)bindable).HandlePropertyChanged();
+        ((CompareTrigger)bindable).HandlePropertyChanged();
     }
 
     private void HandlePropertyChanged()
     {
-        if (AssociatedObject is null)
-        {
-            return;
-        }
-
         var expression = Expression ?? CompareExpressions.Equal;
-        var stateName = expression.Eval(Binding, Parameter) ? TrueState : FalseState;
-        VisualStateManager.GoToState(AssociatedObject, stateName);
+        if (expression.Eval(Binding, Parameter))
+        {
+            InvokeActions(null);
+        }
     }
 }

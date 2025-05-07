@@ -11,5 +11,5 @@
     <File Path="Smart.Maui.sln.DotSettings" />
   </Folder>
   <Project Path="Smart.Maui/Smart.Maui.csproj" />
-  <Project Path="Smart.Maui.Reactive/Smart.Maui.Reactive.csproj" />
+  <Project Path="Smart.Maui.Extensions/Smart.Maui.Extensions.csproj" />
 </Solution>

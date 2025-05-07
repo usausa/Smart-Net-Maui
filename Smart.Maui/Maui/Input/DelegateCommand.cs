@@ -3,8 +3,6 @@ namespace Smart.Maui.Input;
 using System.Reflection;
 using System.Windows.Input;
 
-using Smart.Maui.Internal;
-
 public sealed class DelegateCommand : ObserveCommandBase<DelegateCommand>, ICommand, IDisposable
 {
     private readonly Action execute;

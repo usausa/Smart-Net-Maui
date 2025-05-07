@@ -1,6 +1,6 @@
 namespace Smart.Maui.Interactivity;
 
-using Smart.Maui.Messaging;
+using Smart.Mvvm.Messaging;
 
 public sealed class MessageTrigger : TriggerBase<BindableObject>
 {
