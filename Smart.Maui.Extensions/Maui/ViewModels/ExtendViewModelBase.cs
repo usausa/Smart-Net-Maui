@@ -1,12 +1,13 @@
 namespace Smart.Maui.ViewModels;
 
 using Smart.Maui.Input;
+using Smart.Mvvm.Messaging;
 using Smart.Mvvm.State;
 using Smart.Mvvm.ViewModels;
 
 #pragma warning disable IDE0032
 // ReSharper disable ReplaceWithFieldKeyword
-public abstract class MauiViewModelBase : ViewModelBase
+public abstract class ExtendViewModelBase : ViewModelBase
 {
     private static class Functions
     {
@@ -16,6 +17,29 @@ public abstract class MauiViewModelBase : ViewModelBase
     private static class Functions<T>
     {
         public static Func<T, bool> True { get; } = static _ => true;
+    }
+
+    // ------------------------------------------------------------
+    // Constructor
+    // ------------------------------------------------------------
+
+    protected ExtendViewModelBase()
+    {
+    }
+
+    protected ExtendViewModelBase(IBusyState busyState)
+        : base(busyState)
+    {
+    }
+
+    protected ExtendViewModelBase(IMessenger messenger)
+        : base(messenger)
+    {
+    }
+
+    protected ExtendViewModelBase(IBusyState busyState, IMessenger messenger)
+        : base(busyState, messenger)
+    {
     }
 
     // ------------------------------------------------------------
