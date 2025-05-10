@@ -1,6 +1,5 @@
 namespace Smart.Maui.Input;
 
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
