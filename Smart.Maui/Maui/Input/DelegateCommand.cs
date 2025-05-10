@@ -1,10 +1,12 @@
 namespace Smart.Maui.Input;
 
-using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
-public sealed class DelegateCommand : ObserveCommandBase<DelegateCommand>, ICommand, IDisposable
+public sealed class DelegateCommand : IObserveCommand
 {
+    public event EventHandler? CanExecuteChanged;
+
     private readonly Action execute;
 
     private readonly Func<bool> canExecute;
@@ -20,16 +22,22 @@ public sealed class DelegateCommand : ObserveCommandBase<DelegateCommand>, IComm
         this.canExecute = canExecute;
     }
 
-    public void Dispose() => RemoveObservers();
+    bool ICommand.CanExecute(object? parameter) => canExecute();
 
     void ICommand.Execute(object? parameter) => execute();
 
-    bool ICommand.CanExecute(object? parameter) => canExecute();
+#pragma warning disable CA1030
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void RaiseCanExecuteChanged()
+    {
+        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+    }
+#pragma warning restore CA1030
 }
 
-public sealed class DelegateCommand<T> : ObserveCommandBase<DelegateCommand<T>>, ICommand, IDisposable
+public sealed class DelegateCommand<T> : IObserveCommand
 {
-    private static readonly bool IsValueType = typeof(T).GetTypeInfo().IsValueType;
+    public event EventHandler? CanExecuteChanged;
 
     private readonly Action<T> execute;
 
@@ -46,19 +54,25 @@ public sealed class DelegateCommand<T> : ObserveCommandBase<DelegateCommand<T>>,
         this.canExecute = canExecute;
     }
 
-    public void Dispose() => RemoveObservers();
+    bool ICommand.CanExecute(object? parameter) => canExecute(Cast(parameter));
 
     void ICommand.Execute(object? parameter) => execute(Cast(parameter));
 
-    bool ICommand.CanExecute(object? parameter) => canExecute(Cast(parameter));
-
     private static T Cast(object? parameter)
     {
-        if ((parameter is null) && IsValueType)
+        if (typeof(T).IsValueType && (parameter is null))
         {
             return default!;
         }
 
         return (T)parameter!;
     }
+
+#pragma warning disable CA1030
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void RaiseCanExecuteChanged()
+    {
+        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+    }
+#pragma warning restore CA1030
 }
