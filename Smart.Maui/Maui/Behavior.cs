@@ -6,7 +6,7 @@ public static class Behavior
         "Key",
         typeof(string),
         typeof(Behavior),
-        false);
+        null);
 
     public static string? GetKey(BindableObject view) => (string?)view.GetValue(KeyProperty);
 
