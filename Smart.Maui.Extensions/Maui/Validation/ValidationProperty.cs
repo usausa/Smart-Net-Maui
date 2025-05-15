@@ -2,7 +2,7 @@ namespace Smart.Maui.Validation;
 
 using Microsoft.Maui.Controls;
 
-public static class Validation
+public static class ValidationProperty
 {
     // ------------------------------------------------------------
     // ClearErrorOnFocus
@@ -11,7 +11,7 @@ public static class Validation
     public static readonly BindableProperty ClearErrorOnFocusProperty = BindableProperty.CreateAttached(
         "ClearErrorOnFocus",
         typeof(bool),
-        typeof(Validation),
+        typeof(ValidationProperty),
         false,
         propertyChanged: HandleClearErrorOnFocusChanged);
 
@@ -55,7 +55,7 @@ public static class Validation
     public static readonly BindableProperty ValidateOnUnfocusedProperty = BindableProperty.CreateAttached(
         "ValidateOnUnfocused",
         typeof(bool),
-        typeof(Validation),
+        typeof(ValidationProperty),
         false,
         propertyChanged: HandleValidateOnUnfocusedChanged);
 
@@ -99,7 +99,7 @@ public static class Validation
     public static readonly BindableProperty ValidateOnTextChangedProperty = BindableProperty.CreateAttached(
         "ValidateOnTextChanged",
         typeof(bool),
-        typeof(Validation),
+        typeof(ValidationProperty),
         false,
         propertyChanged: HandleValidateOnTextChangedChanged);
 
