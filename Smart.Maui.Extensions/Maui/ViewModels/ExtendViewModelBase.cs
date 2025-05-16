@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Reactive.Linq;
 
 using Smart.Maui.Input;
+using Smart.Maui.Internal;
 using Smart.Mvvm.Messaging;
 using Smart.Mvvm.ViewModels;
 
@@ -11,16 +12,6 @@ using Smart.Mvvm.ViewModels;
 // ReSharper disable ReplaceWithFieldKeyword
 public abstract class ExtendViewModelBase : ViewModelBase
 {
-    private static class Functions
-    {
-        public static Func<bool> True { get; } = static () => true;
-    }
-
-    private static class Functions<T>
-    {
-        public static Func<T, bool> True { get; } = static _ => true;
-    }
-
     // ------------------------------------------------------------
     // Member
     // ------------------------------------------------------------
@@ -50,15 +41,15 @@ public abstract class ExtendViewModelBase : ViewModelBase
     {
     }
 
-    protected override void Dispose(bool disposing)
-    {
-        if (commands is not null)
-        {
-            PropertyChanged -= UpdateCommandState;
-            commands = null;
-        }
+    // ------------------------------------------------------------
+    // Command helper
+    // ------------------------------------------------------------
 
-        base.Dispose(disposing);
+    protected override void RaisePropertyChanged(PropertyChangedEventArgs args)
+    {
+        base.RaisePropertyChanged(args);
+
+        UpdateCommandState();
     }
 
     // ------------------------------------------------------------
@@ -67,16 +58,9 @@ public abstract class ExtendViewModelBase : ViewModelBase
 
     private void AddCommandObserver(IObserveCommand command)
     {
-        if (commands is null)
-        {
-            commands = new List<IObserveCommand>();
-            PropertyChanged += UpdateCommandState;
-        }
+        commands ??= new List<IObserveCommand>();
         commands.Add(command);
     }
-
-    private void UpdateCommandState(object? sender, PropertyChangedEventArgs e) =>
-        UpdateCommandState();
 
     private void UpdateCommandState()
     {

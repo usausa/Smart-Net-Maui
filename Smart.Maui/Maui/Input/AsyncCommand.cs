@@ -3,6 +3,8 @@ namespace Smart.Maui.Input;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
+using Smart.Maui.Internal;
+
 public sealed class AsyncCommand : IObserveCommand
 {
     public event EventHandler? CanExecuteChanged;
