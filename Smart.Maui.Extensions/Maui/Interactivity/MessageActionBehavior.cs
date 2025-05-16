@@ -2,12 +2,12 @@ namespace Smart.Maui.Interactivity;
 
 using Smart.Mvvm.Messaging;
 
-public sealed class MessageTrigger : TriggerBase<BindableObject>
+public sealed class MessageActionBehavior : ActionBehaviorBase<BindableObject>
 {
     public static readonly BindableProperty MessengerProperty = BindableProperty.Create(
         nameof(Messenger),
         typeof(IMessenger),
-        typeof(MessageTrigger),
+        typeof(MessageActionBehavior),
         propertyChanged: HandleMessengerPropertyChanged);
 
     public IMessenger? Messenger
@@ -32,7 +32,7 @@ public sealed class MessageTrigger : TriggerBase<BindableObject>
 
     private static void HandleMessengerPropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
     {
-        ((MessageTrigger)bindable).HandleMessengerPropertyChanged(oldValue as IMessenger, newValue as IMessenger);
+        ((MessageActionBehavior)bindable).HandleMessengerPropertyChanged(oldValue as IMessenger, newValue as IMessenger);
     }
 
     private void HandleMessengerPropertyChanged(IMessenger? oldValue, IMessenger? newValue)

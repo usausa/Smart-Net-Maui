@@ -2,18 +2,18 @@ namespace Smart.Maui.Interactivity;
 
 using Microsoft.Maui.Dispatching;
 
-public sealed class TimerTrigger : TriggerBase<BindableObject>
+public sealed class TimerActionBehavior : ActionBehaviorBase<BindableObject>
 {
     public static readonly BindableProperty IntervalProperty = BindableProperty.Create(
         nameof(Interval),
         typeof(TimeSpan),
-        typeof(TimerTrigger),
+        typeof(TimerActionBehavior),
         TimeSpan.FromSeconds(1));
 
     public static readonly BindableProperty ParameterProperty = BindableProperty.Create(
         nameof(Parameter),
         typeof(object),
-        typeof(TimerTrigger));
+        typeof(TimerActionBehavior));
 
     public TimeSpan Interval
     {

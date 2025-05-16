@@ -2,13 +2,13 @@ namespace Smart.Maui.Interactivity;
 
 using Smart.Mvvm.Messaging;
 
-public abstract class RequestTriggerBase<TEventArgs> : TriggerBase<BindableObject>
+public abstract class RequestBehaviorBase<TEventArgs> : ActionBehaviorBase<BindableObject>
     where TEventArgs : EventArgs
 {
     public static readonly BindableProperty RequestProperty = BindableProperty.Create(
         nameof(Request),
         typeof(IEventRequest<TEventArgs>),
-        typeof(RequestTriggerBase<TEventArgs>),
+        typeof(RequestBehaviorBase<TEventArgs>),
         propertyChanged: HandleRequestPropertyChanged);
 
     public IEventRequest<TEventArgs>? Request
@@ -29,7 +29,7 @@ public abstract class RequestTriggerBase<TEventArgs> : TriggerBase<BindableObjec
 
     private static void HandleRequestPropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
     {
-        ((RequestTriggerBase<TEventArgs>)bindable).OnMessengerPropertyChanged(oldValue as IEventRequest<TEventArgs>, newValue as IEventRequest<TEventArgs>);
+        ((RequestBehaviorBase<TEventArgs>)bindable).OnMessengerPropertyChanged(oldValue as IEventRequest<TEventArgs>, newValue as IEventRequest<TEventArgs>);
     }
 
     private void OnMessengerPropertyChanged(IEventRequest<TEventArgs>? oldValue, IEventRequest<TEventArgs>? newValue)

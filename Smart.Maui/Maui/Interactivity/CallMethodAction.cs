@@ -63,7 +63,7 @@ public sealed class CallMethodAction : BindableObject, IAction
 
     private MethodInfo? cachedMethod;
 
-    public void DoInvoke(BindableObject associatedObject, object? parameter)
+    public void Execute(BindableObject associatedObject, object? parameter)
     {
         var target = TargetObject ?? associatedObject;
         var methodName = MethodName;

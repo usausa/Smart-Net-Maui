@@ -1,6 +1,6 @@
 namespace Smart.Maui.Interactivity;
 
-public sealed class GoToStateAction : ActionBase<BindableObject>
+public sealed class GoToStateAction : BindableObject, IAction
 {
     public static readonly BindableProperty StateNameProperty = BindableProperty.Create(
         nameof(StateName),
@@ -25,7 +25,7 @@ public sealed class GoToStateAction : ActionBase<BindableObject>
         set => SetValue(TargetObjectProperty, value);
     }
 
-    protected override void Invoke(BindableObject associatedObject, object? parameter)
+    public void Execute(BindableObject associatedObject, object? parameter)
     {
         if (String.IsNullOrEmpty(StateName))
         {

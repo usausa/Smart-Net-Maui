@@ -49,7 +49,7 @@ public sealed class ExecuteCommandAction : BindableObject, IAction
         set => SetValue(ConverterParameterProperty, value);
     }
 
-    public void DoInvoke(BindableObject associatedObject, object? parameter)
+    public void Execute(BindableObject associatedObject, object? parameter)
     {
         var command = Command;
         if (command is null)

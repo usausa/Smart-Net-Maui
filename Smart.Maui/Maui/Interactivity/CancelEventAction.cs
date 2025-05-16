@@ -2,7 +2,7 @@ namespace Smart.Maui.Interactivity;
 
 using System.ComponentModel;
 
-public sealed class CancelEventAction : ActionBase<BindableObject, CancelEventArgs>
+public sealed class CancelEventAction : BindableObject, IAction
 {
     public static readonly BindableProperty CancelProperty = BindableProperty.Create(
         nameof(Cancel),
@@ -16,8 +16,11 @@ public sealed class CancelEventAction : ActionBase<BindableObject, CancelEventAr
         set => SetValue(CancelProperty, value);
     }
 
-    protected override void Invoke(BindableObject associatedObject, CancelEventArgs parameter)
+    public void Execute(BindableObject associatedObject, object? parameter)
     {
-        parameter.Cancel = Cancel;
+        if (parameter is CancelEventArgs args)
+        {
+            args.Cancel = Cancel;
+        }
     }
 }

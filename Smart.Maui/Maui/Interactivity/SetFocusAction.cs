@@ -1,6 +1,6 @@
 namespace Smart.Maui.Interactivity;
 
-public sealed class SetFocusAction : ActionBase<BindableObject>
+public sealed class SetFocusAction : BindableObject, IAction
 {
     public static readonly BindableProperty TargetObjectProperty = BindableProperty.Create(
         nameof(TargetObject),
@@ -13,7 +13,7 @@ public sealed class SetFocusAction : ActionBase<BindableObject>
         set => SetValue(TargetObjectProperty, value);
     }
 
-    protected override void Invoke(BindableObject associatedObject, object? parameter)
+    public void Execute(BindableObject associatedObject, object? parameter)
     {
         var element = TargetObject ?? (associatedObject as VisualElement);
         element?.Focus();

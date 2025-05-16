@@ -1,7 +1,7 @@
 namespace Smart.Maui.Interactivity;
 
 [ContentProperty("Actions")]
-public abstract class TriggerBase<TBindable> : BehaviorBase<TBindable>
+public abstract class ActionBehaviorBase<TBindable> : BehaviorBase<TBindable>
     where TBindable : BindableObject
 {
     public IList<IAction> Actions { get; } = [];
@@ -15,7 +15,7 @@ public abstract class TriggerBase<TBindable> : BehaviorBase<TBindable>
 
         foreach (var action in Actions)
         {
-            action.DoInvoke(AssociatedObject, parameter);
+            action.Execute(AssociatedObject, parameter);
         }
     }
 

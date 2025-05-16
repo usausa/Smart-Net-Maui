@@ -3,7 +3,7 @@ namespace Smart.Maui.Animations;
 using Smart.Maui.Interactivity;
 
 [ContentProperty("Animation")]
-public sealed class BeginAnimationAction : ActionBase<VisualElement>
+public sealed class BeginAnimationAction : BindableObject, IAction
 {
     public static readonly BindableProperty AnimationProperty = BindableProperty.Create(
         nameof(Animation),
@@ -17,11 +17,11 @@ public sealed class BeginAnimationAction : ActionBase<VisualElement>
     }
 
     // ReSharper disable once AsyncVoidMethod
-    protected override async void Invoke(VisualElement associatedObject, object? parameter)
+    public async void Execute(BindableObject associatedObject, object? parameter)
     {
-        if (Animation is not null)
+        if ((associatedObject is VisualElement visual) && (Animation is not null))
         {
-            Animation.Target ??= associatedObject;
+            Animation.Target ??= visual;
 
             await Animation.Begin();
         }

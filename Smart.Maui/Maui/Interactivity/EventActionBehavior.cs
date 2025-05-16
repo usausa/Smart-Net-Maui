@@ -2,12 +2,12 @@ namespace Smart.Maui.Interactivity;
 
 using System.Reflection;
 
-public sealed class EventTrigger : TriggerBase<BindableObject>
+public sealed class EventActionBehavior : ActionBehaviorBase<BindableObject>
 {
     public static readonly BindableProperty EventNameProperty = BindableProperty.Create(
         nameof(EventName),
         typeof(string),
-        typeof(EventTrigger),
+        typeof(EventActionBehavior),
         string.Empty,
         propertyChanged: HandleEventNamePropertyChanged);
 
@@ -48,7 +48,7 @@ public sealed class EventTrigger : TriggerBase<BindableObject>
             throw new ArgumentException(nameof(EventName));
         }
 
-        var methodInfo = typeof(EventTrigger).GetTypeInfo().GetDeclaredMethod(nameof(OnEvent))!;
+        var methodInfo = typeof(EventActionBehavior).GetTypeInfo().GetDeclaredMethod(nameof(OnEvent))!;
         handler = methodInfo.CreateDelegate(eventInfo.EventHandlerType!, this);
         eventInfo.AddEventHandler(AssociatedObject, handler);
     }
@@ -69,7 +69,7 @@ public sealed class EventTrigger : TriggerBase<BindableObject>
 
     private static void HandleEventNamePropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
     {
-        var behavior = (EventTrigger)bindable;
+        var behavior = (EventActionBehavior)bindable;
         if (behavior.AssociatedObject is null)
         {
             return;

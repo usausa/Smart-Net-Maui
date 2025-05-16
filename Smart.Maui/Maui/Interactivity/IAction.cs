@@ -2,5 +2,5 @@ namespace Smart.Maui.Interactivity;
 
 public interface IAction
 {
-    void DoInvoke(BindableObject associatedObject, object? parameter);
+    void Execute(BindableObject associatedObject, object? parameter);
 }

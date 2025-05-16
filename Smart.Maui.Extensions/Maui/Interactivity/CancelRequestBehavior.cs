@@ -2,7 +2,7 @@ namespace Smart.Maui.Interactivity;
 
 using System.ComponentModel;
 
-public sealed class CancelRequestTrigger : RequestTriggerBase<CancelEventArgs>
+public sealed class CancelRequestBehavior : RequestBehaviorBase<CancelEventArgs>
 {
     protected override void OnEventRequest(object? sender, CancelEventArgs e)
     {

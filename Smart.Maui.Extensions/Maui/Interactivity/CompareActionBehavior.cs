@@ -2,24 +2,24 @@ namespace Smart.Maui.Interactivity;
 
 using Smart.Mvvm.Expressions;
 
-public sealed class CompareTrigger : TriggerBase<BindableObject>
+public sealed class CompareActionBehavior : ActionBehaviorBase<BindableObject>
 {
     public static readonly BindableProperty BindingProperty = BindableProperty.Create(
         nameof(Binding),
         typeof(object),
-        typeof(CompareTrigger),
+        typeof(CompareActionBehavior),
         propertyChanged: HandlePropertyChanged);
 
     public static readonly BindableProperty ParameterProperty = BindableProperty.Create(
         nameof(Parameter),
         typeof(object),
-        typeof(CompareTrigger),
+        typeof(CompareActionBehavior),
         propertyChanged: HandlePropertyChanged);
 
     public static readonly BindableProperty ExpressionProperty = BindableProperty.Create(
         nameof(Expression),
         typeof(ICompareExpression),
-        typeof(CompareTrigger),
+        typeof(CompareActionBehavior),
         CompareExpressions.Equal);
 
     public object? Binding
@@ -47,7 +47,7 @@ public sealed class CompareTrigger : TriggerBase<BindableObject>
             return;
         }
 
-        ((CompareTrigger)bindable).HandlePropertyChanged();
+        ((CompareActionBehavior)bindable).HandlePropertyChanged();
     }
 
     private void HandlePropertyChanged()

@@ -63,7 +63,7 @@ public sealed class ChangePropertyAction : BindableObject, IAction
 
     private PropertyInfo? property;
 
-    public void DoInvoke(BindableObject associatedObject, object? parameter)
+    public void Execute(BindableObject associatedObject, object? parameter)
     {
         var target = TargetObject ?? associatedObject;
         var propertyName = PropertyName;

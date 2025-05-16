@@ -4,7 +4,7 @@ using System.Reflection;
 
 using Smart.Mvvm.Messaging;
 
-public sealed class ResolveMethodAction : ActionBase<BindableObject, ResolveEventArgs>
+public sealed class ResolveMethodAction : BindableObject, IAction
 {
     public static readonly BindableProperty TargetObjectProperty = BindableProperty.Create(
         nameof(TargetObject),
@@ -31,8 +31,13 @@ public sealed class ResolveMethodAction : ActionBase<BindableObject, ResolveEven
 
     private MethodInfo? cachedMethod;
 
-    protected override void Invoke(BindableObject associatedObject, ResolveEventArgs parameter)
+    public void Execute(BindableObject associatedObject, object? parameter)
     {
+        if (parameter is not ResolveEventArgs args)
+        {
+            return;
+        }
+
         var target = TargetObject ?? associatedObject;
         var methodName = MethodName;
         if (String.IsNullOrEmpty(methodName))
@@ -53,6 +58,6 @@ public sealed class ResolveMethodAction : ActionBase<BindableObject, ResolveEven
             }
         }
 
-        parameter.Result = cachedMethod.Invoke(target, null);
+        args.Result = cachedMethod.Invoke(target, null);
     }
 }
