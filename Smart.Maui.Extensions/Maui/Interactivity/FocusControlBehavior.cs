@@ -1,38 +1,39 @@
 namespace Smart.Maui.Interactivity;
 
-using Smart.Mvvm.Messaging;
+using Smart.Maui.Messaging;
 
 public sealed class FocusControlBehavior : BehaviorBase<VisualElement>
 {
-    public static readonly BindableProperty RequestProperty = BindableProperty.Create(
-        nameof(Request),
-        typeof(IEventRequest<ParameterEventArgs>),
+    public static readonly BindableProperty ControllerProperty = BindableProperty.Create(
+        nameof(Controller),
+        typeof(FocusController),
         typeof(FocusControlBehavior),
-        propertyChanged: HandleRequestPropertyChanged);
+        propertyChanged: HandleControllerPropertyChanged);
 
-    public IEventRequest<ParameterEventArgs>? Request
+    public FocusController? Controller
     {
-        get => (IEventRequest<ParameterEventArgs>)GetValue(RequestProperty);
-        set => SetValue(RequestProperty, value);
+        get => (FocusController)GetValue(ControllerProperty);
+        set => SetValue(ControllerProperty, value);
     }
 
     protected override void OnDetachingFrom(VisualElement bindable)
     {
-        var request = Request;
-        if (request is not null)
+        var controller = Controller;
+        if (controller is not null)
         {
-            request.Requested -= EventRequestOnRequested;
+            controller.FocusRequested -= OnFocusRequested;
+            controller.FindRequested -= OnFindRequested;
         }
 
         base.OnDetachingFrom(bindable);
     }
 
-    private static void HandleRequestPropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
+    private static void HandleControllerPropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
     {
-        ((FocusControlBehavior)bindable).OnMessengerPropertyChanged(oldValue as IEventRequest<ParameterEventArgs>, newValue as IEventRequest<ParameterEventArgs>);
+        ((FocusControlBehavior)bindable).OnMessengerPropertyChanged(oldValue as FocusController, newValue as FocusController);
     }
 
-    private void OnMessengerPropertyChanged(IEventRequest<ParameterEventArgs>? oldValue, IEventRequest<ParameterEventArgs>? newValue)
+    private void OnMessengerPropertyChanged(FocusController? oldValue, FocusController? newValue)
     {
         if (oldValue == newValue)
         {
@@ -41,16 +42,18 @@ public sealed class FocusControlBehavior : BehaviorBase<VisualElement>
 
         if (oldValue is not null)
         {
-            oldValue.Requested -= EventRequestOnRequested;
+            oldValue.FocusRequested -= OnFocusRequested;
+            oldValue.FindRequested -= OnFindRequested;
         }
 
         if (newValue is not null)
         {
-            newValue.Requested += EventRequestOnRequested;
+            newValue.FocusRequested += OnFocusRequested;
+            newValue.FindRequested += OnFindRequested;
         }
     }
 
-    private void EventRequestOnRequested(object? sender, ParameterEventArgs e)
+    private void OnFocusRequested(object? sender, EventArgs<string> e)
     {
         Dispatcher.Dispatch(() =>
         {
@@ -60,12 +63,12 @@ public sealed class FocusControlBehavior : BehaviorBase<VisualElement>
                 return;
             }
 
-            var target = FindTarget(root, (e.Parameter as string)!);
+            var target = FindTargetByName(root, e.Data);
             target?.Focus();
         });
     }
 
-    public static VisualElement? FindTarget(VisualElement parent, string name)
+    public static VisualElement? FindTargetByName(VisualElement parent, string name)
     {
         if (!parent.IsEnabled || !parent.IsVisible)
         {
@@ -87,20 +90,70 @@ public sealed class FocusControlBehavior : BehaviorBase<VisualElement>
                     return visual;
                 }
 
-                if (child is Layout childLayout)
+                var result = FindTargetByName(visual, name);
+                if (result != null)
                 {
-                    var result = FindTarget(childLayout, name);
-                    if (result != null)
-                    {
-                        return result;
-                    }
+                    return result;
                 }
             }
         }
 
-        if ((parent is IContentView view) && (view.Content is VisualElement visualContent))
+        if (parent is IContentView { Content: VisualElement visualContent })
         {
-            var result = FindTarget(visualContent, name);
+            var result = FindTargetByName(visualContent, name);
+            if (result != null)
+            {
+                return result;
+            }
+        }
+
+        return null;
+    }
+
+    private void OnFindRequested(object? sender, FocusFindEventArgs e)
+    {
+        var root = AssociatedObject;
+        if (root is null)
+        {
+            return;
+        }
+
+        e.Name = FindFocused(root);
+    }
+
+    public static string? FindFocused(VisualElement parent)
+    {
+        if (!parent.IsEnabled || !parent.IsVisible)
+        {
+            return null;
+        }
+
+        if (parent is Layout layout)
+        {
+            foreach (var child in layout.Children)
+            {
+                if (!child.IsEnabled || (child is not VisualElement { IsVisible: true } visual))
+                {
+                    continue;
+                }
+
+                if (visual.IsFocused)
+                {
+                    var key = Behavior.GetKey(visual);
+                    return key;
+                }
+
+                var result = FindFocused(visual);
+                if (result != null)
+                {
+                    return result;
+                }
+            }
+        }
+
+        if (parent is IContentView { Content: VisualElement visualContent })
+        {
+            var result = FindFocused(visualContent);
             if (result != null)
             {
                 return result;
