@@ -54,6 +54,7 @@ public sealed class ValidateOnTextChangedBehavior : BehaviorBase<InputView>
             return;
         }
 
-        Target?.Validate(key);
+        var target = Target ?? (BindingContext as IValidatable);
+        target?.Validate(key);
     }
 }
