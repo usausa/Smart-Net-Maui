@@ -80,10 +80,10 @@ public abstract class ExtendViewModelBase : ViewModelBase
         return command;
     }
 
-    protected DelegateCommand MakeDelegateCommand(Action execute) =>
+    protected IObserveCommand MakeDelegateCommand(Action execute) =>
         MakeDelegateCommand(execute, Functions.True);
 
-    protected DelegateCommand MakeDelegateCommand(Action execute, Func<bool> canExecute)
+    protected IObserveCommand MakeDelegateCommand(Action execute, Func<bool> canExecute)
     {
         var command = new DelegateCommand(() =>
         {
@@ -94,10 +94,10 @@ public abstract class ExtendViewModelBase : ViewModelBase
         return command;
     }
 
-    protected DelegateCommand<TParameter> MakeDelegateCommand<TParameter>(Action<TParameter> execute) =>
+    protected IObserveCommand MakeDelegateCommand<TParameter>(Action<TParameter> execute) =>
         MakeDelegateCommand(execute, Functions<TParameter>.True);
 
-    protected DelegateCommand<TParameter> MakeDelegateCommand<TParameter>(Action<TParameter> execute, Func<TParameter, bool> canExecute)
+    protected IObserveCommand MakeDelegateCommand<TParameter>(Action<TParameter> execute, Func<TParameter, bool> canExecute)
     {
         var command = new DelegateCommand<TParameter>(x =>
         {
@@ -108,10 +108,10 @@ public abstract class ExtendViewModelBase : ViewModelBase
         return command;
     }
 
-    protected AsyncCommand MakeAsyncCommand(Func<Task> execute) =>
+    protected IObserveCommand MakeAsyncCommand(Func<Task> execute) =>
         MakeAsyncCommand(execute, Functions.True);
 
-    protected AsyncCommand MakeAsyncCommand(Func<Task> execute, Func<bool> canExecute)
+    protected IObserveCommand MakeAsyncCommand(Func<Task> execute, Func<bool> canExecute)
     {
         var command = new AsyncCommand(async () =>
         {
@@ -125,10 +125,10 @@ public abstract class ExtendViewModelBase : ViewModelBase
         return command;
     }
 
-    protected AsyncCommand<TParameter> MakeAsyncCommand<TParameter>(Func<TParameter, Task> execute) =>
+    protected IObserveCommand MakeAsyncCommand<TParameter>(Func<TParameter, Task> execute) =>
         MakeAsyncCommand(execute, Functions<TParameter>.True);
 
-    protected AsyncCommand<TParameter> MakeAsyncCommand<TParameter>(Func<TParameter, Task> execute, Func<TParameter, bool> canExecute)
+    protected IObserveCommand MakeAsyncCommand<TParameter>(Func<TParameter, Task> execute, Func<TParameter, bool> canExecute)
     {
         var command = new AsyncCommand<TParameter>(async x =>
         {
