@@ -42,7 +42,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
     }
 
     // ------------------------------------------------------------
-    // Command helper
+    // Override
     // ------------------------------------------------------------
 
     protected override void RaisePropertyChanged(PropertyChangedEventArgs args)
