@@ -8,7 +8,9 @@ public static class Behavior
         typeof(Behavior),
         null);
 
-    public static string? GetKey(BindableObject obj) => (string?)obj.GetValue(KeyProperty);
+    public static string? GetKey(BindableObject obj) =>
+        (string?)obj.GetValue(KeyProperty);
 
-    public static void SetKey(BindableObject obj, string? value) => obj.SetValue(KeyProperty, value);
+    public static void SetKey(BindableObject obj, string? value) =>
+        obj.SetValue(KeyProperty, value);
 }

@@ -17,25 +17,17 @@ public static class BindingContextResolver
         typeof(BindingContextResolver),
         true);
 
-    public static Type GetType(BindableObject obj)
-    {
-        return (Type)obj.GetValue(TypeProperty);
-    }
+    public static Type GetType(BindableObject obj) =>
+        (Type)obj.GetValue(TypeProperty);
 
-    public static void SetType(BindableObject obj, Type value)
-    {
+    public static void SetType(BindableObject obj, Type value) =>
         obj.SetValue(TypeProperty, value);
-    }
 
-    public static bool GetDisposeOnChanged(BindableObject obj)
-    {
-        return (bool)obj.GetValue(DisposeOnChangedProperty);
-    }
+    public static bool GetDisposeOnChanged(BindableObject obj) =>
+        (bool)obj.GetValue(DisposeOnChangedProperty);
 
-    public static void SetDisposeOnChanged(BindableObject obj, bool value)
-    {
+    public static void SetDisposeOnChanged(BindableObject obj, bool value) =>
         obj.SetValue(DisposeOnChangedProperty, value);
-    }
 
     private static void HandleTypePropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
     {
