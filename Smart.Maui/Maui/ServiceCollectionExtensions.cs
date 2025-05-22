@@ -2,7 +2,7 @@ namespace Smart.Maui;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddMauiInterfaces(this IServiceCollection services)
+    public static IServiceCollection AddMauiServices(this IServiceCollection services)
     {
         services.AddSingleton(static _ => AppActions.Current);
         services.AddSingleton(static _ => AppInfo.Current);

@@ -8,9 +8,9 @@ public static class MauiAppBuilderExtensions
         return builder;
     }
 
-    public static MauiAppBuilder UseMauiInterfaces(this MauiAppBuilder builder)
+    public static MauiAppBuilder UseMauiServices(this MauiAppBuilder builder)
     {
-        builder.Services.AddMauiInterfaces();
+        builder.Services.AddMauiServices();
         return builder;
     }
 }
