@@ -1,4 +1,4 @@
-namespace Smart;
+namespace Smart.Maui;
 
 public interface IAppLifecycle
 {

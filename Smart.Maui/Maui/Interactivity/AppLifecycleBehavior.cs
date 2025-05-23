@@ -1,5 +1,7 @@
 namespace Smart.Maui.Interactivity;
 
+using Smart.Maui;
+
 public sealed class AppLifecycleBehavior : BehaviorBase<Page>
 {
     private Page? page;
