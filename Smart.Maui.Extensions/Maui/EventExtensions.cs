@@ -9,73 +9,46 @@ public static class EventExtensions
 {
     // Timer
 
-    public static IObservable<EventArgs> ObserveTickChanged(this IDispatcherTimer timer) =>
+    public static IObservable<EventArgs> TickChangedAsObservable(this IDispatcherTimer timer) =>
         Observable.FromEvent<EventHandler, EventArgs>(static h => (_, e) => h(e), h => timer.Tick += h, h => timer.Tick -= h);
-
-    public static IObservable<EventArgs> ObserveTickChangedOnCurrentContext(this IDispatcherTimer timer) =>
-        timer.ObserveTickChanged().ObserveOn(SynchronizationContext.Current!);
 
     // Connectivity
 
-    public static IObservable<ConnectivityChangedEventArgs> ObserveConnectivityChanged(this IConnectivity connectivity) =>
+    public static IObservable<ConnectivityChangedEventArgs> ConnectivityChangedAsObservable(this IConnectivity connectivity) =>
         Observable.FromEvent<EventHandler<ConnectivityChangedEventArgs>, ConnectivityChangedEventArgs>(static h => (_, e) => h(e), h => connectivity.ConnectivityChanged += h, h => connectivity.ConnectivityChanged -= h);
-
-    public static IObservable<ConnectivityChangedEventArgs> ObserveConnectivityChangedOnCurrentContext(this IConnectivity connectivity) =>
-        connectivity.ObserveConnectivityChanged().ObserveOn(SynchronizationContext.Current!);
 
     // Battery
 
-    public static IObservable<BatteryInfoChangedEventArgs> ObserveBatteryInfoChanged(this IBattery battery) =>
+    public static IObservable<BatteryInfoChangedEventArgs> BatteryInfoChangedAsObservable(this IBattery battery) =>
         Observable.FromEvent<EventHandler<BatteryInfoChangedEventArgs>, BatteryInfoChangedEventArgs>(static h => (_, e) => h(e), h => battery.BatteryInfoChanged += h, h => battery.BatteryInfoChanged -= h);
-
-    public static IObservable<BatteryInfoChangedEventArgs> ObserveBatteryInfoChangedOnCurrentContext(this IBattery battery) =>
-        battery.ObserveBatteryInfoChanged().ObserveOn(SynchronizationContext.Current!);
 
     // Accelerometer
 
-    public static IObservable<AccelerometerChangedEventArgs> ObserveReadingChanged(this IAccelerometer accelerometer) =>
+    public static IObservable<AccelerometerChangedEventArgs> ReadingChangedAsObservable(this IAccelerometer accelerometer) =>
         Observable.FromEvent<EventHandler<AccelerometerChangedEventArgs>, AccelerometerChangedEventArgs>(static h => (_, e) => h(e), h => accelerometer.ReadingChanged += h, h => accelerometer.ReadingChanged -= h);
-
-    public static IObservable<AccelerometerChangedEventArgs> ObserveReadingChangedOnCurrentContext(this IAccelerometer accelerometer) =>
-        accelerometer.ObserveReadingChanged().ObserveOn(SynchronizationContext.Current!);
 
     // Barometer
 
-    public static IObservable<BarometerChangedEventArgs> ObserveReadingChanged(this IBarometer barometer) =>
+    public static IObservable<BarometerChangedEventArgs> ReadingChangedAsObservable(this IBarometer barometer) =>
         Observable.FromEvent<EventHandler<BarometerChangedEventArgs>, BarometerChangedEventArgs>(static h => (_, e) => h(e), h => barometer.ReadingChanged += h, h => barometer.ReadingChanged -= h);
-
-    public static IObservable<BarometerChangedEventArgs> ObserveReadingChangedOnCurrentContext(this IBarometer barometer) =>
-        barometer.ObserveReadingChanged().ObserveOn(SynchronizationContext.Current!);
 
     // Compass
 
-    public static IObservable<CompassChangedEventArgs> ObserveReadingChanged(this ICompass compass) =>
+    public static IObservable<CompassChangedEventArgs> ReadingChangedAsObservable(this ICompass compass) =>
         Observable.FromEvent<EventHandler<CompassChangedEventArgs>, CompassChangedEventArgs>(static h => (_, e) => h(e), h => compass.ReadingChanged += h, h => compass.ReadingChanged -= h);
-
-    public static IObservable<CompassChangedEventArgs> ObserveReadingChangedOnCurrentContext(this ICompass compass) =>
-        compass.ObserveReadingChanged().ObserveOn(SynchronizationContext.Current!);
 
     // Gyroscope
 
-    public static IObservable<GyroscopeChangedEventArgs> ObserveReadingChanged(this IGyroscope gyroscope) =>
+    public static IObservable<GyroscopeChangedEventArgs> ReadingChangedAsObservable(this IGyroscope gyroscope) =>
         Observable.FromEvent<EventHandler<GyroscopeChangedEventArgs>, GyroscopeChangedEventArgs>(static h => (_, e) => h(e), h => gyroscope.ReadingChanged += h, h => gyroscope.ReadingChanged -= h);
-
-    public static IObservable<GyroscopeChangedEventArgs> ObserveReadingChangedOnCurrentContext(this IGyroscope gyroscope) =>
-        gyroscope.ObserveReadingChanged().ObserveOn(SynchronizationContext.Current!);
 
     // Magnetometer
 
-    public static IObservable<MagnetometerChangedEventArgs> ObserveReadingChanged(this IMagnetometer magnetometer) =>
+    public static IObservable<MagnetometerChangedEventArgs> ReadingChangedAsObservable(this IMagnetometer magnetometer) =>
         Observable.FromEvent<EventHandler<MagnetometerChangedEventArgs>, MagnetometerChangedEventArgs>(static h => (_, e) => h(e), h => magnetometer.ReadingChanged += h, h => magnetometer.ReadingChanged -= h);
-
-    public static IObservable<MagnetometerChangedEventArgs> ObserveReadingChangedOnCurrentContext(this IMagnetometer magnetometer) =>
-        magnetometer.ObserveReadingChanged().ObserveOn(SynchronizationContext.Current!);
 
     // OrientationSensor
 
-    public static IObservable<OrientationSensorChangedEventArgs> ObserveReadingChanged(this IOrientationSensor orientation) =>
+    public static IObservable<OrientationSensorChangedEventArgs> ReadingChangedAsObservable(this IOrientationSensor orientation) =>
         Observable.FromEvent<EventHandler<OrientationSensorChangedEventArgs>, OrientationSensorChangedEventArgs>(static h => (_, e) => h(e), h => orientation.ReadingChanged += h, h => orientation.ReadingChanged -= h);
-
-    public static IObservable<OrientationSensorChangedEventArgs> ObserveReadingChangedOnCurrentContext(this IOrientationSensor orientation) =>
-        orientation.ObserveReadingChanged().ObserveOn(SynchronizationContext.Current!);
 }
