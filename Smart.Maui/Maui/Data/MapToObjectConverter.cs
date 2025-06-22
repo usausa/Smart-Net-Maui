@@ -1,7 +1,8 @@
 namespace Smart.Maui.Data;
 
-using System.Collections.ObjectModel;
 using System.Globalization;
+
+using Smart.Linq;
 
 public abstract class MapEntry<T>
 {
@@ -12,7 +13,9 @@ public abstract class MapEntry<T>
 
 public abstract class MapToObjectConverter<T> : IValueConverter
 {
-    public Collection<MapEntry<T>> Entries { get; } = new([]);
+#pragma warning disable CA1819
+    public MapEntry<T>[] Entries { get; } = [];
+#pragma warning restore CA1819
 
     public T DefaultValue { get; set; } = default!;
 
@@ -22,7 +25,7 @@ public abstract class MapToObjectConverter<T> : IValueConverter
         {
             if (value is IComparable comparable)
             {
-                var entry = Entries.FirstOrDefault(x => comparable.CompareTo(x.Key) == 0);
+                var entry = Entries.FirstOrDefault(comparable, static (x, s) => s.CompareTo(x.Key) == 0);
                 if (entry is not null)
                 {
                     return entry.Value;
@@ -30,7 +33,7 @@ public abstract class MapToObjectConverter<T> : IValueConverter
             }
             else
             {
-                var entry = Entries.FirstOrDefault(x => Equals(value, x.Key));
+                var entry = Entries.FirstOrDefault(value, static (x, s) => Equals(s, x.Key));
                 if (entry is not null)
                 {
                     return entry.Value;

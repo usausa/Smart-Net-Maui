@@ -2,6 +2,7 @@ namespace Smart.Maui.Interactivity;
 
 using System.Reflection;
 
+using Smart.Linq;
 using Smart.Mvvm.Messaging;
 
 public sealed class ResolveMethodAction : BindableObject, IAction
@@ -49,9 +50,8 @@ public sealed class ResolveMethodAction : BindableObject, IAction
             (cachedMethod.DeclaringType != target.GetType()) ||
             (cachedMethod.Name != methodName))
         {
-            cachedMethod = target.GetType().GetRuntimeMethods().FirstOrDefault(m =>
-                m.Name == methodName &&
-                (m.GetParameters().Length == 0));
+            cachedMethod = target.GetType().GetRuntimeMethods()
+                .FirstOrDefault(methodName, static (m, s) => m.Name == s && (m.GetParameters().Length == 0));
             if (cachedMethod is null)
             {
                 return;
