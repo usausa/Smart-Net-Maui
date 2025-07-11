@@ -5,6 +5,7 @@ using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 
 using Smart.Maui.Input;
+using Smart.Maui.Internal;
 using Smart.Mvvm.ViewModels;
 
 public abstract class ExtendViewModelBase : ViewModelBase
@@ -82,7 +83,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
     }
 
     protected IObserveCommand MakeDelegateCommand(Action execute, CommandBehavior behavior = CommandBehavior.Default) =>
-        MakeDelegateCommand(execute, () => true, behavior);
+        MakeDelegateCommand(execute, Functions.True, behavior);
 
     protected IObserveCommand MakeDelegateCommand(Action execute, Func<bool> canExecute, CommandBehavior behavior = CommandBehavior.Default)
     {
@@ -127,7 +128,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
     }
 
     protected IObserveCommand MakeDelegateCommand<TParameter>(Action<TParameter> execute, CommandBehavior behavior = CommandBehavior.Default) =>
-        MakeDelegateCommand(execute, _ => true, behavior);
+        MakeDelegateCommand(execute, Functions<TParameter>.True, behavior);
 
     protected IObserveCommand MakeDelegateCommand<TParameter>(Action<TParameter> execute, Func<TParameter, bool> canExecute, CommandBehavior behavior = CommandBehavior.Default)
     {
@@ -172,7 +173,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
     }
 
     protected IObserveCommand MakeAsyncCommand(Func<Task> execute, CommandBehavior behavior = CommandBehavior.Default) =>
-        MakeAsyncCommand(execute, () => true, behavior);
+        MakeAsyncCommand(execute, Functions.True, behavior);
 
     protected IObserveCommand MakeAsyncCommand(Func<Task> execute, Func<bool> canExecute, CommandBehavior behavior = CommandBehavior.Default)
     {
@@ -217,7 +218,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
     }
 
     protected IObserveCommand MakeAsyncCommand<TParameter>(Func<TParameter, Task> execute, CommandBehavior behavior = CommandBehavior.Default) =>
-        MakeAsyncCommand(execute, _ => true, behavior);
+        MakeAsyncCommand(execute, Functions<TParameter>.True, behavior);
 
     protected IObserveCommand MakeAsyncCommand<TParameter>(Func<TParameter, Task> execute, Func<TParameter, bool> canExecute, CommandBehavior behavior = CommandBehavior.Default)
     {
