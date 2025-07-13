@@ -1,4 +1,4 @@
-namespace Smart.Mvvm.Expressions;
+namespace Smart.Maui.Expressions;
 
 public static class CompareExpressions
 {

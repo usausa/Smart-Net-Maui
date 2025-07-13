@@ -1,7 +1,7 @@
 namespace Smart.Maui.Markup;
 
 using Smart.Maui.Data;
-using Smart.Mvvm.Expressions;
+using Smart.Maui.Expressions;
 
 [AcceptEmptyServiceProvider]
 public sealed class CompareToBoolExtension : IMarkupExtension<CompareToBoolConverter>

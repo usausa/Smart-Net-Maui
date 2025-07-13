@@ -2,7 +2,7 @@ namespace Smart.Maui.Data;
 
 using System.Globalization;
 
-using Smart.Mvvm.Expressions;
+using Smart.Maui.Expressions;
 
 public sealed class BinaryConverter : IValueConverter
 {

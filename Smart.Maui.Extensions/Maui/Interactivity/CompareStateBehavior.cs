@@ -1,6 +1,6 @@
 namespace Smart.Maui.Interactivity;
 
-using Smart.Mvvm.Expressions;
+using Smart.Maui.Expressions;
 
 public sealed class CompareStateBehavior : BehaviorBase<VisualElement>
 {
