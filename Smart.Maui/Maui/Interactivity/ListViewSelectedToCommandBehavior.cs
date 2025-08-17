@@ -41,9 +41,6 @@ public sealed class ListViewSelectedToCommandBehavior : BehaviorBase<ListView>
             Command.Execute(e.SelectedItem);
         }
 
-        if (AssociatedObject is not null)
-        {
-            AssociatedObject.SelectedItem = null;
-        }
+        AssociatedObject?.SelectedItem = null;
     }
 }
