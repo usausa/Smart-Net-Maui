@@ -20,8 +20,6 @@ public sealed class ColorAnimation : AnimationBase
     protected override Task BeginAnimation(VisualElement target)
     {
         var fromColor = Target!.BackgroundColor;
-        // ReSharper disable once AsyncVoidLambda
-        return Task.Run(() => target.Dispatcher.Dispatch(async () =>
-            await target.ColorTo(fromColor, ToColor, c => target.BackgroundColor = c, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture))));
+        return target.ColorTo(fromColor, ToColor, c => target.BackgroundColor = c, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture));
     }
 }

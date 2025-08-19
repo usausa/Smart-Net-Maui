@@ -1,19 +1,19 @@
 namespace Smart.Maui.Animations;
 
 [ContentProperty("Animations")]
-public sealed class StoryBoard : AnimationBase
+public sealed class SequentialAnimation : AnimationBase
 {
 #pragma warning disable CA1002
     public List<AnimationBase> Animations { get; }
 #pragma warning restore CA1002
 
-    public StoryBoard()
+    public SequentialAnimation()
     {
         Animations = [];
     }
 
 #pragma warning disable CA1002
-    public StoryBoard(List<AnimationBase> animations)
+    public SequentialAnimation(List<AnimationBase> animations)
     {
         Animations = animations;
     }
@@ -23,8 +23,6 @@ public sealed class StoryBoard : AnimationBase
     {
         foreach (var animation in Animations)
         {
-            animation.Target ??= target;
-
             await animation.Begin();
         }
     }

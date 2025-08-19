@@ -27,7 +27,7 @@ public static class AnimationExtensions
             fromColor.Green + (x * (toColor.Green - fromColor.Green)),
             fromColor.Blue + (x * (toColor.Blue - fromColor.Blue)),
             fromColor.Alpha + (x * (toColor.Alpha - fromColor.Alpha)));
-        return ColorAnimation(self, "ColorTo", Transform, callback, length, easing);
+        return ColorAnimation(self, nameof(ColorTo), Transform, callback, length, easing);
     }
 
     private static Task<bool> ColorAnimation(VisualElement element, string name, Func<double, Color> transform, Action<Color> callback, uint length, Easing? easing)
