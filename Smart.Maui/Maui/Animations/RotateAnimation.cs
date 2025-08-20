@@ -1,7 +1,5 @@
 namespace Smart.Maui.Animations;
 
-using System.Globalization;
-
 public sealed class RotateToAnimation : AnimationBase
 {
     public static readonly BindableProperty RotationProperty = BindableProperty.Create(

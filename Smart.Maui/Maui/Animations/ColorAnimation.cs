@@ -1,7 +1,5 @@
 namespace Smart.Maui.Animations;
 
-using System.Globalization;
-
 public sealed class ColorAnimation : AnimationBase
 {
     public static readonly BindableProperty ToColorProperty = BindableProperty.Create(

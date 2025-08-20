@@ -1,7 +1,5 @@
 namespace Smart.Maui.Animations;
 
-using System.Globalization;
-
 public sealed class ScaleToAnimation : AnimationBase
 {
     public static readonly BindableProperty ScaleProperty = BindableProperty.Create(

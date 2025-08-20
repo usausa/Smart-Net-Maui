@@ -1,7 +1,5 @@
 namespace Smart.Maui.Animations;
 
-using System.Globalization;
-
 public enum FadeDirection
 {
     Up,
