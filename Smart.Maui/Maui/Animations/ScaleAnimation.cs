@@ -19,7 +19,7 @@ public sealed class ScaleToAnimation : AnimationBase
 
     protected override Task BeginAnimation(VisualElement target)
     {
-        return target.ScaleTo(Scale, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), Easing);
+        return target.ScaleTo(Scale, Duration, Easing);
     }
 }
 
@@ -40,6 +40,6 @@ public sealed class RelScaleToAnimation : AnimationBase
 
     protected override Task BeginAnimation(VisualElement target)
     {
-        return target.RelScaleTo(Scale, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), Easing);
+        return target.RelScaleTo(Scale, Duration, Easing);
     }
 }

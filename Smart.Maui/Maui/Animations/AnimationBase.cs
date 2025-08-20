@@ -18,9 +18,9 @@ public abstract class AnimationBase : BindableObject
 
     public static readonly BindableProperty DurationProperty = BindableProperty.Create(
         nameof(Duration),
-        typeof(string),
+        typeof(uint),
         typeof(AnimationBase),
-        "1000",
+        1000u,
         BindingMode.TwoWay);
 
     public static readonly BindableProperty EasingProperty = BindableProperty.Create(
@@ -42,9 +42,9 @@ public abstract class AnimationBase : BindableObject
         set => SetValue(DelayProperty, value);
     }
 
-    public string Duration
+    public uint Duration
     {
-        get => (string)GetValue(DurationProperty);
+        get => (uint)GetValue(DurationProperty);
         set => SetValue(DurationProperty, value);
     }
 

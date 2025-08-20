@@ -32,6 +32,6 @@ public sealed class TranslateToAnimation : AnimationBase
 
     protected override Task BeginAnimation(VisualElement target)
     {
-        return target.TranslateTo(TranslateX, TranslateY, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), Easing);
+        return target.TranslateTo(TranslateX, TranslateY, Duration, Easing);
     }
 }

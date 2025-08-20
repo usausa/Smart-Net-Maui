@@ -19,7 +19,7 @@ public sealed class RotateToAnimation : AnimationBase
 
     protected override Task BeginAnimation(VisualElement target)
     {
-        return target.RotateTo(Rotation, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), Easing);
+        return target.RotateTo(Rotation, Duration, Easing);
     }
 }
 
@@ -40,7 +40,7 @@ public sealed class RelRotateToAnimation : AnimationBase
 
     protected override Task BeginAnimation(VisualElement target)
     {
-        return target.RelRotateTo(Rotation, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), Easing);
+        return target.RelRotateTo(Rotation, Duration, Easing);
     }
 }
 
@@ -61,7 +61,7 @@ public sealed class RotateXToAnimation : AnimationBase
 
     protected override Task BeginAnimation(VisualElement target)
     {
-        return target.RotateXTo(Rotation, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), Easing);
+        return target.RotateXTo(Rotation, Duration, Easing);
     }
 }
 
@@ -82,6 +82,6 @@ public sealed class RotateYToAnimation : AnimationBase
 
     protected override Task BeginAnimation(VisualElement target)
     {
-        return target.RotateYTo(Rotation, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), Easing);
+        return target.RotateYTo(Rotation, Duration, Easing);
     }
 }

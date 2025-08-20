@@ -25,7 +25,7 @@ public sealed class FadeToAnimation : AnimationBase
 
     protected override Task BeginAnimation(VisualElement target)
     {
-        return target.FadeTo(Opacity, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture), Easing);
+        return target.FadeTo(Opacity, Duration, Easing);
     }
 }
 
@@ -47,7 +47,7 @@ public sealed class FadeInAnimation : AnimationBase
     protected override Task BeginAnimation(VisualElement target)
     {
         return Task.Run(() => target.Dispatcher.Dispatch(() =>
-            Target.Animate("FadeIn", FadeIn(), 16, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture))));
+            Target.Animate("FadeIn", FadeIn(), 16, Duration)));
     }
 
     private Animation FadeIn()
@@ -85,7 +85,7 @@ public sealed class FadeOutAnimation : AnimationBase
     protected override Task BeginAnimation(VisualElement target)
     {
         return Task.Run(() => target.Dispatcher.Dispatch(() =>
-            Target.Animate("FadeOut", FadeOut(), 16, Convert.ToUInt32(Duration, CultureInfo.InvariantCulture))));
+            Target.Animate("FadeOut", FadeOut(), 16, Duration)));
     }
 
     private Animation FadeOut()
