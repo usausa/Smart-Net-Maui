@@ -4,7 +4,7 @@ namespace Smart.Maui.Animations;
 public sealed class SequentialAnimation : AnimationBase
 {
 #pragma warning disable CA1002
-    public List<AnimationBase> Animations { get; }
+    public List<AnimationBase> Animations { get; set; }
 #pragma warning restore CA1002
 
     public SequentialAnimation()
@@ -23,6 +23,8 @@ public sealed class SequentialAnimation : AnimationBase
     {
         foreach (var animation in Animations)
         {
+            animation.Target ??= target;
+
             await animation.Begin();
         }
     }

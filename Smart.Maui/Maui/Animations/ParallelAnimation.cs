@@ -4,7 +4,7 @@ namespace Smart.Maui.Animations;
 public sealed class ParallelAnimation : AnimationBase
 {
 #pragma warning disable CA1002
-    public List<AnimationBase> Animations { get; }
+    public List<AnimationBase> Animations { get; set; }
 #pragma warning restore CA1002
 
     public ParallelAnimation()
@@ -24,8 +24,11 @@ public sealed class ParallelAnimation : AnimationBase
         var tasks = new List<Task>(Animations.Count);
         foreach (var animation in Animations)
         {
+            animation.Target ??= target;
+
             tasks.Add(animation.Begin());
         }
+
         return Task.WhenAll(tasks);
     }
 }
