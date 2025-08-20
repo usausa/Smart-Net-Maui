@@ -4,7 +4,7 @@ namespace Smart.Maui.Animations;
 public sealed class ParallelAnimation : AnimationBase
 {
 #pragma warning disable CA1002
-    public List<AnimationBase> Animations { get; set; }
+    public List<AnimationBase> Animations { get; }
 #pragma warning restore CA1002
 
     public ParallelAnimation()
