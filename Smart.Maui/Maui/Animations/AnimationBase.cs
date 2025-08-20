@@ -20,7 +20,7 @@ public abstract class AnimationBase : BindableObject
         nameof(Duration),
         typeof(uint),
         typeof(AnimationBase),
-        1000u,
+        250u,
         BindingMode.TwoWay);
 
     public static readonly BindableProperty EasingProperty = BindableProperty.Create(
