@@ -19,8 +19,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.100" />
-    <PackageReference Include="System.Reactive" Version="6.0.1" />
-    <PackageReference Include="Usa.Smart.Core" Version="2.4.4" />
+    <PackageReference Include="System.Reactive" Version="6.0.2" />
+    <PackageReference Include="Usa.Smart.Core" Version="2.4.5" />
     <PackageReference Include="Usa.Smart.Mvvm" Version="1.8.0" />
     <PackageReference Include="Usa.Smart.Reactive" Version="2.4.3" />
   </ItemGroup>
