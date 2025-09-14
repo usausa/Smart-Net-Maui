@@ -4,6 +4,11 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 
+public sealed class FocusFindEventArgs : EventArgs
+{
+    public string? Name { get; set; }
+}
+
 [DebuggerDisplay("Reference = ({" + nameof(FocusReferenceCount) + "}, {" + nameof(FindReferenceCount) + "})")]
 public sealed class FocusController
 {
