@@ -23,7 +23,7 @@ public sealed class FadeToAnimation : AnimationBase
 
     protected override Task BeginAnimation(VisualElement target)
     {
-        return target.FadeTo(Opacity, Duration, Easing);
+        return target.FadeToAsync(Opacity, Duration, Easing);
     }
 }
 

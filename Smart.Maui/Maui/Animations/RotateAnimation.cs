@@ -17,7 +17,7 @@ public sealed class RotateToAnimation : AnimationBase
 
     protected override Task BeginAnimation(VisualElement target)
     {
-        return target.RotateTo(Rotation, Duration, Easing);
+        return target.RotateToAsync(Rotation, Duration, Easing);
     }
 }
 
@@ -38,7 +38,7 @@ public sealed class RelRotateToAnimation : AnimationBase
 
     protected override Task BeginAnimation(VisualElement target)
     {
-        return target.RelRotateTo(Rotation, Duration, Easing);
+        return target.RelRotateToAsync(Rotation, Duration, Easing);
     }
 }
 
@@ -59,7 +59,7 @@ public sealed class RotateXToAnimation : AnimationBase
 
     protected override Task BeginAnimation(VisualElement target)
     {
-        return target.RotateXTo(Rotation, Duration, Easing);
+        return target.RotateXToAsync(Rotation, Duration, Easing);
     }
 }
 
@@ -80,6 +80,6 @@ public sealed class RotateYToAnimation : AnimationBase
 
     protected override Task BeginAnimation(VisualElement target)
     {
-        return target.RotateYTo(Rotation, Duration, Easing);
+        return target.RotateYToAsync(Rotation, Duration, Easing);
     }
 }

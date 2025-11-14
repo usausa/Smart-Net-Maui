@@ -17,7 +17,7 @@ public sealed class ScaleToAnimation : AnimationBase
 
     protected override Task BeginAnimation(VisualElement target)
     {
-        return target.ScaleTo(Scale, Duration, Easing);
+        return target.ScaleToAsync(Scale, Duration, Easing);
     }
 }
 
@@ -38,6 +38,6 @@ public sealed class RelScaleToAnimation : AnimationBase
 
     protected override Task BeginAnimation(VisualElement target)
     {
-        return target.RelScaleTo(Scale, Duration, Easing);
+        return target.RelScaleToAsync(Scale, Duration, Easing);
     }
 }

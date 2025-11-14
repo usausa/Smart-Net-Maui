@@ -30,6 +30,6 @@ public sealed class TranslateToAnimation : AnimationBase
 
     protected override Task BeginAnimation(VisualElement target)
     {
-        return target.TranslateTo(TranslateX, TranslateY, Duration, Easing);
+        return target.TranslateToAsync(TranslateX, TranslateY, Duration, Easing);
     }
 }
