@@ -1,8 +1,7 @@
-using System.Runtime.CompilerServices;
-
 namespace Smart.Maui.Data;
 
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
 public sealed class AllConverter : IMultiValueConverter
 {
