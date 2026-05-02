@@ -5,19 +5,22 @@ using System.Runtime.CompilerServices;
 
 public sealed class AnyConverter : IMultiValueConverter
 {
+    private static readonly object BoxedTrue = true;
+    private static readonly object BoxedFalse = false;
+
     public bool Invert { get; set; }
 
-    public object? Convert(object?[] values, Type targetType, object? parameter, CultureInfo culture)
+    public object Convert(object?[] values, Type targetType, object? parameter, CultureInfo culture)
     {
         foreach (var value in values)
         {
             if (ConvertToBoolean(value, culture))
             {
-                return !Invert;
+                return Invert ? BoxedFalse : BoxedTrue;
             }
         }
 
-        return Invert;
+        return Invert ? BoxedTrue : BoxedFalse;
     }
 
     public object?[] ConvertBack(object? value, Type[] targetTypes, object? parameter, CultureInfo culture) =>
@@ -25,5 +28,5 @@ public sealed class AnyConverter : IMultiValueConverter
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static bool ConvertToBoolean(object? value, CultureInfo culture) =>
-        value is not null && System.Convert.ToBoolean(value, culture);
+        value is bool boolValue ? boolValue : value is not null && System.Convert.ToBoolean(value, culture);
 }
