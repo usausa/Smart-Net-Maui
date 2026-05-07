@@ -6,4 +6,5 @@
 [assembly: XmlnsDefinition("http://smart/maui", "Smart.Maui.Expressions")]
 [assembly: XmlnsDefinition("http://smart/maui", "Smart.Maui.Interactivity")]
 [assembly: XmlnsDefinition("http://smart/maui", "Smart.Maui.Markup")]
+[assembly: XmlnsDefinition("http://smart/maui", "Smart.Threading")]
 [assembly: Microsoft.Maui.Controls.XmlnsPrefix("http://smart/maui", "s")]

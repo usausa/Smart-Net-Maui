@@ -25,4 +25,24 @@ public static class ElementExtensions
             element = parent;
         }
     }
+
+    // ------------------------------------------------------------
+    // Ancestry
+    // ------------------------------------------------------------
+
+    public static bool IsDescendantOf(this Element element, Element ancestor)
+    {
+        var current = element.Parent;
+        while (current is not null)
+        {
+            if (current == ancestor)
+            {
+                return true;
+            }
+
+            current = current.Parent;
+        }
+
+        return false;
+    }
 }
