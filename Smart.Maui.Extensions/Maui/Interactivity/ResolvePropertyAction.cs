@@ -1,5 +1,6 @@
 namespace Smart.Maui.Interactivity;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 using Smart.Mvvm.Messaging;
@@ -31,6 +32,8 @@ public sealed class ResolvePropertyAction : BindableObject, IAction
 
     private PropertyInfo? cachedProperty;
 
+    [UnconditionalSuppressMessage("Trimming", "IL2072", Justification = "Target type is determined at runtime via XAML; callers must ensure the type is preserved")]
+    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "PropertyInfo.GetValue is used at runtime; not AOT-safe by design")]
     public void Execute(BindableObject associatedObject, object? parameter)
     {
         if (parameter is not ResolveEventArgs args)

@@ -7,7 +7,7 @@ using System.Reflection;
 
 public sealed class EnumDescriptionConverter : IValueConverter
 {
-    [RequiresUnreferencedCode("Uses GetMember and GetCustomAttribute to read DescriptionAttribute; member metadata may be trimmed.")]
+    [UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Enum type members are expected to be preserved by the application")]
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is null)

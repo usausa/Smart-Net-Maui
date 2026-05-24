@@ -64,7 +64,8 @@ public sealed class CallMethodAction : BindableObject, IAction
 
     private MethodInfo? cachedMethod;
 
-    [RequiresUnreferencedCode("Uses GetRuntimeMethods to find method by name; method metadata may be trimmed.")]
+    [UnconditionalSuppressMessage("Trimming", "IL2072", Justification = "Target type is determined at runtime via XAML; callers must ensure the type is preserved")]
+    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "MethodInfo.Invoke is used at runtime; not AOT-safe by design")]
     public void Execute(BindableObject associatedObject, object? parameter)
     {
         var target = TargetObject ?? associatedObject;

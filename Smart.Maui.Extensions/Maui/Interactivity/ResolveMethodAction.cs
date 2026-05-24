@@ -1,5 +1,6 @@
 namespace Smart.Maui.Interactivity;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 using Smart.Linq;
@@ -32,6 +33,8 @@ public sealed class ResolveMethodAction : BindableObject, IAction
 
     private MethodInfo? cachedMethod;
 
+    [UnconditionalSuppressMessage("Trimming", "IL2072", Justification = "Target type is determined at runtime via XAML; callers must ensure the type is preserved")]
+    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "MethodInfo.Invoke is used at runtime; not AOT-safe by design")]
     public void Execute(BindableObject associatedObject, object? parameter)
     {
         if (parameter is not ResolveEventArgs args)
