@@ -1,5 +1,6 @@
 namespace Smart.Maui.Interactivity;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 
@@ -63,6 +64,7 @@ public sealed class ChangePropertyAction : BindableObject, IAction
 
     private PropertyInfo? property;
 
+    [RequiresUnreferencedCode("Uses GetRuntimeProperty to find property by name; property metadata may be trimmed.")]
     public void Execute(BindableObject associatedObject, object? parameter)
     {
         var target = TargetObject ?? associatedObject;

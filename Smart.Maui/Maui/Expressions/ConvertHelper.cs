@@ -1,10 +1,12 @@
 namespace Smart.Maui.Expressions;
 
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 public static class ConvertHelper
 {
+    [RequiresUnreferencedCode("Uses TypeDescriptor.GetConverter which is not AOT-compatible.")]
     public static object? Convert(Type targetType, object value)
     {
         if (targetType == value.GetType())

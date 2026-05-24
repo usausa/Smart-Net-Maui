@@ -1,11 +1,13 @@
 namespace Smart.Maui.Data;
 
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 
 public sealed class EnumDescriptionConverter : IValueConverter
 {
+    [RequiresUnreferencedCode("Uses GetMember and GetCustomAttribute to read DescriptionAttribute; member metadata may be trimmed.")]
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is null)

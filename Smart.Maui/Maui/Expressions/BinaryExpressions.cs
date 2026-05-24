@@ -1,6 +1,7 @@
 namespace Smart.Maui.Expressions;
 
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Reflection;
 
@@ -10,9 +11,11 @@ public static class BinaryExpressions
 
     public static IBinaryExpression Min { get; } = new MinExpression();
 
+#pragma warning disable IL3050
     public static IBinaryExpression Add { get; } = new AddExpression();
 
     public static IBinaryExpression Sub { get; } = new SubExpression();
+#pragma warning restore IL3050
 
     private abstract class CompareExpression : IBinaryExpression
     {
@@ -85,6 +88,7 @@ public static class BinaryExpressions
     {
         private static readonly ConcurrentDictionary<Type, MethodInfo?> MethodCache = new();
 
+#pragma warning disable IL3050
         protected override MethodInfo? GetOperator(Type type)
         {
             return MethodCache.GetOrAdd(type, static t =>
@@ -94,6 +98,7 @@ public static class BinaryExpressions
                     : null;
             });
         }
+#pragma warning restore IL3050
 
         private static T Operation<T>(T left, T right)
             where T : IAdditionOperators<T, T, T>
@@ -106,6 +111,7 @@ public static class BinaryExpressions
     {
         private static readonly ConcurrentDictionary<Type, MethodInfo?> MethodCache = new();
 
+#pragma warning disable IL3050
         protected override MethodInfo? GetOperator(Type type)
         {
             return MethodCache.GetOrAdd(type, static t =>
@@ -115,6 +121,7 @@ public static class BinaryExpressions
                     : null;
             });
         }
+#pragma warning restore IL3050
 
         private static T Operation<T>(T left, T right)
             where T : ISubtractionOperators<T, T, T>

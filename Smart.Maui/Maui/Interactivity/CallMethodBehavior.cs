@@ -1,7 +1,10 @@
 namespace Smart.Maui.Interactivity;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
+[RequiresUnreferencedCode("Uses reflection to subscribe to events and invoke methods by name; metadata may be trimmed.")]
+[RequiresDynamicCode("Uses CreateDelegate with a runtime-determined EventHandlerType.")]
 public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
 {
     public static readonly BindableProperty EventNameProperty = BindableProperty.Create(
@@ -71,6 +74,8 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
         base.OnDetachingFrom(bindable);
     }
 
+    [RequiresUnreferencedCode("Uses GetRuntimeEvent to find event by name; event metadata may be trimmed.")]
+    [RequiresDynamicCode("Uses CreateDelegate with a runtime-determined EventHandlerType.")]
     private void AddEventHandler(string eventName)
     {
         if (String.IsNullOrEmpty(eventName))
@@ -97,6 +102,7 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
     }
 
     // ReSharper disable UnusedParameter.Local
+    [RequiresUnreferencedCode("Uses GetRuntimeMethods to find method by name; method metadata may be trimmed.")]
     private void OnEvent(object sender, EventArgs e)
     {
         var target = TargetObject ?? BindingContext;

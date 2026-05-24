@@ -1,5 +1,6 @@
 namespace Smart.Maui.Interactivity;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 
@@ -63,6 +64,7 @@ public sealed class CallMethodAction : BindableObject, IAction
 
     private MethodInfo? cachedMethod;
 
+    [RequiresUnreferencedCode("Uses GetRuntimeMethods to find method by name; method metadata may be trimmed.")]
     public void Execute(BindableObject associatedObject, object? parameter)
     {
         var target = TargetObject ?? associatedObject;
