@@ -107,7 +107,7 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
     {
         var target = TargetObject ?? BindingContext;
         var methodName = MethodName;
-        if ((target is null) || string.IsNullOrEmpty(methodName))
+        if ((target is null) || String.IsNullOrEmpty(methodName))
         {
             return;
         }
