@@ -6,6 +6,7 @@
     <File Path="AGENTS.md" />
     <File Path="Analyzers.ruleset" />
     <File Path="CLAUDE.md" />
+    <File Path="CodeCoverage.runsettings" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Build.targets" />
     <File Path="LICENSE" />
@@ -14,4 +15,5 @@
   </Folder>
   <Project Path="Smart.Maui/Smart.Maui.csproj" />
   <Project Path="Smart.Maui.Extensions/Smart.Maui.Extensions.csproj" />
+  <Project Path="Smart.Maui.Tests/Smart.Maui.Tests.csproj" />
 </Solution>
