@@ -5,7 +5,7 @@ using System.Windows.Input;
 public sealed class DelegateCommandTest
 {
     //------------------------------------------------------------------
-    //DelegateCommand tests
+    // DelegateCommand
     //------------------------------------------------------------------
 
     [Fact]
