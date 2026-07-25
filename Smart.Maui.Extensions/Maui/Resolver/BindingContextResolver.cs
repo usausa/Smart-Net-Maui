@@ -1,7 +1,5 @@
 namespace Smart.Maui.Resolver;
 
-using Smart.Mvvm.Resolver;
-
 public static class BindingContextResolver
 {
     public static readonly BindableProperty TypeProperty = BindableProperty.CreateAttached(
@@ -10,6 +8,12 @@ public static class BindingContextResolver
         typeof(BindingContextResolver),
         null,
         propertyChanged: HandleTypePropertyChanged);
+
+    private static readonly BindableProperty ResolvedProperty = BindableProperty.CreateAttached(
+        "Resolved",
+        typeof(object),
+        typeof(BindingContextResolver),
+        null);
 
     public static readonly BindableProperty DisposeOnChangedProperty = BindableProperty.CreateAttached(
         "DisposeOnChanged",
@@ -31,11 +35,16 @@ public static class BindingContextResolver
 
     private static void HandleTypePropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
     {
-        if (bindable.BindingContext is IDisposable disposable && GetDisposeOnChanged(bindable))
+        var resolved = bindable.GetValue(ResolvedProperty);
+        if (GetDisposeOnChanged(bindable) &&
+            ReferenceEquals(bindable.BindingContext, resolved) &&
+            resolved is IDisposable disposable)
         {
             disposable.Dispose();
         }
 
-        bindable.BindingContext = newValue is not null ? ResolveProvider.Default.GetService((Type)newValue) : null;
+        var context = newValue is not null ? ResolveHelper.Resolve((Type)newValue) : null;
+        bindable.SetValue(ResolvedProperty, context);
+        bindable.BindingContext = context;
     }
 }
