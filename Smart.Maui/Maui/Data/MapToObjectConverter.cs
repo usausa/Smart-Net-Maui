@@ -1,5 +1,6 @@
 namespace Smart.Maui.Data;
 
+using System.Collections.ObjectModel;
 using System.Globalization;
 
 using Smart.Linq;
@@ -13,9 +14,7 @@ public abstract class MapEntry<T>
 
 public abstract class MapToObjectConverter<T> : IValueConverter
 {
-#pragma warning disable CA1819
-    public MapEntry<T>[] Entries { get; } = [];
-#pragma warning restore CA1819
+    public Collection<MapEntry<T>> Entries { get; } = [];
 
     public T DefaultValue { get; set; } = default!;
 
