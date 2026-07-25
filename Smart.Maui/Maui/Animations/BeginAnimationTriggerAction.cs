@@ -10,6 +10,8 @@ public sealed class BeginAnimationTriggerAction : TriggerAction<VisualElement>
     {
         if (Animation is not null)
         {
+            Animation.Target ??= sender;
+
             await Animation.Begin();
         }
     }
