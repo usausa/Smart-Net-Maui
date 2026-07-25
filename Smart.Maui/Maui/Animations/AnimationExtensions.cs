@@ -1,5 +1,7 @@
 namespace Smart.Maui.Animations;
 
+using System.Diagnostics;
+
 public static class AnimationExtensions
 {
     public static async Task<bool> Animate(this VisualElement visualElement, AnimationBase animation)
@@ -13,8 +15,9 @@ public static class AnimationExtensions
 
             return true;
         }
-        catch
+        catch (Exception ex)
         {
+            Trace.WriteLine($"Animate failed. animationType=[{animation.GetType()}], message=[{ex.Message}]");
             return false;
         }
 #pragma warning restore CA1031
