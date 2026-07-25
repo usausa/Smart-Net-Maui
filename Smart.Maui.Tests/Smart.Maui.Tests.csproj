@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Smart.Maui\Smart.Maui.csproj" />
+    <ProjectReference Include="..\Smart.Maui.Extensions\Smart.Maui.Extensions.csproj" />
   </ItemGroup>
 
 </Project>
