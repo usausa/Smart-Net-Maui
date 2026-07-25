@@ -42,10 +42,12 @@ public sealed class FadeInAnimation : AnimationBase
         set => SetValue(DirectionProperty, value);
     }
 
-    protected override Task BeginAnimation(VisualElement target)
+    protected override async Task BeginAnimation(VisualElement target)
     {
-        return Task.Run(() => target.Dispatcher.Dispatch(() =>
-            Target.Animate("FadeIn", FadeIn(), 16, Duration)));
+        var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        await target.Dispatcher.DispatchAsync(() =>
+            target.Animate("FadeIn", FadeIn(), 16, Duration, finished: (_, _) => tcs.TrySetResult()));
+        await tcs.Task;
     }
 
     private Animation FadeIn()
@@ -80,10 +82,12 @@ public sealed class FadeOutAnimation : AnimationBase
         set => SetValue(DirectionProperty, value);
     }
 
-    protected override Task BeginAnimation(VisualElement target)
+    protected override async Task BeginAnimation(VisualElement target)
     {
-        return Task.Run(() => target.Dispatcher.Dispatch(() =>
-            Target.Animate("FadeOut", FadeOut(), 16, Duration)));
+        var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        await target.Dispatcher.DispatchAsync(() =>
+            target.Animate("FadeOut", FadeOut(), 16, Duration, finished: (_, _) => tcs.TrySetResult()));
+        await tcs.Task;
     }
 
     private Animation FadeOut()
