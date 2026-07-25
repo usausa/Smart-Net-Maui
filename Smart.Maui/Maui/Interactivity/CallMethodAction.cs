@@ -84,7 +84,7 @@ public sealed class CallMethodAction : BindableObject, IAction
                 ((m.GetParameters().Length == 0) ||
                  ((m.GetParameters().Length == 1) &&
                   ((MethodParameter is null) ||
-                   MethodParameter.GetType().GetTypeInfo().IsAssignableFrom(m.GetParameters()[0].ParameterType.GetTypeInfo())))));
+                   m.GetParameters()[0].ParameterType.GetTypeInfo().IsAssignableFrom(MethodParameter.GetType().GetTypeInfo())))));
             if (methodInfo is null)
             {
                 return;
