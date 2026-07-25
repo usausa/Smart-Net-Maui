@@ -60,9 +60,6 @@ public sealed class TimerActionBehavior : ActionBehaviorBase<BindableObject>
     private static void OnIntervalChanged(BindableObject bindable, object oldValue, object newValue)
     {
         var behavior = (TimerActionBehavior)bindable;
-        if (behavior.timer is not null)
-        {
-            behavior.timer.Interval = (TimeSpan)newValue;
-        }
+        behavior.timer?.Interval = (TimeSpan)newValue;
     }
 }
