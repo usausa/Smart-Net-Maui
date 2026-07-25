@@ -8,7 +8,8 @@ public sealed class TimerActionBehavior : ActionBehaviorBase<BindableObject>
         nameof(Interval),
         typeof(TimeSpan),
         typeof(TimerActionBehavior),
-        TimeSpan.FromSeconds(1));
+        TimeSpan.FromSeconds(1),
+        propertyChanged: OnIntervalChanged);
 
     public static readonly BindableProperty ParameterProperty = BindableProperty.Create(
         nameof(Parameter),
@@ -41,8 +42,12 @@ public sealed class TimerActionBehavior : ActionBehaviorBase<BindableObject>
 
     protected override void OnDetachingFrom(BindableObject bindable)
     {
-        timer?.Stop();
-        timer = null;
+        if (timer is not null)
+        {
+            timer.Stop();
+            timer.Tick -= OnTick;
+            timer = null;
+        }
 
         base.OnDetachingFrom(bindable);
     }
@@ -50,5 +55,14 @@ public sealed class TimerActionBehavior : ActionBehaviorBase<BindableObject>
     private void OnTick(object? sender, EventArgs e)
     {
         InvokeActions(Parameter);
+    }
+
+    private static void OnIntervalChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        var behavior = (TimerActionBehavior)bindable;
+        if (behavior.timer is not null)
+        {
+            behavior.timer.Interval = (TimeSpan)newValue;
+        }
     }
 }
