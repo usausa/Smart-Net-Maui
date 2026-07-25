@@ -1,5 +1,6 @@
 namespace Smart.Maui.Input;
 
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
@@ -13,6 +14,8 @@ public sealed class AsyncCommand : IObserveCommand
 
     private readonly Func<bool> canExecute;
 
+    private bool executing;
+
     public AsyncCommand(Func<Task> execute)
         : this(execute, Functions.True)
     {
@@ -24,10 +27,35 @@ public sealed class AsyncCommand : IObserveCommand
         this.canExecute = canExecute;
     }
 
-    bool ICommand.CanExecute(object? parameter) => canExecute();
+    bool ICommand.CanExecute(object? parameter) => !executing && canExecute();
 
     // ReSharper disable once AsyncVoidMethod
-    async void ICommand.Execute(object? parameter) => await execute().ConfigureAwait(true);
+    async void ICommand.Execute(object? parameter)
+    {
+        if (executing)
+        {
+            return;
+        }
+
+        executing = true;
+        RaiseCanExecuteChanged();
+
+#pragma warning disable CA1031
+        try
+        {
+            await execute().ConfigureAwait(true);
+        }
+        catch (Exception ex)
+        {
+            Trace.WriteLine($"Execute failed. type=[{GetType()}], message=[{ex.Message}]");
+        }
+        finally
+        {
+            executing = false;
+            RaiseCanExecuteChanged();
+        }
+#pragma warning restore CA1031
+    }
 
 #pragma warning disable CA1030
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -46,6 +74,8 @@ public sealed class AsyncCommand<T> : IObserveCommand
 
     private readonly Func<T, bool> canExecute;
 
+    private bool executing;
+
     public AsyncCommand(Func<T, Task> execute)
         : this(execute, Functions<T>.True)
     {
@@ -57,10 +87,35 @@ public sealed class AsyncCommand<T> : IObserveCommand
         this.canExecute = canExecute;
     }
 
-    bool ICommand.CanExecute(object? parameter) => canExecute(Cast(parameter));
+    bool ICommand.CanExecute(object? parameter) => !executing && canExecute(Cast(parameter));
 
     // ReSharper disable once AsyncVoidMethod
-    async void ICommand.Execute(object? parameter) => await execute(Cast(parameter)).ConfigureAwait(true);
+    async void ICommand.Execute(object? parameter)
+    {
+        if (executing)
+        {
+            return;
+        }
+
+        executing = true;
+        RaiseCanExecuteChanged();
+
+#pragma warning disable CA1031
+        try
+        {
+            await execute(Cast(parameter)).ConfigureAwait(true);
+        }
+        catch (Exception ex)
+        {
+            Trace.WriteLine($"Execute failed. type=[{GetType()}], message=[{ex.Message}]");
+        }
+        finally
+        {
+            executing = false;
+            RaiseCanExecuteChanged();
+        }
+#pragma warning restore CA1031
+    }
 
     private static T Cast(object? parameter)
     {
