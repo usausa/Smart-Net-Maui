@@ -35,16 +35,17 @@ public static class BindingContextResolver
 
     private static void HandleTypePropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
     {
+        var context = newValue is not null ? ResolveHelper.Resolve((Type)newValue) : null;
+
         var resolved = bindable.GetValue(ResolvedProperty);
+        bindable.SetValue(ResolvedProperty, context);
+        bindable.BindingContext = context;
+
         if (GetDisposeOnChanged(bindable) &&
-            ReferenceEquals(bindable.BindingContext, resolved) &&
+            !ReferenceEquals(resolved, context) &&
             resolved is IDisposable disposable)
         {
             disposable.Dispose();
         }
-
-        var context = newValue is not null ? ResolveHelper.Resolve((Type)newValue) : null;
-        bindable.SetValue(ResolvedProperty, context);
-        bindable.BindingContext = context;
     }
 }

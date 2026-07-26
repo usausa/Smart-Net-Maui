@@ -33,6 +33,8 @@ public sealed class ResolveMethodAction : BindableObject, IAction
 
     private MethodInfo? cachedMethod;
 
+    private Type? cachedType;
+
     [UnconditionalSuppressMessage("Trimming", "IL2072", Justification = "Target type is determined at runtime via XAML; callers must ensure the type is preserved")]
     [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "MethodInfo.Invoke is used at runtime; not AOT-safe by design")]
     public void Execute(BindableObject associatedObject, object? parameter)
@@ -50,7 +52,7 @@ public sealed class ResolveMethodAction : BindableObject, IAction
         }
 
         if ((cachedMethod is null) ||
-            (cachedMethod.DeclaringType != target.GetType()) ||
+            (cachedType != target.GetType()) ||
             (cachedMethod.Name != methodName))
         {
             cachedMethod = target.GetType().GetRuntimeMethods()
@@ -59,6 +61,8 @@ public sealed class ResolveMethodAction : BindableObject, IAction
             {
                 return;
             }
+
+            cachedType = target.GetType();
         }
 
         args.Result = cachedMethod.Invoke(target, null);

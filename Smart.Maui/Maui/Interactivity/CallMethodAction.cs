@@ -64,6 +64,10 @@ public sealed class CallMethodAction : BindableObject, IAction
 
     private MethodInfo? cachedMethod;
 
+    private Type? cachedType;
+
+    private Type? cachedParameterType;
+
     [UnconditionalSuppressMessage("Trimming", "IL2072", Justification = "Target type is determined at runtime via XAML; callers must ensure the type is preserved")]
     [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "MethodInfo.Invoke is used at runtime; not AOT-safe by design")]
     public void Execute(BindableObject associatedObject, object? parameter)
@@ -75,9 +79,11 @@ public sealed class CallMethodAction : BindableObject, IAction
             return;
         }
 
+        var parameterType = MethodParameter?.GetType();
         if ((cachedMethod is null) ||
-            (cachedMethod.DeclaringType != target.GetType()) ||
-            (cachedMethod.Name != methodName))
+            (cachedType != target.GetType()) ||
+            (cachedMethod.Name != methodName) ||
+            (cachedParameterType != parameterType))
         {
             var methodInfo = target.GetType().GetRuntimeMethods().FirstOrDefault(m =>
                 m.Name == methodName &&
@@ -91,6 +97,8 @@ public sealed class CallMethodAction : BindableObject, IAction
             }
 
             cachedMethod = methodInfo;
+            cachedType = target.GetType();
+            cachedParameterType = parameterType;
         }
 
         if (cachedMethod.GetParameters().Length > 0)

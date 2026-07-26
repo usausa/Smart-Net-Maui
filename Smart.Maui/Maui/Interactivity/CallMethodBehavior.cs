@@ -36,6 +36,10 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
 
     private MethodInfo? cachedMethod;
 
+    private Type? cachedType;
+
+    private Type? cachedParameterType;
+
     public string EventName
     {
         get => (string)GetValue(EventNameProperty);
@@ -112,22 +116,26 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
             return;
         }
 
+        var parameterType = MethodParameter?.GetType();
         if ((cachedMethod is null) ||
-            (cachedMethod.DeclaringType != target.GetType()) ||
-            (cachedMethod.Name != methodName))
+            (cachedType != target.GetType()) ||
+            (cachedMethod.Name != methodName) ||
+            (cachedParameterType != parameterType))
         {
             var methodInfo = target.GetType().GetRuntimeMethods().FirstOrDefault(m =>
                 m.Name == methodName &&
                 ((m.GetParameters().Length == 0) ||
                  ((m.GetParameters().Length == 1) &&
                   ((MethodParameter is null) ||
-                   MethodParameter.GetType().GetTypeInfo().IsAssignableFrom(m.GetParameters()[0].ParameterType.GetTypeInfo())))));
+                   m.GetParameters()[0].ParameterType.GetTypeInfo().IsAssignableFrom(MethodParameter.GetType().GetTypeInfo())))));
             if (methodInfo is null)
             {
                 return;
             }
 
             cachedMethod = methodInfo;
+            cachedType = target.GetType();
+            cachedParameterType = parameterType;
         }
 
         cachedMethod.Invoke(target, cachedMethod.GetParameters().Length > 0 ? [MethodParameter] : null);
