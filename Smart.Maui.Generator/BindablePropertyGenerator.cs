@@ -184,7 +184,7 @@ public sealed class BindablePropertyGenerator : IIncrementalGenerator
         var propertyChanged = default(PropertyChangedModel);
         if (!String.IsNullOrEmpty(propertyChangedName))
         {
-            var (model, error) = ResolvePropertyChanged(containingType, propertyChangedName!, symbol.Type, location);
+            var (model, error) = ResolvePropertyChanged(context.SemanticModel.Compilation, containingType, propertyChangedName!, symbol.Type, location);
             if (error is not null)
             {
                 return Results.Error<PropertyModel>(error);
@@ -196,7 +196,7 @@ public sealed class BindablePropertyGenerator : IIncrementalGenerator
         var propertyChanging = default(PropertyChangedModel);
         if (!String.IsNullOrEmpty(propertyChangingName))
         {
-            var (model, error) = ResolvePropertyChanged(containingType, propertyChangingName!, symbol.Type, location);
+            var (model, error) = ResolvePropertyChanged(context.SemanticModel.Compilation, containingType, propertyChangingName!, symbol.Type, location);
             if (error is not null)
             {
                 return Results.Error<PropertyModel>(error);
@@ -208,7 +208,7 @@ public sealed class BindablePropertyGenerator : IIncrementalGenerator
         var coerce = default(CoerceModel);
         if (!String.IsNullOrEmpty(coerceName))
         {
-            var (model, error) = ResolveCoerce(containingType, coerceName!, symbol.Type, location);
+            var (model, error) = ResolveCoerce(context.SemanticModel.Compilation, containingType, coerceName!, symbol.Type, location);
             if (error is not null)
             {
                 return Results.Error<PropertyModel>(error);
@@ -220,7 +220,7 @@ public sealed class BindablePropertyGenerator : IIncrementalGenerator
         var validate = default(ValidateModel);
         if (!String.IsNullOrEmpty(validateName))
         {
-            var (model, error) = ResolveValidate(containingType, validateName!, symbol.Type, location);
+            var (model, error) = ResolveValidate(context.SemanticModel.Compilation, containingType, validateName!, symbol.Type, location);
             if (error is not null)
             {
                 return Results.Error<PropertyModel>(error);
@@ -262,11 +262,11 @@ public sealed class BindablePropertyGenerator : IIncrementalGenerator
             validate));
     }
 
-    private static (PropertyChangedModel? Model, DiagnosticInfo? Error) ResolvePropertyChanged(INamedTypeSymbol containingType, string methodName, ITypeSymbol propertyType, Location location)
+    private static (PropertyChangedModel? Model, DiagnosticInfo? Error) ResolvePropertyChanged(Compilation compilation, INamedTypeSymbol containingType, string methodName, ITypeSymbol propertyType, Location location)
     {
         var found = false;
         var candidates = new List<PropertyChangedModel>();
-        foreach (var method in containingType.GetMembers(methodName).OfType<IMethodSymbol>())
+        foreach (var method in EnumerateCallbackMethods(compilation, containingType, methodName))
         {
             found = true;
 
@@ -301,11 +301,11 @@ public sealed class BindablePropertyGenerator : IIncrementalGenerator
             : (null, new DiagnosticInfo(Diagnostics.CallbackMethodNotFound, location, methodName));
     }
 
-    private static (CoerceModel? Model, DiagnosticInfo? Error) ResolveCoerce(INamedTypeSymbol containingType, string methodName, ITypeSymbol propertyType, Location location)
+    private static (CoerceModel? Model, DiagnosticInfo? Error) ResolveCoerce(Compilation compilation, INamedTypeSymbol containingType, string methodName, ITypeSymbol propertyType, Location location)
     {
         var found = false;
         var candidates = new List<CoerceModel>();
-        foreach (var method in containingType.GetMembers(methodName).OfType<IMethodSymbol>())
+        foreach (var method in EnumerateCallbackMethods(compilation, containingType, methodName))
         {
             found = true;
 
@@ -330,11 +330,11 @@ public sealed class BindablePropertyGenerator : IIncrementalGenerator
             : (null, new DiagnosticInfo(Diagnostics.CallbackMethodNotFound, location, methodName));
     }
 
-    private static (ValidateModel? Model, DiagnosticInfo? Error) ResolveValidate(INamedTypeSymbol containingType, string methodName, ITypeSymbol propertyType, Location location)
+    private static (ValidateModel? Model, DiagnosticInfo? Error) ResolveValidate(Compilation compilation, INamedTypeSymbol containingType, string methodName, ITypeSymbol propertyType, Location location)
     {
         var found = false;
         var candidates = new List<ValidateModel>();
-        foreach (var method in containingType.GetMembers(methodName).OfType<IMethodSymbol>())
+        foreach (var method in EnumerateCallbackMethods(compilation, containingType, methodName))
         {
             found = true;
 
@@ -357,6 +357,29 @@ public sealed class BindablePropertyGenerator : IIncrementalGenerator
         return found
             ? (null, new DiagnosticInfo(Diagnostics.InvalidCallbackMethod, location, methodName))
             : (null, new DiagnosticInfo(Diagnostics.CallbackMethodNotFound, location, methodName));
+    }
+
+    private static IEnumerable<IMethodSymbol> EnumerateCallbackMethods(Compilation compilation, INamedTypeSymbol containingType, string methodName)
+    {
+        for (var type = containingType; type is not null; type = type.BaseType)
+        {
+            var declared = false;
+            foreach (var method in type.GetMembers(methodName).OfType<IMethodSymbol>())
+            {
+                if (!compilation.IsSymbolAccessibleWithin(method, containingType))
+                {
+                    continue;
+                }
+
+                declared = true;
+                yield return method;
+            }
+
+            if (declared)
+            {
+                yield break;
+            }
+        }
     }
 
     // ------------------------------------------------------------

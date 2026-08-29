@@ -243,6 +243,63 @@ public sealed class GeneratorTest
     // ------------------------------------------------------------
 
     [Fact]
+    public void BaseTypeCallbackIsResolved()
+    {
+        // Arrange
+        const string source =
+            """
+            using Smart.Maui;
+            using Microsoft.Maui.Controls;
+
+            namespace Test;
+
+            public class BaseElement : BindableObject
+            {
+                protected void OnChanged()
+                {
+                }
+            }
+
+            public partial class TestElement : BaseElement
+            {
+                [BindableProperty(PropertyChanged = nameof(OnChanged))]
+                public partial string? Text { get; set; }
+            }
+            """;
+
+        // Act
+        var generated = GeneratorTestHelper.GetGeneratedSource(source);
+
+        // Assert
+        Assert.Contains("propertyChanged: static (bindable, oldValue, newValue) => ((TestElement)bindable).OnChanged()", generated, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void InheritedFrameworkMethodIsResolved()
+    {
+        // Arrange
+        const string source =
+            """
+            using Smart.Maui;
+            using Microsoft.Maui.Controls;
+
+            namespace Test;
+
+            public partial class TestElement : GraphicsView
+            {
+                [BindableProperty(PropertyChanged = nameof(Invalidate))]
+                public partial string? Text { get; set; }
+            }
+            """;
+
+        // Act
+        var generated = GeneratorTestHelper.GetGeneratedSource(source);
+
+        // Assert
+        Assert.Contains("propertyChanged: static (bindable, oldValue, newValue) => ((TestElement)bindable).Invalidate()", generated, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void PropertyChangedCallbackIsApplied()
     {
         // Arrange

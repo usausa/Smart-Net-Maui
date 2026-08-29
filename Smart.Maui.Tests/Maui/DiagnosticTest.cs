@@ -189,6 +189,38 @@ public sealed class DiagnosticTest
     }
 
     [Fact]
+    public void Smu0008InaccessibleBaseCallbackEmitsDiagnostic()
+    {
+        // Arrange
+        const string source =
+            """
+            using Smart.Maui;
+            using Microsoft.Maui.Controls;
+
+            namespace Test;
+
+            public class BaseElement : BindableObject
+            {
+                private void OnChanged()
+                {
+                }
+            }
+
+            public partial class TestElement : BaseElement
+            {
+                [BindableProperty(PropertyChanged = "OnChanged")]
+                public partial string? Text { get; set; }
+            }
+            """;
+
+        // Act
+        var diagnostics = GeneratorTestHelper.GetDiagnostics(source);
+
+        // Assert
+        Assert.Contains(diagnostics, static x => x.Id == "SMU0008");
+    }
+
+    [Fact]
     public void Smu0008CallbackNotFoundEmitsDiagnostic()
     {
         // Arrange
