@@ -42,8 +42,6 @@ public partial class GaugeView : View
 | `Coerce` | Name of a `T` method with `(T value)` |
 | `Validate` | Name of a `bool` method with `(T value)` |
 
-Requires C# 13 or later, because partial properties are used.
-
 ## NuGet
 
 | Package | Note  |
