@@ -13,9 +13,14 @@
     <TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.100" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
+    <PackageReference Include="SourceGenerateHelper.Testing" Version="1.25.0" />
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.10.0" />
     <PackageReference Include="xunit.v3.mtp-v2" Version="4.0.0" />
   </ItemGroup>
@@ -23,6 +28,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Smart.Maui\Smart.Maui.csproj" />
     <ProjectReference Include="..\Smart.Maui.Extensions\Smart.Maui.Extensions.csproj" />
+    <ProjectReference Include="..\Smart.Maui.Generator\Smart.Maui.Generator.csproj" OutputItemType="analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\Smart.Maui.Generator\Smart.Maui.Generator.csproj" ReferenceOutputAssembly="true" />
   </ItemGroup>
 
 </Project>
