@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Smart.Maui.Generator": {
-      "commandName": "DebugRoslynComponent",
-      "targetProject": "..\\Smart.Maui.Tests\\Smart.Maui.Tests.csproj"
-    }
-  }
-}

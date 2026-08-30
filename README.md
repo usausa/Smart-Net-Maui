@@ -11,36 +11,6 @@
 * Messenger.
 * Resolver(DI Container) integration.
 * Base class for ViewModel.
-* BindableProperty source generator.
-
-## BindableProperty generator
-
-Add `[BindableProperty]` to a partial property, and the `BindableProperty` field and the property implementation are generated.
-
-```csharp
-public partial class GaugeView : View
-{
-    [BindableProperty(DefaultValue = 0d, PropertyChanged = nameof(OnLevelChanged), Coerce = nameof(CoerceLevel))]
-    public partial double Level { get; set; }
-
-    [BindableProperty(DefaultBindingMode = BindingMode.TwoWay)]
-    public partial string? Label { get; set; }
-
-    private void OnLevelChanged(double oldValue, double newValue) { }
-
-    private double CoerceLevel(double value) => Math.Clamp(value, 0d, 100d);
-}
-```
-
-| Option | Note |
-|-|-|
-| `DefaultValue` | Default value of the property |
-| `DefaultValueExpression` | Default value as an expression, for values that can not be written as a constant |
-| `DefaultBindingMode` | `BindingMode` |
-| `PropertyChanged` | Name of a `void` method with no parameters, or with `(T oldValue, T newValue)` |
-| `PropertyChanging` | Name of a `void` method with no parameters, or with `(T oldValue, T newValue)` |
-| `Coerce` | Name of a `T` method with `(T value)` |
-| `Validate` | Name of a `bool` method with `(T value)` |
 
 ## NuGet
 

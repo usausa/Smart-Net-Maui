@@ -7,19 +7,13 @@
     <File Path="Analyzers.ruleset" />
     <File Path="CLAUDE.md" />
     <File Path="CodeCoverage.runsettings" />
-    <File Path="Diagnostics.md" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Build.targets" />
     <File Path="LICENSE" />
     <File Path="README.md" />
     <File Path="Smart.Maui.sln.DotSettings" />
-    <File Path="Smart.Maui.props" />
-    <File Path="Smart.Maui.targets" />
   </Folder>
-  <Project Path="Smart.Maui/Smart.Maui.csproj">
-    <BuildDependency Project="Smart.Maui.Generator/Smart.Maui.Generator.csproj" />
-  </Project>
-  <Project Path="Smart.Maui.Generator/Smart.Maui.Generator.csproj" />
+  <Project Path="Smart.Maui/Smart.Maui.csproj" />
   <Project Path="Smart.Maui.Extensions/Smart.Maui.Extensions.csproj" />
   <Project Path="Smart.Maui.Tests/Smart.Maui.Tests.csproj" />
 </Solution>
