@@ -11,7 +11,7 @@ public static class AnimationExtensions
         {
             animation.Target = visualElement;
 
-            await animation.Begin();
+            await animation.Begin().ConfigureAwait(false);
 
             return true;
         }

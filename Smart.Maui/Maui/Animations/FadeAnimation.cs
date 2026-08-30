@@ -46,8 +46,8 @@ public sealed class FadeInAnimation : AnimationBase
     {
         var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         await target.Dispatcher.DispatchAsync(() =>
-            target.Animate("FadeIn", FadeIn(), 16, Duration, finished: (_, _) => tcs.TrySetResult()));
-        await tcs.Task;
+            target.Animate("FadeIn", FadeIn(), 16, Duration, finished: (_, _) => tcs.TrySetResult())).ConfigureAwait(false);
+        await tcs.Task.ConfigureAwait(false);
     }
 
     private Animation FadeIn()
@@ -86,8 +86,8 @@ public sealed class FadeOutAnimation : AnimationBase
     {
         var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         await target.Dispatcher.DispatchAsync(() =>
-            target.Animate("FadeOut", FadeOut(), 16, Duration, finished: (_, _) => tcs.TrySetResult()));
-        await tcs.Task;
+            target.Animate("FadeOut", FadeOut(), 16, Duration, finished: (_, _) => tcs.TrySetResult())).ConfigureAwait(false);
+        await tcs.Task.ConfigureAwait(false);
     }
 
     private Animation FadeOut()

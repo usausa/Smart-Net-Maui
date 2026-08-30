@@ -25,7 +25,7 @@ public sealed class SequentialAnimation : AnimationBase
         {
             animation.Target ??= target;
 
-            await animation.Begin();
+            await animation.Begin().ConfigureAwait(true);
         }
     }
 }

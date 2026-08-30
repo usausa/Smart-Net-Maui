@@ -23,7 +23,7 @@ public sealed class BeginAnimationAction : BindableObject, IAction
         {
             Animation.Target ??= visual;
 
-            await Animation.Begin();
+            await Animation.Begin().ConfigureAwait(false);
         }
     }
 }

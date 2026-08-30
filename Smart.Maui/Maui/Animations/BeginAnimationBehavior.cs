@@ -25,7 +25,7 @@ public sealed class BeginAnimationBehavior : BehaviorBase<VisualElement>
         {
             Animation.Target ??= AssociatedObject;
 
-            await Animation.Begin();
+            await Animation.Begin().ConfigureAwait(false);
         }
     }
 }

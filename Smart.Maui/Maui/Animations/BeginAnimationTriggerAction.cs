@@ -12,7 +12,7 @@ public sealed class BeginAnimationTriggerAction : TriggerAction<VisualElement>
         {
             Animation.Target ??= sender;
 
-            await Animation.Begin();
+            await Animation.Begin().ConfigureAwait(false);
         }
     }
 }

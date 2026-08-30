@@ -64,10 +64,10 @@ public abstract class AnimationBase : BindableObject
 
         if (Delay > 0)
         {
-            await Task.Delay(Delay);
+            await Task.Delay(Delay).ConfigureAwait(true);
         }
 
-        await BeginAnimation(target);
+        await BeginAnimation(target).ConfigureAwait(false);
     }
 
     protected abstract Task BeginAnimation(VisualElement target);
