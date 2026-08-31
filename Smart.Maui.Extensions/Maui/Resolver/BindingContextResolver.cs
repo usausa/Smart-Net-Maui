@@ -43,7 +43,7 @@ public static class BindingContextResolver
 
         if (GetDisposeOnChanged(bindable) &&
             !ReferenceEquals(resolved, context) &&
-            resolved is IDisposable disposable)
+            (resolved is IDisposable disposable))
         {
             disposable.Dispose();
         }

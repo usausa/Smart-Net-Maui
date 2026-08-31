@@ -56,7 +56,7 @@ public sealed class ResolveMethodAction : BindableObject, IAction
             (cachedMethod.Name != methodName))
         {
             cachedMethod = target.GetType().GetRuntimeMethods()
-                .FirstOrDefault(methodName, static (m, s) => m.Name == s && (m.GetParameters().Length == 0));
+                .FirstOrDefault(methodName, static (m, s) => (m.Name == s) && (m.GetParameters().Length == 0));
             if (cachedMethod is null)
             {
                 return;

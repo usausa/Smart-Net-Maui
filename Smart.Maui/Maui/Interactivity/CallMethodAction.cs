@@ -86,7 +86,7 @@ public sealed class CallMethodAction : BindableObject, IAction
             (cachedParameterType != parameterType))
         {
             var methodInfo = target.GetType().GetRuntimeMethods().FirstOrDefault(m =>
-                m.Name == methodName &&
+                (m.Name == methodName) &&
                 ((m.GetParameters().Length == 0) ||
                  ((m.GetParameters().Length == 1) &&
                   ((MethodParameter is null) ||

@@ -11,7 +11,7 @@ public sealed class NullToParameterConverter : IValueConverter
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if ((value is null) ||
-            (HandleEmptyString && value is string { Length: 0 }))
+            (HandleEmptyString && (value is string { Length: 0 })))
         {
             return Invert ? value : parameter;
         }
