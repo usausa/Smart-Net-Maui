@@ -1,23 +1,20 @@
 namespace Smart.Maui.Animations;
 
+#pragma warning disable CA1002
 [ContentProperty("Animations")]
 public sealed class SequentialAnimation : AnimationBase
 {
-#pragma warning disable CA1002
     public List<AnimationBase> Animations { get; }
-#pragma warning restore CA1002
 
     public SequentialAnimation()
     {
         Animations = [];
     }
 
-#pragma warning disable CA1002
     public SequentialAnimation(List<AnimationBase> animations)
     {
         Animations = animations;
     }
-#pragma warning restore CA1002
 
     protected override async Task BeginAnimation(VisualElement target)
     {
@@ -29,3 +26,4 @@ public sealed class SequentialAnimation : AnimationBase
         }
     }
 }
+#pragma warning restore CA1002

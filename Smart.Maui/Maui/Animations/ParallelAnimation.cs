@@ -1,23 +1,20 @@
 namespace Smart.Maui.Animations;
 
+#pragma warning disable CA1002
 [ContentProperty("Animations")]
 public sealed class ParallelAnimation : AnimationBase
 {
-#pragma warning disable CA1002
     public List<AnimationBase> Animations { get; }
-#pragma warning restore CA1002
 
     public ParallelAnimation()
     {
         Animations = [];
     }
 
-#pragma warning disable CA1002
     public ParallelAnimation(List<AnimationBase> animations)
     {
         Animations = animations;
     }
-#pragma warning restore CA1002
 
     protected override Task BeginAnimation(VisualElement target)
     {
@@ -32,3 +29,4 @@ public sealed class ParallelAnimation : AnimationBase
         return Task.WhenAll(tasks);
     }
 }
+#pragma warning restore CA1002
