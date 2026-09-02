@@ -32,9 +32,7 @@ public sealed class CompareToBoolConverter : CompareConverter<bool>
     }
 }
 
-public sealed class CompareToTextConverter : CompareConverter<string?>
-{
-}
+public sealed class CompareToTextConverter : CompareConverter<string?>;
 
 public sealed class CompareToColorConverter : CompareConverter<Color>
 {

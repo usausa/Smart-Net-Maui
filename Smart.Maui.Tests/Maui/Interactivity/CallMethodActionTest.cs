@@ -4,17 +4,11 @@ using Microsoft.Maui.Controls;
 
 public sealed class CallMethodActionTest
 {
-    private sealed class TestBindable : BindableObject
-    {
-    }
+    private sealed class TestBindable : BindableObject;
 
-    private interface IArgument
-    {
-    }
+    private interface IArgument;
 
-    private sealed class Argument : IArgument
-    {
-    }
+    private sealed class Argument : IArgument;
 
     private sealed class MethodTarget
     {

@@ -36,9 +36,7 @@ public sealed class NullToBoolConverter : NullToObjectConverter<bool>
     }
 }
 
-public sealed class NullToTextConverter : NullToObjectConverter<string?>
-{
-}
+public sealed class NullToTextConverter : NullToObjectConverter<string?>;
 
 public sealed class NullToColorConverter : NullToObjectConverter<Color>
 {
