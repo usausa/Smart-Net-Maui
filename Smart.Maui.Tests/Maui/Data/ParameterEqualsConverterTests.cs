@@ -2,7 +2,7 @@ namespace Smart.Maui.Data;
 
 using System.Globalization;
 
-public sealed class ParameterEqualsConverterTest
+public sealed class ParameterEqualsConverterTests
 {
     private static readonly CultureInfo Culture = CultureInfo.InvariantCulture;
 

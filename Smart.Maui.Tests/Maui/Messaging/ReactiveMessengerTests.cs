@@ -1,6 +1,6 @@
 namespace Smart.Maui.Messaging;
 
-public sealed class ReactiveMessengerTest
+public sealed class ReactiveMessengerTests
 {
     private sealed class TestMessage
     {

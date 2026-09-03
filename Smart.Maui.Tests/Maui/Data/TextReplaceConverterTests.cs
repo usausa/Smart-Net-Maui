@@ -3,7 +3,7 @@ namespace Smart.Maui.Data;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-public sealed class TextReplaceConverterTest
+public sealed class TextReplaceConverterTests
 {
     private static readonly CultureInfo Culture = CultureInfo.InvariantCulture;
 

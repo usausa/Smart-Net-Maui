@@ -4,7 +4,7 @@ using System.Globalization;
 
 using Smart.Maui.Expressions;
 
-public sealed class BinaryConverterTest
+public sealed class BinaryConverterTests
 {
     private static readonly CultureInfo Culture = CultureInfo.InvariantCulture;
 

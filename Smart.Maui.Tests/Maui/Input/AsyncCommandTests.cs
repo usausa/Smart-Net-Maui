@@ -2,7 +2,7 @@ namespace Smart.Maui.Input;
 
 using System.Windows.Input;
 
-public sealed class AsyncCommandTest : IDisposable
+public sealed class AsyncCommandTests : IDisposable
 {
     private readonly SynchronizationContext? original = SynchronizationContext.Current;
 

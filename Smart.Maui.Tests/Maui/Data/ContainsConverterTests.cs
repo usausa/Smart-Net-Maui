@@ -3,7 +3,7 @@ namespace Smart.Maui.Data;
 using System.Collections.Generic;
 using System.Globalization;
 
-public sealed class ContainsConverterTest
+public sealed class ContainsConverterTests
 {
     private static readonly CultureInfo Culture = CultureInfo.InvariantCulture;
 

@@ -2,7 +2,7 @@ namespace Smart.Maui.ViewModels;
 
 using Smart.Maui.Input;
 
-public sealed class ExtendViewModelBaseTest
+public sealed class ExtendViewModelBaseTests
 {
     private sealed class TestViewModel : ExtendViewModelBase
     {

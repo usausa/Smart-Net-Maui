@@ -2,7 +2,7 @@ namespace Smart.Maui.Data;
 
 using System.Globalization;
 
-public sealed class ChainConverterTest
+public sealed class ChainConverterTests
 {
     private static readonly CultureInfo Culture = CultureInfo.InvariantCulture;
 

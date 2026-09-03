@@ -2,7 +2,7 @@ namespace Smart.Maui.Resolver;
 
 using Smart.Mvvm.Resolver;
 
-public sealed class ResolveExtensionTest : IDisposable
+public sealed class ResolveExtensionTests : IDisposable
 {
     private readonly IServiceProvider original = ResolveProvider.Default.Provider;
 

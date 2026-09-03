@@ -2,7 +2,7 @@ namespace Smart.Maui.Data;
 
 using System.Globalization;
 
-public sealed class BoolToObjectConverterTest
+public sealed class BoolToObjectConverterTests
 {
     private static readonly CultureInfo Culture = CultureInfo.InvariantCulture;
 

@@ -1,6 +1,6 @@
 namespace Smart.Maui.Markup;
 
-public sealed class PrimitiveExtensionTest
+public sealed class PrimitiveExtensionTests
 {
     // [AcceptEmptyServiceProvider] means ProvideValue can be called with null
     private static readonly IServiceProvider NullServiceProvider = null!;

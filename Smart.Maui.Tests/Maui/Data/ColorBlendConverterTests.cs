@@ -2,7 +2,7 @@ namespace Smart.Maui.Data;
 
 using System.Globalization;
 
-public sealed class ColorBlendConverterTest
+public sealed class ColorBlendConverterTests
 {
     private static readonly CultureInfo Culture = CultureInfo.InvariantCulture;
 

@@ -2,83 +2,83 @@ namespace Smart.Maui.Data;
 
 using System.Globalization;
 
-public sealed class AllConverterTest
+public sealed class AnyConverterTests
 {
     private static readonly CultureInfo Culture = CultureInfo.InvariantCulture;
 
     [Fact]
-    public void AllTrueReturnsTrue()
+    public void AnyTrueReturnsTrue()
     {
         // Arrange
-        var converter = new AllConverter();
+        var converter = new AnyConverter();
 
         // Act
-        var result = converter.Convert([true, true, true], typeof(bool), null, Culture);
+        var result = converter.Convert([false, true, false], typeof(bool), null, Culture);
 
         // Assert
         Assert.Equal(true, result);
     }
 
     [Fact]
-    public void AnyFalseReturnsFalse()
+    public void AllFalseReturnsFalse()
     {
         // Arrange
-        var converter = new AllConverter();
+        var converter = new AnyConverter();
 
         // Act
-        var result = converter.Convert([true, false, true], typeof(bool), null, Culture);
+        var result = converter.Convert([false, false], typeof(bool), null, Culture);
 
         // Assert
         Assert.Equal(false, result);
     }
 
     [Fact]
-    public void EmptyArrayReturnsTrue()
+    public void EmptyArrayReturnsFalse()
     {
         // Arrange
-        var converter = new AllConverter();
+        var converter = new AnyConverter();
 
         // Act
         var result = converter.Convert([], typeof(bool), null, Culture);
 
         // Assert
-        Assert.Equal(true, result);
+        Assert.Equal(false, result);
     }
 
     [Fact]
     public void NullValueTreatedAsFalse()
     {
         // Arrange
-        var converter = new AllConverter();
+        var converter = new AnyConverter();
 
         // Act
-        var result = converter.Convert([null], typeof(bool), null, Culture);
+        var result = converter.Convert([null, null], typeof(bool), null, Culture);
 
         // Assert
         Assert.Equal(false, result);
     }
 
     [Fact]
-    public void InvertAllTrueReturnsFalse()
+    public void InvertAnyTrueReturnsFalse()
     {
         // Arrange
-        var converter = new AllConverter { Invert = true };
+        var converter = new AnyConverter { Invert = true };
 
         // Act
-        var result = converter.Convert([true, true], typeof(bool), null, Culture);
+        var result = converter.Convert([false, true], typeof(bool), null, Culture);
 
         // Assert
         Assert.Equal(false, result);
     }
 
     [Fact]
-    public void InvertAnyFalseReturnsTrue()
+    public void InvertAllFalseReturnsTrue()
     {
         // Arrange
-        var converter = new AllConverter { Invert = true };
+        var converter = new AnyConverter { Invert = true };
 
         // Act
-        var result = converter.Convert([true, false], typeof(bool), null, Culture);
+        var result = converter.Convert([false, false], typeof(bool), null, Culture);
 
         // Assert
         Assert.Equal(true, result);
@@ -88,7 +88,7 @@ public sealed class AllConverterTest
     public void ConvertBackThrows()
     {
         // Arrange
-        var converter = new AllConverter();
+        var converter = new AnyConverter();
 
         // Act & Assert
         Assert.Throws<NotSupportedException>(() =>

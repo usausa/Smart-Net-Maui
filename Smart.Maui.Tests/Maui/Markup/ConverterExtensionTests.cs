@@ -1,6 +1,6 @@
 namespace Smart.Maui.Markup;
 
-public sealed class ConverterExtensionTest
+public sealed class ConverterExtensionTests
 {
     private static readonly IServiceProvider NullServiceProvider = null!;
 

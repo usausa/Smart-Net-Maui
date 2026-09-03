@@ -2,7 +2,7 @@ namespace Smart.Maui.Data;
 
 using System.Globalization;
 
-public sealed class ColorToBrushConverterTest
+public sealed class ColorToBrushConverterTests
 {
     private static readonly CultureInfo Culture = CultureInfo.InvariantCulture;
 

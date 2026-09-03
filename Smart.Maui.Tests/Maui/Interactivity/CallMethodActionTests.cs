@@ -2,7 +2,7 @@ namespace Smart.Maui.Interactivity;
 
 using Microsoft.Maui.Controls;
 
-public sealed class CallMethodActionTest
+public sealed class CallMethodActionTests
 {
     private sealed class TestBindable : BindableObject;
 

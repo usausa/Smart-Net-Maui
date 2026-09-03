@@ -3,7 +3,7 @@ namespace Smart.Maui.Data;
 using System.ComponentModel;
 using System.Globalization;
 
-public sealed class EnumDescriptionConverterTest
+public sealed class EnumDescriptionConverterTests
 {
     private static readonly CultureInfo Culture = CultureInfo.InvariantCulture;
 

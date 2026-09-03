@@ -2,7 +2,7 @@ namespace Smart.Maui.Data;
 
 using System.Globalization;
 
-public sealed class NullToParameterConverterTest
+public sealed class NullToParameterConverterTests
 {
     private static readonly CultureInfo Culture = CultureInfo.InvariantCulture;
 

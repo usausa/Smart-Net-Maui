@@ -1,6 +1,6 @@
 namespace Smart.Maui.Expressions;
 
-public sealed class BinaryExpressionsTest
+public sealed class BinaryExpressionsTests
 {
     [Fact]
     public void MaxReturnsLarger()

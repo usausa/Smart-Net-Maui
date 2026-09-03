@@ -1,6 +1,6 @@
 namespace Smart.Maui.Expressions;
 
-public sealed class CompareExpressionsTest
+public sealed class CompareExpressionsTests
 {
     [Fact]
     public void EqualTrueWhenEqual()

@@ -2,7 +2,7 @@ namespace Smart.Maui.Data;
 
 using System.Globalization;
 
-public sealed class TextCaseConverterTest
+public sealed class TextCaseConverterTests
 {
     private static readonly CultureInfo Culture = CultureInfo.InvariantCulture;
 

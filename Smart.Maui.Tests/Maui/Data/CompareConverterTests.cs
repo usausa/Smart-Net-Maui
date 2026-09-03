@@ -4,7 +4,7 @@ using System.Globalization;
 
 using Smart.Maui.Expressions;
 
-public sealed class CompareConverterTest
+public sealed class CompareConverterTests
 {
     private static readonly CultureInfo Culture = CultureInfo.InvariantCulture;
 
