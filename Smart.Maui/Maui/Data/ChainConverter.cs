@@ -12,6 +12,7 @@ public sealed class ChainConverter : IValueConverter
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         var result = value;
+        // ReSharper disable once ForCanBeConvertedToForeach
         for (var i = 0; i < Converters.Count; i++)
         {
             result = Converters[i].Convert(result, targetType, parameter, culture);
