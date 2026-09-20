@@ -49,6 +49,10 @@ public abstract class MapToObjectConverter<T> : IValueConverter
     }
 }
 
+public sealed class MapToBoolEntry : MapEntry<bool>;
+
+public sealed class MapToBoolConverter : MapToObjectConverter<bool>;
+
 public sealed class MapToTextEntry : MapEntry<string?>;
 
 public sealed class MapToTextConverter : MapToObjectConverter<string?>;
