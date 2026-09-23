@@ -6,7 +6,7 @@ public sealed class ArrayIndexConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if ((value is int index) && (parameter is Array array))
+        if ((value is int index) && (parameter is Array array) && (index >= 0) && (index < array.Length))
         {
             return array.GetValue(index);
         }

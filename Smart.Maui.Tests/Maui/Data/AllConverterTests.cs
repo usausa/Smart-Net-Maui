@@ -85,6 +85,19 @@ public sealed class AllConverterTests
     }
 
     [Fact]
+    public void UnsetValueReturnsUnsetValue()
+    {
+        // Arrange
+        var converter = new AllConverter();
+
+        // Act
+        var result = converter.Convert([true, BindableProperty.UnsetValue], typeof(bool), null, Culture);
+
+        // Assert
+        Assert.Equal(BindableProperty.UnsetValue, result);
+    }
+
+    [Fact]
     public void ConvertBackThrows()
     {
         // Arrange

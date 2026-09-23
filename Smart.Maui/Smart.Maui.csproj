@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.110" />
-    <PackageReference Include="Usa.Smart.Converter" Version="2.17.0" />
+    <PackageReference Include="Usa.Smart.Converter" Version="2.18.0" />
     <PackageReference Include="Usa.Smart.Core" Version="2.20.0" />
   </ItemGroup>
 

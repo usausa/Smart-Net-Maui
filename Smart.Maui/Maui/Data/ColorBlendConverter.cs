@@ -30,9 +30,10 @@ public sealed class ColorBlendConverter : IValueConverter
             return null;
         }
 
-        var r = Math.Min((byte)Math.Round(color.Red + ((Color.Red - color.Red) * raito)), (byte)255);
-        var g = Math.Min((byte)Math.Round(color.Green + ((Color.Green - color.Green) * raito)), (byte)255);
-        var b = Math.Min((byte)Math.Round(color.Blue + ((Color.Blue - color.Blue) * raito)), (byte)255);
+        var ratio = (float)raito;
+        var r = (color.Red * (1f - ratio)) + (Color.Red * ratio);
+        var g = (color.Green * (1f - ratio)) + (Color.Green * ratio);
+        var b = (color.Blue * (1f - ratio)) + (Color.Blue * ratio);
         return new Color(r, g, b);
     }
 

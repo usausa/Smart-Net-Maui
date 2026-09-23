@@ -48,7 +48,7 @@ public sealed class ColorToBrushConverterTests
     }
 
     [Fact]
-    public void ConvertBackNonBrushReturnsNull()
+    public void ConvertBackNonBrushReturnsDoNothing()
     {
         // Arrange
         var converter = new ColorToBrushConverter();
@@ -57,6 +57,6 @@ public sealed class ColorToBrushConverterTests
         var result = converter.ConvertBack("not a brush", typeof(Color), null, Culture);
 
         // Assert
-        Assert.Null(result);
+        Assert.Equal(Binding.DoNothing, result);
     }
 }

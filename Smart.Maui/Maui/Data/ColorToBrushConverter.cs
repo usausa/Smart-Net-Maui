@@ -11,6 +11,6 @@ public sealed class ColorToBrushConverter : IValueConverter
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        return value is SolidColorBrush brush ? brush.Color : null;
+        return value is SolidColorBrush brush ? brush.Color : Binding.DoNothing;
     }
 }

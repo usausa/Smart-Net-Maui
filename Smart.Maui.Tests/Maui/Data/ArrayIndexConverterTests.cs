@@ -49,6 +49,32 @@ public sealed class ArrayIndexConverterTests
     }
 
     [Fact]
+    public void ConvertNegativeIndexReturnsNull()
+    {
+        // Arrange
+        var converter = new ArrayIndexConverter();
+
+        // Act
+        var result = converter.Convert(-1, typeof(string), SingleElement, Culture);
+
+        // Assert
+        Assert.Null(result);
+    }
+
+    [Fact]
+    public void ConvertIndexOutOfRangeReturnsNull()
+    {
+        // Arrange
+        var converter = new ArrayIndexConverter();
+
+        // Act
+        var result = converter.Convert(1, typeof(string), SingleElement, Culture);
+
+        // Assert
+        Assert.Null(result);
+    }
+
+    [Fact]
     public void ConvertBackReturnsIndex()
     {
         // Arrange

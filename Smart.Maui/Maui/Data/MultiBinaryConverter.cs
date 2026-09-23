@@ -10,6 +10,11 @@ public sealed class MultiBinaryConverter : IMultiValueConverter
 
     public object? Convert(object?[] values, Type targetType, object? parameter, CultureInfo culture)
     {
+        if (values.Contains(BindableProperty.UnsetValue))
+        {
+            return BindableProperty.UnsetValue;
+        }
+
         var value = values[0];
         for (var i = 1; i < values.Length; i++)
         {

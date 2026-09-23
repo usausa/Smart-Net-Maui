@@ -15,22 +15,40 @@ public sealed class ColorBlendConverterTests
             Color = new Color(1f, 0f, 0f), // red
             Raito = 0d
         };
+        var source = new Color(0.2f, 0.4f, 0.6f);
 
         // Act
-        var result = converter.Convert(new Color(0f, 1f, 0f), typeof(Color), null, Culture);
+        var result = converter.Convert(source, typeof(Color), null, Culture);
 
         // Assert
-        // ratio=0 => no blend, returns original color components
-        Assert.IsType<Color>(result);
+        var color = Assert.IsType<Color>(result);
+        Assert.Equal(0.2f, color.Red);
+        Assert.Equal(0.4f, color.Green);
+        Assert.Equal(0.6f, color.Blue);
+    }
+
+    [Fact]
+    public void BlendAtOneReturnsTargetColor()
+    {
+        // Arrange
+        var target = new Color(0.2f, 0.4f, 0.6f);
+        var converter = new ColorBlendConverter { Color = target, Raito = 1d };
+
+        // Act
+        var result = converter.Convert(new Color(1f, 0f, 0f), typeof(Color), null, Culture);
+
+        // Assert
+        var color = Assert.IsType<Color>(result);
+        Assert.Equal(0.2f, color.Red);
+        Assert.Equal(0.4f, color.Green);
+        Assert.Equal(0.6f, color.Blue);
     }
 
     [Fact]
     public void BlendAtHalfProducesIntermediateColor()
     {
         // Arrange
-        // source: Red=0 (R=0,G=255,B=0 → byte=0), target: fully red (R=255 → byte=255 → float=1.0)
-        // With Color(float) constructor: Red=0 → byte component=0, target Red=1f → byte=255
-        // At ratio=0.5: r = (byte)Round(0 + (255-0)*0.5) = (byte)Round(127.5) = 128 → Color(128/255,0,0)
+        // Color components are 0..1 floats; blending black and red at 0.5 gives Red = 0.5
         var source = new Color(0f, 0f, 0f);
         var target = new Color(1f, 0f, 0f);
         var converter = new ColorBlendConverter { Color = target, Raito = 0.5d };
@@ -39,7 +57,11 @@ public sealed class ColorBlendConverterTests
         var result = converter.Convert(source, typeof(Color), null, Culture);
 
         // Assert
-        Assert.IsType<Color>(result);
+        var color = Assert.IsType<Color>(result);
+        Assert.Equal(0.5f, color.Red);
+        Assert.Equal(0f, color.Green);
+        Assert.Equal(0f, color.Blue);
+        Assert.Equal(1f, color.Alpha);
     }
 
     [Fact]

@@ -59,7 +59,7 @@ public sealed class ParameterEqualsConverterTests
     }
 
     [Fact]
-    public void ConvertBackFalseReturnsNull()
+    public void ConvertBackFalseReturnsDoNothing()
     {
         // Arrange
         var converter = new ParameterEqualsConverter();
@@ -68,6 +68,6 @@ public sealed class ParameterEqualsConverterTests
         var result = converter.ConvertBack(false, typeof(string), "tag", Culture);
 
         // Assert
-        Assert.Null(result);
+        Assert.Equal(Binding.DoNothing, result);
     }
 }

@@ -12,6 +12,11 @@ public sealed class AllConverter : IMultiValueConverter
 
     public object Convert(object?[] values, Type targetType, object? parameter, CultureInfo culture)
     {
+        if (values.Contains(BindableProperty.UnsetValue))
+        {
+            return BindableProperty.UnsetValue;
+        }
+
         foreach (var value in values)
         {
             if (!ConvertToBoolean(value, culture))

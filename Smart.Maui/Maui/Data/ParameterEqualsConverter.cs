@@ -14,6 +14,6 @@ public sealed class ParameterEqualsConverter : IValueConverter
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        return Equals(value, true) ? parameter : null;
+        return Equals(value, true) ? parameter : Binding.DoNothing;
     }
 }

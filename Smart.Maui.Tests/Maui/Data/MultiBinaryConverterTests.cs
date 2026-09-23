@@ -35,6 +35,19 @@ public sealed class MultiBinaryConverterTests
     }
 
     [Fact]
+    public void UnsetValueReturnsUnsetValue()
+    {
+        // Arrange
+        var converter = new MultiBinaryConverter { Expression = BinaryExpressions.Add };
+
+        // Act
+        var result = converter.Convert([1, BindableProperty.UnsetValue, 3], typeof(int), null, Culture);
+
+        // Assert
+        Assert.Equal(BindableProperty.UnsetValue, result);
+    }
+
+    [Fact]
     public void ConvertBackThrows()
     {
         // Arrange
