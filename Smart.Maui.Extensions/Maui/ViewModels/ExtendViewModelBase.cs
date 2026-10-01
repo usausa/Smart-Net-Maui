@@ -104,7 +104,15 @@ public abstract class ExtendViewModelBase : ViewModelBase
         var resolved = ResolveMode(mode);
         if (resolved == CommandMode.Simple)
         {
-            command = new DelegateCommand(execute, canExecute);
+            command = new DelegateCommand(() =>
+            {
+                if (!AcceptsOperation)
+                {
+                    return;
+                }
+
+                execute();
+            }, canExecute);
         }
         else if (resolved == CommandMode.ControlByBusyState)
         {
@@ -149,7 +157,15 @@ public abstract class ExtendViewModelBase : ViewModelBase
         var resolved = ResolveMode(mode);
         if (resolved == CommandMode.Simple)
         {
-            command = new DelegateCommand<TParameter>(execute, canExecute);
+            command = new DelegateCommand<TParameter>(x =>
+            {
+                if (!AcceptsOperation)
+                {
+                    return;
+                }
+
+                execute(x);
+            }, canExecute);
         }
         else if (resolved == CommandMode.ControlByBusyState)
         {
@@ -194,7 +210,15 @@ public abstract class ExtendViewModelBase : ViewModelBase
         var resolved = ResolveMode(mode);
         if (resolved == CommandMode.Simple)
         {
-            command = new AsyncCommand(execute, canExecute);
+            command = new AsyncCommand(async () =>
+            {
+                if (!AcceptsOperation)
+                {
+                    return;
+                }
+
+                await execute().ConfigureAwait(true);
+            }, canExecute);
         }
         else if (resolved == CommandMode.ControlByBusyState)
         {
@@ -239,7 +263,15 @@ public abstract class ExtendViewModelBase : ViewModelBase
         var resolved = ResolveMode(mode);
         if (resolved == CommandMode.Simple)
         {
-            command = new AsyncCommand<TParameter>(execute, canExecute);
+            command = new AsyncCommand<TParameter>(async x =>
+            {
+                if (!AcceptsOperation)
+                {
+                    return;
+                }
+
+                await execute(x).ConfigureAwait(true);
+            }, canExecute);
         }
         else if (resolved == CommandMode.ControlByBusyState)
         {

@@ -222,7 +222,7 @@ public sealed class ExtendViewModelBaseTests
     //------------------------------------------------------------------
 
     [Fact]
-    public void SimpleExecutesRegardlessOfAcceptsOperationAndBusyState()
+    public void SimpleExecutesWithoutBusyState()
     {
         // Arrange
         using var viewModel = new ModeViewModel();
@@ -236,7 +236,6 @@ public sealed class ExtendViewModelBaseTests
         }, CommandMode.Simple);
         var parameterCount = 0;
         var parameterCommand = viewModel.MakeDelegateWithParameter(_ => parameterCount++, CommandMode.Simple);
-        viewModel.Accepts = false;
 
         // Act
         command.Execute(null);
@@ -246,6 +245,36 @@ public sealed class ExtendViewModelBaseTests
         Assert.Equal(1, count);
         Assert.False(busy);
         Assert.Equal(1, parameterCount);
+    }
+
+    [Fact]
+    public void SimpleDoesNotExecuteWhenNotAccepted()
+    {
+        // Arrange
+        using var viewModel = new ModeViewModel();
+        var count = 0;
+        var command = viewModel.MakeDelegate(() => count++, CommandMode.Simple);
+        var parameterCommand = viewModel.MakeDelegateWithParameter(_ => count++, CommandMode.Simple);
+        var asyncCommand = viewModel.MakeAsync(() =>
+        {
+            count++;
+            return Task.CompletedTask;
+        }, CommandMode.Simple);
+        var asyncParameterCommand = viewModel.MakeAsyncWithParameter(_ =>
+        {
+            count++;
+            return Task.CompletedTask;
+        }, CommandMode.Simple);
+        viewModel.Accepts = false;
+
+        // Act
+        command.Execute(null);
+        parameterCommand.Execute(1);
+        asyncCommand.Execute(null);
+        asyncParameterCommand.Execute(1);
+
+        // Assert
+        Assert.Equal(0, count);
     }
 
     [Fact]
@@ -279,7 +308,6 @@ public sealed class ExtendViewModelBaseTests
             parameterCount++;
             return Task.CompletedTask;
         }, CommandMode.Simple);
-        viewModel.Accepts = false;
 
         // Act
         command.Execute(null);
@@ -319,10 +347,12 @@ public sealed class ExtendViewModelBaseTests
         using var viewModel = new ModeViewModel(CommandMode.Simple);
         var count = 0;
         var command = viewModel.MakeDelegate(() => count++);
-        viewModel.Accepts = false;
 
         // Act
-        command.Execute(null);
+        using (viewModel.BusyState.Begin())
+        {
+            command.Execute(null);
+        }
 
         // Assert
         Assert.Equal(1, count);
