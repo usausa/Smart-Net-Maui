@@ -109,6 +109,7 @@ public sealed class ExtendViewModelBaseTests
         var command = viewModel.MakeDelegate(() =>
         {
             count++;
+            // ReSharper disable once AccessToDisposedClosure
             busy = viewModel.BusyState.IsBusy;
         });
 
@@ -230,6 +231,7 @@ public sealed class ExtendViewModelBaseTests
         var command = viewModel.MakeDelegate(() =>
         {
             count++;
+            // ReSharper disable once AccessToDisposedClosure
             busy = viewModel.BusyState.IsBusy;
         }, CommandBehavior.Simple);
         var parameterCount = 0;
