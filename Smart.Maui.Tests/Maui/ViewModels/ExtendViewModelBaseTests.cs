@@ -18,10 +18,10 @@ public sealed class ExtendViewModelBaseTests
         public void RaiseChanged(string name) => RaisePropertyChanged(name);
     }
 
-    private sealed class BehaviorViewModel : ExtendViewModelBase
+    private sealed class ModeViewModel : ExtendViewModelBase
     {
-        public BehaviorViewModel(CommandBehavior behavior = CommandBehavior.Standard)
-            : base(new ExtendViewModelOptions { BusyState = new BusyState(), CommandBehavior = behavior })
+        public ModeViewModel(CommandMode mode = CommandMode.Standard)
+            : base(new ExtendViewModelOptions { BusyState = new BusyState(), CommandMode = mode })
         {
         }
 
@@ -31,17 +31,17 @@ public sealed class ExtendViewModelBaseTests
             set => AcceptsOperation = value;
         }
 
-        public IObserveCommand MakeDelegate(Action execute, CommandBehavior behavior = CommandBehavior.Default) =>
-            MakeDelegateCommand(execute, behavior);
+        public IObserveCommand MakeDelegate(Action execute, CommandMode mode = CommandMode.Default) =>
+            MakeDelegateCommand(execute, mode);
 
-        public IObserveCommand MakeDelegateWithParameter(Action<int> execute, CommandBehavior behavior = CommandBehavior.Default) =>
-            MakeDelegateCommand(execute, behavior);
+        public IObserveCommand MakeDelegateWithParameter(Action<int> execute, CommandMode mode = CommandMode.Default) =>
+            MakeDelegateCommand(execute, mode);
 
-        public IObserveCommand MakeAsync(Func<Task> execute, CommandBehavior behavior = CommandBehavior.Default) =>
-            MakeAsyncCommand(execute, behavior);
+        public IObserveCommand MakeAsync(Func<Task> execute, CommandMode mode = CommandMode.Default) =>
+            MakeAsyncCommand(execute, mode);
 
-        public IObserveCommand MakeAsyncWithParameter(Func<int, Task> execute, CommandBehavior behavior = CommandBehavior.Default) =>
-            MakeAsyncCommand(execute, behavior);
+        public IObserveCommand MakeAsyncWithParameter(Func<int, Task> execute, CommandMode mode = CommandMode.Default) =>
+            MakeAsyncCommand(execute, mode);
 
         public void RaiseChanged(string name) => RaisePropertyChanged(name);
     }
@@ -103,7 +103,7 @@ public sealed class ExtendViewModelBaseTests
     public void StandardExecutesWithBusyState()
     {
         // Arrange
-        using var viewModel = new BehaviorViewModel();
+        using var viewModel = new ModeViewModel();
         var count = 0;
         var busy = false;
         var command = viewModel.MakeDelegate(() =>
@@ -126,7 +126,7 @@ public sealed class ExtendViewModelBaseTests
     public void StandardSkipsWhenOperationNotAccepted()
     {
         // Arrange
-        using var viewModel = new BehaviorViewModel();
+        using var viewModel = new ModeViewModel();
         var count = 0;
         var command = viewModel.MakeDelegate(() => count++);
         var parameterCount = 0;
@@ -146,7 +146,7 @@ public sealed class ExtendViewModelBaseTests
     public void StandardSkipsWhenBusy()
     {
         // Arrange
-        using var viewModel = new BehaviorViewModel();
+        using var viewModel = new ModeViewModel();
         var count = 0;
         var command = viewModel.MakeDelegate(() => count++);
 
@@ -164,7 +164,7 @@ public sealed class ExtendViewModelBaseTests
     public async Task StandardAsyncHoldsBusyStateWhileExecuting()
     {
         // Arrange
-        using var viewModel = new BehaviorViewModel();
+        using var viewModel = new ModeViewModel();
         var completion = new TaskCompletionSource();
         var command = viewModel.MakeAsync(() => completion.Task);
 
@@ -190,8 +190,8 @@ public sealed class ExtendViewModelBaseTests
     public void ControlByBusyStateDisablesWhileBusy()
     {
         // Arrange
-        using var viewModel = new BehaviorViewModel();
-        var command = viewModel.MakeDelegate(static () => { }, CommandBehavior.ControlByBusyState);
+        using var viewModel = new ModeViewModel();
+        var command = viewModel.MakeDelegate(static () => { }, CommandMode.ControlByBusyState);
 
         // Assert
         Assert.True(command.CanExecute(null));
@@ -205,9 +205,9 @@ public sealed class ExtendViewModelBaseTests
     public void ControlByBusyStateSkipsWhenOperationNotAccepted()
     {
         // Arrange
-        using var viewModel = new BehaviorViewModel();
+        using var viewModel = new ModeViewModel();
         var count = 0;
-        var command = viewModel.MakeDelegate(() => count++, CommandBehavior.ControlByBusyState);
+        var command = viewModel.MakeDelegate(() => count++, CommandMode.ControlByBusyState);
         viewModel.Accepts = false;
 
         // Act
@@ -225,7 +225,7 @@ public sealed class ExtendViewModelBaseTests
     public void SimpleExecutesRegardlessOfAcceptsOperationAndBusyState()
     {
         // Arrange
-        using var viewModel = new BehaviorViewModel();
+        using var viewModel = new ModeViewModel();
         var count = 0;
         var busy = true;
         var command = viewModel.MakeDelegate(() =>
@@ -233,9 +233,9 @@ public sealed class ExtendViewModelBaseTests
             count++;
             // ReSharper disable once AccessToDisposedClosure
             busy = viewModel.BusyState.IsBusy;
-        }, CommandBehavior.Simple);
+        }, CommandMode.Simple);
         var parameterCount = 0;
-        var parameterCommand = viewModel.MakeDelegateWithParameter(_ => parameterCount++, CommandBehavior.Simple);
+        var parameterCommand = viewModel.MakeDelegateWithParameter(_ => parameterCount++, CommandMode.Simple);
         viewModel.Accepts = false;
 
         // Act
@@ -252,9 +252,9 @@ public sealed class ExtendViewModelBaseTests
     public void SimpleExecutesWhileBusy()
     {
         // Arrange
-        using var viewModel = new BehaviorViewModel();
+        using var viewModel = new ModeViewModel();
         var count = 0;
-        var command = viewModel.MakeDelegate(() => count++, CommandBehavior.Simple);
+        var command = viewModel.MakeDelegate(() => count++, CommandMode.Simple);
 
         // Act
         using (viewModel.BusyState.Begin())
@@ -270,15 +270,15 @@ public sealed class ExtendViewModelBaseTests
     public void SimpleAsyncDoesNotHoldBusyState()
     {
         // Arrange
-        using var viewModel = new BehaviorViewModel();
+        using var viewModel = new ModeViewModel();
         var completion = new TaskCompletionSource();
-        var command = viewModel.MakeAsync(() => completion.Task, CommandBehavior.Simple);
+        var command = viewModel.MakeAsync(() => completion.Task, CommandMode.Simple);
         var parameterCount = 0;
         var parameterCommand = viewModel.MakeAsyncWithParameter(_ =>
         {
             parameterCount++;
             return Task.CompletedTask;
-        }, CommandBehavior.Simple);
+        }, CommandMode.Simple);
         viewModel.Accepts = false;
 
         // Act
@@ -296,8 +296,8 @@ public sealed class ExtendViewModelBaseTests
     public void SimpleUpdatesCommandState()
     {
         // Arrange
-        using var viewModel = new BehaviorViewModel();
-        var command = viewModel.MakeDelegate(static () => { }, CommandBehavior.Simple);
+        using var viewModel = new ModeViewModel();
+        var command = viewModel.MakeDelegate(static () => { }, CommandMode.Simple);
         var count = 0;
         command.CanExecuteChanged += (_, _) => count++;
 
@@ -313,10 +313,10 @@ public sealed class ExtendViewModelBaseTests
     //------------------------------------------------------------------
 
     [Fact]
-    public void DefaultUsesBehaviorOfOptions()
+    public void DefaultUsesModeOfOptions()
     {
         // Arrange
-        using var viewModel = new BehaviorViewModel(CommandBehavior.Simple);
+        using var viewModel = new ModeViewModel(CommandMode.Simple);
         var count = 0;
         var command = viewModel.MakeDelegate(() => count++);
         viewModel.Accepts = false;
@@ -332,6 +332,6 @@ public sealed class ExtendViewModelBaseTests
     public void DefaultOptionsUseStandard()
     {
         // Assert
-        Assert.Equal(CommandBehavior.Standard, new ExtendViewModelOptions().CommandBehavior);
+        Assert.Equal(CommandMode.Standard, new ExtendViewModelOptions().CommandMode);
     }
 }

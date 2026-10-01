@@ -1,6 +1,6 @@
 namespace Smart.Maui.ViewModels;
 
-public enum CommandBehavior
+public enum CommandMode
 {
     Default,
     Standard,
