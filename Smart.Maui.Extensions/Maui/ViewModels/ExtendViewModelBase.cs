@@ -26,7 +26,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
     // Property
     // ------------------------------------------------------------
 
-    protected bool AcceptsOperation { get; set; } = true;
+    protected bool AcceptsCommand { get; set; } = true;
 
     // ------------------------------------------------------------
     // Constructor
@@ -95,10 +95,16 @@ public abstract class ExtendViewModelBase : ViewModelBase
         return command;
     }
 
-    protected IObserveCommand MakeDelegateCommand(Action execute, CommandMode mode = CommandMode.Default) =>
-        MakeDelegateCommand(execute, Functions.True, mode);
+    protected IObserveCommand MakeDelegateCommand(Action execute) =>
+        MakeDelegateCommand(CommandMode.Default, execute, Functions.True);
 
-    protected IObserveCommand MakeDelegateCommand(Action execute, Func<bool> canExecute, CommandMode mode = CommandMode.Default)
+    protected IObserveCommand MakeDelegateCommand(Action execute, Func<bool> canExecute) =>
+        MakeDelegateCommand(CommandMode.Default, execute, canExecute);
+
+    protected IObserveCommand MakeDelegateCommand(CommandMode mode, Action execute) =>
+        MakeDelegateCommand(mode, execute, Functions.True);
+
+    protected IObserveCommand MakeDelegateCommand(CommandMode mode, Action execute, Func<bool> canExecute)
     {
         DelegateCommand command;
         var resolved = ResolveMode(mode);
@@ -106,7 +112,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
         {
             command = new DelegateCommand(() =>
             {
-                if (!AcceptsOperation)
+                if (!AcceptsCommand)
                 {
                     return;
                 }
@@ -118,7 +124,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
         {
             command = new DelegateCommand(() =>
             {
-                if (!AcceptsOperation)
+                if (!AcceptsCommand)
                 {
                     return;
                 }
@@ -133,7 +139,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
         {
             command = new DelegateCommand(() =>
             {
-                if (!AcceptsOperation || BusyState.IsBusy)
+                if (!AcceptsCommand || BusyState.IsBusy)
                 {
                     return;
                 }
@@ -148,10 +154,16 @@ public abstract class ExtendViewModelBase : ViewModelBase
         return command;
     }
 
-    protected IObserveCommand MakeDelegateCommand<TParameter>(Action<TParameter> execute, CommandMode mode = CommandMode.Default) =>
-        MakeDelegateCommand(execute, Functions<TParameter>.True, mode);
+    protected IObserveCommand MakeDelegateCommand<TParameter>(Action<TParameter> execute) =>
+        MakeDelegateCommand(CommandMode.Default, execute, Functions<TParameter>.True);
 
-    protected IObserveCommand MakeDelegateCommand<TParameter>(Action<TParameter> execute, Func<TParameter, bool> canExecute, CommandMode mode = CommandMode.Default)
+    protected IObserveCommand MakeDelegateCommand<TParameter>(Action<TParameter> execute, Func<TParameter, bool> canExecute) =>
+        MakeDelegateCommand(CommandMode.Default, execute, canExecute);
+
+    protected IObserveCommand MakeDelegateCommand<TParameter>(CommandMode mode, Action<TParameter> execute) =>
+        MakeDelegateCommand(mode, execute, Functions<TParameter>.True);
+
+    protected IObserveCommand MakeDelegateCommand<TParameter>(CommandMode mode, Action<TParameter> execute, Func<TParameter, bool> canExecute)
     {
         DelegateCommand<TParameter> command;
         var resolved = ResolveMode(mode);
@@ -159,7 +171,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
         {
             command = new DelegateCommand<TParameter>(x =>
             {
-                if (!AcceptsOperation)
+                if (!AcceptsCommand)
                 {
                     return;
                 }
@@ -171,7 +183,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
         {
             command = new DelegateCommand<TParameter>(x =>
             {
-                if (!AcceptsOperation)
+                if (!AcceptsCommand)
                 {
                     return;
                 }
@@ -186,7 +198,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
         {
             command = new DelegateCommand<TParameter>(x =>
             {
-                if (!AcceptsOperation || BusyState.IsBusy)
+                if (!AcceptsCommand || BusyState.IsBusy)
                 {
                     return;
                 }
@@ -201,10 +213,16 @@ public abstract class ExtendViewModelBase : ViewModelBase
         return command;
     }
 
-    protected IObserveCommand MakeAsyncCommand(Func<Task> execute, CommandMode mode = CommandMode.Default) =>
-        MakeAsyncCommand(execute, Functions.True, mode);
+    protected IObserveCommand MakeAsyncCommand(Func<Task> execute) =>
+        MakeAsyncCommand(CommandMode.Default, execute, Functions.True);
 
-    protected IObserveCommand MakeAsyncCommand(Func<Task> execute, Func<bool> canExecute, CommandMode mode = CommandMode.Default)
+    protected IObserveCommand MakeAsyncCommand(Func<Task> execute, Func<bool> canExecute) =>
+        MakeAsyncCommand(CommandMode.Default, execute, canExecute);
+
+    protected IObserveCommand MakeAsyncCommand(CommandMode mode, Func<Task> execute) =>
+        MakeAsyncCommand(mode, execute, Functions.True);
+
+    protected IObserveCommand MakeAsyncCommand(CommandMode mode, Func<Task> execute, Func<bool> canExecute)
     {
         AsyncCommand command;
         var resolved = ResolveMode(mode);
@@ -212,7 +230,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
         {
             command = new AsyncCommand(async () =>
             {
-                if (!AcceptsOperation)
+                if (!AcceptsCommand)
                 {
                     return;
                 }
@@ -224,7 +242,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
         {
             command = new AsyncCommand(async () =>
             {
-                if (!AcceptsOperation)
+                if (!AcceptsCommand)
                 {
                     return;
                 }
@@ -239,7 +257,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
         {
             command = new AsyncCommand(async () =>
             {
-                if (!AcceptsOperation || BusyState.IsBusy)
+                if (!AcceptsCommand || BusyState.IsBusy)
                 {
                     return;
                 }
@@ -254,10 +272,16 @@ public abstract class ExtendViewModelBase : ViewModelBase
         return command;
     }
 
-    protected IObserveCommand MakeAsyncCommand<TParameter>(Func<TParameter, Task> execute, CommandMode mode = CommandMode.Default) =>
-        MakeAsyncCommand(execute, Functions<TParameter>.True, mode);
+    protected IObserveCommand MakeAsyncCommand<TParameter>(Func<TParameter, Task> execute) =>
+        MakeAsyncCommand(CommandMode.Default, execute, Functions<TParameter>.True);
 
-    protected IObserveCommand MakeAsyncCommand<TParameter>(Func<TParameter, Task> execute, Func<TParameter, bool> canExecute, CommandMode mode = CommandMode.Default)
+    protected IObserveCommand MakeAsyncCommand<TParameter>(Func<TParameter, Task> execute, Func<TParameter, bool> canExecute) =>
+        MakeAsyncCommand(CommandMode.Default, execute, canExecute);
+
+    protected IObserveCommand MakeAsyncCommand<TParameter>(CommandMode mode, Func<TParameter, Task> execute) =>
+        MakeAsyncCommand(mode, execute, Functions<TParameter>.True);
+
+    protected IObserveCommand MakeAsyncCommand<TParameter>(CommandMode mode, Func<TParameter, Task> execute, Func<TParameter, bool> canExecute)
     {
         AsyncCommand<TParameter> command;
         var resolved = ResolveMode(mode);
@@ -265,7 +289,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
         {
             command = new AsyncCommand<TParameter>(async x =>
             {
-                if (!AcceptsOperation)
+                if (!AcceptsCommand)
                 {
                     return;
                 }
@@ -277,7 +301,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
         {
             command = new AsyncCommand<TParameter>(async x =>
             {
-                if (!AcceptsOperation)
+                if (!AcceptsCommand)
                 {
                     return;
                 }
@@ -292,7 +316,7 @@ public abstract class ExtendViewModelBase : ViewModelBase
         {
             command = new AsyncCommand<TParameter>(async x =>
             {
-                if (!AcceptsOperation || BusyState.IsBusy)
+                if (!AcceptsCommand || BusyState.IsBusy)
                 {
                     return;
                 }

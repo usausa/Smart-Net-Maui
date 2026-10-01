@@ -27,21 +27,33 @@ public sealed class ExtendViewModelBaseTests
 
         public bool Accepts
         {
-            get => AcceptsOperation;
-            set => AcceptsOperation = value;
+            get => AcceptsCommand;
+            set => AcceptsCommand = value;
         }
 
-        public IObserveCommand MakeDelegate(Action execute, CommandMode mode = CommandMode.Default) =>
-            MakeDelegateCommand(execute, mode);
+        public IObserveCommand MakeDelegate(Action execute) =>
+            MakeDelegateCommand(execute);
 
-        public IObserveCommand MakeDelegateWithParameter(Action<int> execute, CommandMode mode = CommandMode.Default) =>
-            MakeDelegateCommand(execute, mode);
+        public IObserveCommand MakeDelegate(CommandMode mode, Action execute) =>
+            MakeDelegateCommand(mode, execute);
 
-        public IObserveCommand MakeAsync(Func<Task> execute, CommandMode mode = CommandMode.Default) =>
-            MakeAsyncCommand(execute, mode);
+        public IObserveCommand MakeDelegateWithParameter(Action<int> execute) =>
+            MakeDelegateCommand(execute);
 
-        public IObserveCommand MakeAsyncWithParameter(Func<int, Task> execute, CommandMode mode = CommandMode.Default) =>
-            MakeAsyncCommand(execute, mode);
+        public IObserveCommand MakeDelegateWithParameter(CommandMode mode, Action<int> execute) =>
+            MakeDelegateCommand(mode, execute);
+
+        public IObserveCommand MakeAsync(Func<Task> execute) =>
+            MakeAsyncCommand(execute);
+
+        public IObserveCommand MakeAsync(CommandMode mode, Func<Task> execute) =>
+            MakeAsyncCommand(mode, execute);
+
+        public IObserveCommand MakeAsyncWithParameter(Func<int, Task> execute) =>
+            MakeAsyncCommand(execute);
+
+        public IObserveCommand MakeAsyncWithParameter(CommandMode mode, Func<int, Task> execute) =>
+            MakeAsyncCommand(mode, execute);
 
         public void RaiseChanged(string name) => RaisePropertyChanged(name);
     }
@@ -123,7 +135,7 @@ public sealed class ExtendViewModelBaseTests
     }
 
     [Fact]
-    public void StandardSkipsWhenOperationNotAccepted()
+    public void StandardSkipsWhenCommandNotAccepted()
     {
         // Arrange
         using var viewModel = new ModeViewModel();
@@ -191,7 +203,7 @@ public sealed class ExtendViewModelBaseTests
     {
         // Arrange
         using var viewModel = new ModeViewModel();
-        var command = viewModel.MakeDelegate(static () => { }, CommandMode.ControlByBusyState);
+        var command = viewModel.MakeDelegate(CommandMode.ControlByBusyState, static () => { });
 
         // Assert
         Assert.True(command.CanExecute(null));
@@ -202,12 +214,12 @@ public sealed class ExtendViewModelBaseTests
     }
 
     [Fact]
-    public void ControlByBusyStateSkipsWhenOperationNotAccepted()
+    public void ControlByBusyStateSkipsWhenCommandNotAccepted()
     {
         // Arrange
         using var viewModel = new ModeViewModel();
         var count = 0;
-        var command = viewModel.MakeDelegate(() => count++, CommandMode.ControlByBusyState);
+        var command = viewModel.MakeDelegate(CommandMode.ControlByBusyState, () => count++);
         viewModel.Accepts = false;
 
         // Act
@@ -228,14 +240,14 @@ public sealed class ExtendViewModelBaseTests
         using var viewModel = new ModeViewModel();
         var count = 0;
         var busy = true;
-        var command = viewModel.MakeDelegate(() =>
+        var command = viewModel.MakeDelegate(CommandMode.Simple, () =>
         {
             count++;
             // ReSharper disable once AccessToDisposedClosure
             busy = viewModel.BusyState.IsBusy;
-        }, CommandMode.Simple);
+        });
         var parameterCount = 0;
-        var parameterCommand = viewModel.MakeDelegateWithParameter(_ => parameterCount++, CommandMode.Simple);
+        var parameterCommand = viewModel.MakeDelegateWithParameter(CommandMode.Simple, _ => parameterCount++);
 
         // Act
         command.Execute(null);
@@ -253,18 +265,18 @@ public sealed class ExtendViewModelBaseTests
         // Arrange
         using var viewModel = new ModeViewModel();
         var count = 0;
-        var command = viewModel.MakeDelegate(() => count++, CommandMode.Simple);
-        var parameterCommand = viewModel.MakeDelegateWithParameter(_ => count++, CommandMode.Simple);
-        var asyncCommand = viewModel.MakeAsync(() =>
+        var command = viewModel.MakeDelegate(CommandMode.Simple, () => count++);
+        var parameterCommand = viewModel.MakeDelegateWithParameter(CommandMode.Simple, _ => count++);
+        var asyncCommand = viewModel.MakeAsync(CommandMode.Simple, () =>
         {
             count++;
             return Task.CompletedTask;
-        }, CommandMode.Simple);
-        var asyncParameterCommand = viewModel.MakeAsyncWithParameter(_ =>
+        });
+        var asyncParameterCommand = viewModel.MakeAsyncWithParameter(CommandMode.Simple, _ =>
         {
             count++;
             return Task.CompletedTask;
-        }, CommandMode.Simple);
+        });
         viewModel.Accepts = false;
 
         // Act
@@ -283,7 +295,7 @@ public sealed class ExtendViewModelBaseTests
         // Arrange
         using var viewModel = new ModeViewModel();
         var count = 0;
-        var command = viewModel.MakeDelegate(() => count++, CommandMode.Simple);
+        var command = viewModel.MakeDelegate(CommandMode.Simple, () => count++);
 
         // Act
         using (viewModel.BusyState.Begin())
@@ -301,13 +313,13 @@ public sealed class ExtendViewModelBaseTests
         // Arrange
         using var viewModel = new ModeViewModel();
         var completion = new TaskCompletionSource();
-        var command = viewModel.MakeAsync(() => completion.Task, CommandMode.Simple);
+        var command = viewModel.MakeAsync(CommandMode.Simple, () => completion.Task);
         var parameterCount = 0;
-        var parameterCommand = viewModel.MakeAsyncWithParameter(_ =>
+        var parameterCommand = viewModel.MakeAsyncWithParameter(CommandMode.Simple, _ =>
         {
             parameterCount++;
             return Task.CompletedTask;
-        }, CommandMode.Simple);
+        });
 
         // Act
         command.Execute(null);
@@ -325,12 +337,48 @@ public sealed class ExtendViewModelBaseTests
     {
         // Arrange
         using var viewModel = new ModeViewModel();
-        var command = viewModel.MakeDelegate(static () => { }, CommandMode.Simple);
+        var command = viewModel.MakeDelegate(CommandMode.Simple, static () => { });
         var count = 0;
         command.CanExecuteChanged += (_, _) => count++;
 
         // Act
         viewModel.RaiseChanged("Any");
+
+        // Assert
+        Assert.Equal(1, count);
+    }
+
+    //------------------------------------------------------------------
+    // Nested
+    //------------------------------------------------------------------
+
+    [Fact]
+    public void StandardSkipsCommandRaisedInsideCommand()
+    {
+        // Arrange
+        using var viewModel = new ModeViewModel();
+        var count = 0;
+        var inner = viewModel.MakeDelegate(() => count++);
+        var outer = viewModel.MakeDelegate(() => inner.Execute(null));
+
+        // Act
+        outer.Execute(null);
+
+        // Assert
+        Assert.Equal(0, count);
+    }
+
+    [Fact]
+    public void SimpleExecutesCommandRaisedInsideCommand()
+    {
+        // Arrange
+        using var viewModel = new ModeViewModel();
+        var count = 0;
+        var inner = viewModel.MakeDelegate(CommandMode.Simple, () => count++);
+        var outer = viewModel.MakeDelegate(() => inner.Execute(null));
+
+        // Act
+        outer.Execute(null);
 
         // Assert
         Assert.Equal(1, count);
