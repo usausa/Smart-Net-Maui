@@ -26,7 +26,7 @@ public sealed class AppLifecycleBehavior : BehaviorBase<Page>
     {
         if (page is not null)
         {
-            page.PropertyChanged -= BindableOnParentChanged;
+            page.ParentChanged -= BindableOnParentChanged;
         }
 
         page = null;

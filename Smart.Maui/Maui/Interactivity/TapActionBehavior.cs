@@ -5,7 +5,7 @@ public sealed class TapActionBehavior : ActionBehaviorBase<View>
     public static readonly BindableProperty ParameterProperty = BindableProperty.Create(
         nameof(Parameter),
         typeof(object),
-        typeof(TimerActionBehavior));
+        typeof(TapActionBehavior));
 
     public object Parameter
     {
