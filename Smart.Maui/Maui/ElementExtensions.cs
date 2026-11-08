@@ -17,9 +17,9 @@ public static class ElementExtensions
                 return null;
             }
 
-            if (element is T variable)
+            if (parent is T typedParent)
             {
-                return variable;
+                return typedParent;
             }
 
             element = parent;
