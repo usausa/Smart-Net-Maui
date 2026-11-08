@@ -2,7 +2,7 @@ namespace Smart.Maui.Interactivity;
 
 using Smart.Mvvm.Messaging;
 
-public sealed class MessageActionBehavior : ActionBehaviorBase<BindableObject>
+public sealed class MessageActionBehavior : ActionBehaviorBase<VisualElement>
 {
     public static readonly BindableProperty MessengerProperty = BindableProperty.Create(
         nameof(Messenger),
@@ -20,37 +20,88 @@ public sealed class MessageActionBehavior : ActionBehaviorBase<BindableObject>
 
     public Type? MessageType { get; set; }
 
-    protected override void OnDetachingFrom(BindableObject bindable)
+    private bool subscribed;
+
+    protected override void OnAttachedTo(VisualElement bindable)
     {
-        if (Messenger is not null)
+        base.OnAttachedTo(bindable);
+
+        bindable.Loaded += OnLoaded;
+        bindable.Unloaded += OnUnloaded;
+
+        if (bindable.IsLoaded)
         {
-            Messenger.Received -= MessengerOnReceived;
+            Subscribe();
         }
+    }
+
+    protected override void OnDetachingFrom(VisualElement bindable)
+    {
+        Unsubscribe();
+
+        bindable.Loaded -= OnLoaded;
+        bindable.Unloaded -= OnUnloaded;
 
         base.OnDetachingFrom(bindable);
     }
 
-    private static void HandleMessengerPropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
+    private void OnLoaded(object? sender, EventArgs e) => Subscribe();
+
+    private void OnUnloaded(object? sender, EventArgs e) => Unsubscribe();
+
+    private void Subscribe()
     {
-        ((MessageActionBehavior)bindable).HandleMessengerPropertyChanged(oldValue as IMessenger, newValue as IMessenger);
+        if (subscribed)
+        {
+            return;
+        }
+
+        subscribed = true;
+        AddReceived(Messenger);
     }
 
-    private void HandleMessengerPropertyChanged(IMessenger? oldValue, IMessenger? newValue)
+    private void Unsubscribe()
+    {
+        if (!subscribed)
+        {
+            return;
+        }
+
+        subscribed = false;
+        RemoveReceived(Messenger);
+    }
+
+    private void AddReceived(IMessenger? messenger)
+    {
+        if (messenger is not null)
+        {
+            messenger.Received += MessengerOnReceived;
+        }
+    }
+
+    private void RemoveReceived(IMessenger? messenger)
+    {
+        if (messenger is not null)
+        {
+            messenger.Received -= MessengerOnReceived;
+        }
+    }
+
+    private static void HandleMessengerPropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
     {
         if (oldValue == newValue)
         {
             return;
         }
 
-        if (oldValue is not null)
+        var behavior = (MessageActionBehavior)bindable;
+        if (!behavior.subscribed)
         {
-            oldValue.Received -= MessengerOnReceived;
+            return;
         }
 
-        if (newValue is not null)
-        {
-            newValue.Received += MessengerOnReceived;
-        }
+        behavior.RemoveReceived(oldValue as IMessenger);
+        behavior.AddReceived(newValue as IMessenger);
     }
 
     private void MessengerOnReceived(object? sender, MessengerEventArgs e)
