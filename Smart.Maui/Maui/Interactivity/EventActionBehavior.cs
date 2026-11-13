@@ -14,6 +14,8 @@ public sealed class EventActionBehavior : ActionBehaviorBase<BindableObject>
         string.Empty,
         propertyChanged: HandleEventNamePropertyChanged);
 
+    private static readonly MethodInfo OnEventMethod = typeof(EventActionBehavior).GetTypeInfo().GetDeclaredMethod(nameof(OnEvent))!;
+
     private EventInfo? eventInfo;
 
     private Delegate? handler;
@@ -53,8 +55,7 @@ public sealed class EventActionBehavior : ActionBehaviorBase<BindableObject>
             throw new ArgumentException(nameof(EventName));
         }
 
-        var methodInfo = typeof(EventActionBehavior).GetTypeInfo().GetDeclaredMethod(nameof(OnEvent))!;
-        handler = methodInfo.CreateDelegate(eventInfo.EventHandlerType!, this);
+        handler = OnEventMethod.CreateDelegate(eventInfo.EventHandlerType!, this);
         eventInfo.AddEventHandler(AssociatedObject, handler);
     }
 

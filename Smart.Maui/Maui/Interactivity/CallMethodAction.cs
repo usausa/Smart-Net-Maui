@@ -68,8 +68,14 @@ public sealed class CallMethodAction : BindableObject, IAction
 
     private Type? cachedParameterType;
 
+    private bool cachedHasParameter;
+
+    [RequiresUnreferencedCode("Uses GetRuntimeMethods to find method by name; method metadata may be trimmed.")]
+    public CallMethodAction()
+    {
+    }
+
     [UnconditionalSuppressMessage("Trimming", "IL2072", Justification = "Target type is determined at runtime via XAML; callers must ensure the type is preserved")]
-    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "MethodInfo.Invoke is used at runtime; not AOT-safe by design")]
     public void Execute(BindableObject associatedObject, object? parameter)
     {
         var target = TargetObject ?? associatedObject;
@@ -99,14 +105,16 @@ public sealed class CallMethodAction : BindableObject, IAction
             cachedMethod = methodInfo;
             cachedType = target.GetType();
             cachedParameterType = parameterType;
+            cachedHasParameter = methodInfo.GetParameters().Length > 0;
         }
 
-        if (cachedMethod.GetParameters().Length > 0)
+        if (cachedHasParameter)
         {
             var methodParameter = MethodParameter;
+            var converter = Converter;
             var argument = (methodParameter is not null) || IsSet(MethodParameterProperty)
                 ? methodParameter
-                : Converter?.Convert(parameter, typeof(object), ConverterParameter, CultureInfo.CurrentCulture) ?? parameter;
+                : converter is not null ? converter.Convert(parameter, typeof(object), ConverterParameter, CultureInfo.CurrentCulture) : parameter;
             cachedMethod.Invoke(target, [argument]);
         }
         else

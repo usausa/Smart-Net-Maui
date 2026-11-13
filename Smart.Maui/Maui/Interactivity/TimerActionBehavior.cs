@@ -2,7 +2,7 @@ namespace Smart.Maui.Interactivity;
 
 using Microsoft.Maui.Dispatching;
 
-public sealed class TimerActionBehavior : ActionBehaviorBase<BindableObject>
+public sealed class TimerActionBehavior : ActionBehaviorBase<VisualElement>
 {
     public static readonly BindableProperty IntervalProperty = BindableProperty.Create(
         nameof(Interval),
@@ -30,17 +30,18 @@ public sealed class TimerActionBehavior : ActionBehaviorBase<BindableObject>
 
     private IDispatcherTimer? timer;
 
-    protected override void OnAttachedTo(BindableObject bindable)
+    protected override void OnAttachedTo(VisualElement bindable)
     {
         base.OnAttachedTo(bindable);
-
-        timer = bindable.Dispatcher.CreateTimer();
-        timer.Interval = Interval;
-        timer.Tick += OnTick;
-        timer.Start();
+        bindable.Loaded += OnLoaded;
+        bindable.Unloaded += OnUnloaded;
+        if (bindable.IsLoaded)
+        {
+            Start(bindable);
+        }
     }
 
-    protected override void OnDetachingFrom(BindableObject bindable)
+    protected override void OnDetachingFrom(VisualElement bindable)
     {
         if (timer is not null)
         {
@@ -49,7 +50,34 @@ public sealed class TimerActionBehavior : ActionBehaviorBase<BindableObject>
             timer = null;
         }
 
+        bindable.Loaded -= OnLoaded;
+        bindable.Unloaded -= OnUnloaded;
         base.OnDetachingFrom(bindable);
+    }
+
+    private void OnLoaded(object? sender, EventArgs e)
+    {
+        if (sender is VisualElement element)
+        {
+            Start(element);
+        }
+    }
+
+    private void OnUnloaded(object? sender, EventArgs e)
+    {
+        timer?.Stop();
+    }
+
+    private void Start(VisualElement element)
+    {
+        if (timer is null)
+        {
+            timer = element.Dispatcher.CreateTimer();
+            timer.Tick += OnTick;
+        }
+
+        timer.Interval = Interval;
+        timer.Start();
     }
 
     private void OnTick(object? sender, EventArgs e)

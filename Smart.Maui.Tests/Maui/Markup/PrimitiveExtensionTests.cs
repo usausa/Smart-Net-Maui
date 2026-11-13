@@ -85,6 +85,7 @@ public sealed class PrimitiveExtensionTests
         var result = ext.ProvideValue(NullServiceProvider);
 
         // Assert
-        Assert.IsAssignableFrom<Array>(result);
+        var values = Assert.IsAssignableFrom<Array>(result);
+        Assert.Equal(Enum.GetValues<DayOfWeek>().Cast<object>(), values.Cast<object>());
     }
 }

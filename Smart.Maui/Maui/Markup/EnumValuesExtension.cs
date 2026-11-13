@@ -1,7 +1,5 @@
 namespace Smart.Maui.Markup;
 
-using System.Diagnostics.CodeAnalysis;
-
 [AcceptEmptyServiceProvider]
 [ContentProperty("Type")]
 public sealed class EnumValuesExtension : IMarkupExtension
@@ -13,7 +11,15 @@ public sealed class EnumValuesExtension : IMarkupExtension
         Type = type;
     }
 
-    [UnconditionalSuppressMessage("Trimming", "IL2111", Justification = "Enum type is specified by user; they must ensure it is preserved")]
-    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Enum.GetValues(Type) uses dynamic code; use Enum.GetValues<TEnum>() for AOT-safe usage")]
-    public object ProvideValue(IServiceProvider serviceProvider) => Enum.GetValues(Type);
+    public object ProvideValue(IServiceProvider serviceProvider)
+    {
+        var values = Enum.GetValuesAsUnderlyingType(Type);
+        var result = new object[values.Length];
+        for (var i = 0; i < values.Length; i++)
+        {
+            result[i] = Enum.ToObject(Type, values.GetValue(i)!);
+        }
+
+        return result;
+    }
 }

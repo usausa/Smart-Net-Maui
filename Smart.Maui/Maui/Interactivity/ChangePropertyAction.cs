@@ -62,9 +62,16 @@ public sealed class ChangePropertyAction : BindableObject, IAction
         set => SetValue(ConverterParameterProperty, value);
     }
 
-    private PropertyInfo? property;
+    private PropertyInfo? cachedProperty;
+
+    private Type? cachedType;
 
     [RequiresUnreferencedCode("Uses GetRuntimeProperty to find property by name; property metadata may be trimmed.")]
+    public ChangePropertyAction()
+    {
+    }
+
+    [UnconditionalSuppressMessage("Trimming", "IL2072", Justification = "Target type is determined at runtime via XAML; callers must ensure the type is preserved")]
     public void Execute(BindableObject associatedObject, object? parameter)
     {
         var target = TargetObject ?? associatedObject;
@@ -74,22 +81,23 @@ public sealed class ChangePropertyAction : BindableObject, IAction
             return;
         }
 
-        if ((property is null) ||
-            (property.DeclaringType != target.GetType()) ||
-            (property.Name != propertyName))
+        if ((cachedProperty is null) ||
+            (cachedType != target.GetType()) ||
+            (cachedProperty.Name != propertyName))
         {
-            property = target.GetType().GetRuntimeProperty(propertyName);
-        }
-
-        if (property is null)
-        {
-            return;
+            cachedProperty = target.GetType().GetRuntimeProperty(propertyName);
+            cachedType = target.GetType();
+            if (cachedProperty is null)
+            {
+                return;
+            }
         }
 
         var value = Parameter;
+        var converter = Converter;
         var propertyValue = (value is not null) || IsSet(ParameterProperty)
             ? value
-            : Converter?.Convert(parameter, typeof(object), ConverterParameter, CultureInfo.CurrentCulture) ?? parameter;
-        property.SetValue(target, propertyValue);
+            : converter is not null ? converter.Convert(parameter, typeof(object), ConverterParameter, CultureInfo.CurrentCulture) : parameter;
+        cachedProperty.SetValue(target, propertyValue);
     }
 }

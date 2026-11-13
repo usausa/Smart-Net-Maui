@@ -58,9 +58,10 @@ public sealed class ExecuteCommandAction : BindableObject, IAction
         }
 
         var commandParameter = CommandParameter;
+        var converter = Converter;
         var argument = (commandParameter is not null) || IsSet(CommandParameterProperty)
             ? commandParameter
-            : Converter?.Convert(parameter, typeof(object), ConverterParameter, CultureInfo.CurrentCulture) ?? parameter;
+            : converter is not null ? converter.Convert(parameter, typeof(object), ConverterParameter, CultureInfo.CurrentCulture) : parameter;
         if (command.CanExecute(argument))
         {
             command.Execute(argument);

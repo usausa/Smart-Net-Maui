@@ -1,6 +1,7 @@
 namespace Smart.Maui.Data;
 
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 
@@ -42,6 +43,7 @@ public sealed class ChainConverter : IValueConverter
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Binding.DoNothing is a sentinel object and reading it does not use string path bindings.")]
     private static bool IsSentinel(object? value) =>
         (value == Binding.DoNothing) || (value == BindableProperty.UnsetValue);
 }

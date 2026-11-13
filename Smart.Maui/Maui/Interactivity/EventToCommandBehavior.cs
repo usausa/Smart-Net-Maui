@@ -36,6 +36,8 @@ public sealed class EventToCommandBehavior : BehaviorBase<BindableObject>
         typeof(object),
         typeof(EventToCommandBehavior));
 
+    private static readonly MethodInfo OnEventMethod = typeof(EventToCommandBehavior).GetTypeInfo().GetDeclaredMethod(nameof(OnEvent))!;
+
     private EventInfo? eventInfo;
 
     private Delegate? handler;
@@ -99,8 +101,7 @@ public sealed class EventToCommandBehavior : BehaviorBase<BindableObject>
             throw new ArgumentException(nameof(EventName));
         }
 
-        var methodInfo = typeof(EventToCommandBehavior).GetTypeInfo().GetDeclaredMethod(nameof(OnEvent))!;
-        handler = methodInfo.CreateDelegate(eventInfo.EventHandlerType!, this);
+        handler = OnEventMethod.CreateDelegate(eventInfo.EventHandlerType!, this);
         eventInfo.AddEventHandler(AssociatedObject, handler);
     }
 
@@ -121,9 +122,10 @@ public sealed class EventToCommandBehavior : BehaviorBase<BindableObject>
         }
 
         var commandParameter = CommandParameter;
+        var converter = Converter;
         var parameter = (commandParameter is not null) || IsSet(CommandParameterProperty)
             ? commandParameter
-            : Converter?.Convert(e, typeof(object), ConverterParameter, CultureInfo.CurrentCulture) ?? e;
+            : converter is not null ? converter.Convert(e, typeof(object), ConverterParameter, CultureInfo.CurrentCulture) : e;
         if (command.CanExecute(parameter))
         {
             command.Execute(parameter);

@@ -1,5 +1,6 @@
 namespace Smart.Maui.Data;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 public abstract class BoolToObjectConverter<T> : IValueConverter
@@ -18,6 +19,7 @@ public abstract class BoolToObjectConverter<T> : IValueConverter
         return FalseValue;
     }
 
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Binding.DoNothing is a sentinel object and reading it does not use string path bindings.")]
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is T typed)

@@ -20,7 +20,8 @@ public sealed class CompareActionBehavior : ActionBehaviorBase<BindableObject>
         nameof(Expression),
         typeof(ICompareExpression),
         typeof(CompareActionBehavior),
-        CompareExpressions.Equal);
+        CompareExpressions.Equal,
+        propertyChanged: HandlePropertyChanged);
 
     public object? Binding
     {
@@ -52,6 +53,11 @@ public sealed class CompareActionBehavior : ActionBehaviorBase<BindableObject>
 
     private void HandlePropertyChanged()
     {
+        if (AssociatedObject is null)
+        {
+            return;
+        }
+
         var expression = Expression ?? CompareExpressions.Equal;
         if (expression.Eval(Binding, Parameter))
         {

@@ -1,5 +1,7 @@
 namespace Smart.Maui.Interactivity;
 
+using System.Globalization;
+
 using Microsoft.Maui.Controls;
 
 public sealed class CallMethodActionTests
@@ -31,6 +33,13 @@ public sealed class CallMethodActionTests
             ObjectCalled = true;
             ObjectReceived = argument;
         }
+    }
+
+    private sealed class NullConverter : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) => null;
+
+        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => throw new NotSupportedException();
     }
 
     //------------------------------------------------------------------
@@ -95,5 +104,25 @@ public sealed class CallMethodActionTests
         // Assert
         Assert.True(target.ObjectCalled);
         Assert.Equal("methodParameter", target.ObjectReceived);
+    }
+
+    [Fact]
+    public void PassesNullWhenConverterReturnsNull()
+    {
+        // Arrange
+        var target = new MethodTarget();
+        var action = new CallMethodAction
+        {
+            TargetObject = target,
+            MethodName = nameof(MethodTarget.InvokeObject),
+            Converter = new NullConverter()
+        };
+
+        // Act
+        action.Execute(new TestBindable(), "eventArgument");
+
+        // Assert
+        Assert.True(target.ObjectCalled);
+        Assert.Null(target.ObjectReceived);
     }
 }

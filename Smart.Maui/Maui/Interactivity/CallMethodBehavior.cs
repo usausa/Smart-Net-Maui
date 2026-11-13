@@ -30,6 +30,8 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
         typeof(object),
         typeof(CallMethodBehavior));
 
+    private static readonly MethodInfo OnEventMethod = typeof(CallMethodBehavior).GetTypeInfo().GetDeclaredMethod(nameof(OnEvent))!;
+
     private EventInfo? eventInfo;
 
     private Delegate? handler;
@@ -39,6 +41,8 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
     private Type? cachedType;
 
     private Type? cachedParameterType;
+
+    private bool cachedHasParameter;
 
     public string EventName
     {
@@ -93,8 +97,7 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
             throw new ArgumentException(nameof(EventName));
         }
 
-        var methodInfo = typeof(CallMethodBehavior).GetTypeInfo().GetDeclaredMethod(nameof(OnEvent))!;
-        handler = methodInfo.CreateDelegate(eventInfo.EventHandlerType!, this);
+        handler = OnEventMethod.CreateDelegate(eventInfo.EventHandlerType!, this);
         eventInfo.AddEventHandler(AssociatedObject, handler);
     }
 
@@ -136,9 +139,10 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
             cachedMethod = methodInfo;
             cachedType = target.GetType();
             cachedParameterType = parameterType;
+            cachedHasParameter = methodInfo.GetParameters().Length > 0;
         }
 
-        cachedMethod.Invoke(target, cachedMethod.GetParameters().Length > 0 ? [MethodParameter] : null);
+        cachedMethod.Invoke(target, cachedHasParameter ? [MethodParameter] : null);
     }
     // ReSharper restore UnusedParameter.Local
 
