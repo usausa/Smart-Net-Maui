@@ -92,33 +92,26 @@ public sealed class ValidationFocusBehavior : BehaviorBase<VisualElement>
             return null;
         }
 
-        if (parent is Layout layout)
+        return FindTargetInChildren(parent, errorInfo);
+    }
+
+    private static VisualElement? FindTargetInChildren(IVisualTreeElement parent, ErrorInfo errorInfo)
+    {
+        foreach (var child in parent.GetVisualChildren())
         {
-            foreach (var child in layout.Children)
+            if (child is not VisualElement { IsEnabled: true, IsVisible: true } visual)
             {
-                if (!child.IsEnabled || (child is not VisualElement { IsVisible: true } visual))
-                {
-                    continue;
-                }
-
-                var key = Behavior.GetKey(visual);
-                if (!String.IsNullOrEmpty(key) && errorInfo.Contains(key))
-                {
-                    return visual;
-                }
-
-                var result = FindTarget(visual, errorInfo);
-                if (result != null)
-                {
-                    return result;
-                }
+                continue;
             }
-        }
 
-        if (parent is IContentView { Content: VisualElement visualContent })
-        {
-            var result = FindTarget(visualContent, errorInfo);
-            if (result != null)
+            var key = Behavior.GetKey(visual);
+            if (!String.IsNullOrEmpty(key) && errorInfo.Contains(key))
+            {
+                return visual;
+            }
+
+            var result = FindTargetInChildren(visual, errorInfo);
+            if (result is not null)
             {
                 return result;
             }

@@ -6,6 +6,7 @@ using System.Reflection;
 using Smart.Linq;
 using Smart.Mvvm.Messaging;
 
+[RequiresUnreferencedCode("Uses GetRuntimeMethods to find method by name; method metadata may be trimmed.")]
 public sealed class ResolveMethodAction : BindableObject, IAction
 {
     public static readonly BindableProperty TargetObjectProperty = BindableProperty.Create(
@@ -31,16 +32,12 @@ public sealed class ResolveMethodAction : BindableObject, IAction
         set => SetValue(MethodNameProperty, value);
     }
 
-    private MethodInfo? cachedMethod;
+    private MethodInvoker? cachedInvoker;
+
+    private string cachedMethodName = string.Empty;
 
     private Type? cachedType;
 
-    [RequiresUnreferencedCode("Uses GetRuntimeMethods to find method by name; method metadata may be trimmed.")]
-    public ResolveMethodAction()
-    {
-    }
-
-    [UnconditionalSuppressMessage("Trimming", "IL2072", Justification = "Target type is determined at runtime via XAML; callers must ensure the type is preserved")]
     public void Execute(BindableObject associatedObject, object? parameter)
     {
         if (parameter is not ResolveEventArgs args)
@@ -55,20 +52,22 @@ public sealed class ResolveMethodAction : BindableObject, IAction
             return;
         }
 
-        if ((cachedMethod is null) ||
+        if ((cachedInvoker is null) ||
             (cachedType != target.GetType()) ||
-            (cachedMethod.Name != methodName))
+            (cachedMethodName != methodName))
         {
-            cachedMethod = target.GetType().GetRuntimeMethods()
+            var methodInfo = target.GetType().GetRuntimeMethods()
                 .FirstOrDefault(methodName, static (m, s) => (m.Name == s) && (m.GetParameters().Length == 0));
-            if (cachedMethod is null)
+            if (methodInfo is null)
             {
                 return;
             }
 
+            cachedInvoker = MethodInvoker.Create(methodInfo);
+            cachedMethodName = methodName;
             cachedType = target.GetType();
         }
 
-        args.Result = cachedMethod.Invoke(target, null);
+        args.Result = cachedInvoker.Invoke(target);
     }
 }

@@ -75,33 +75,25 @@ public sealed class FocusControlBehavior : BehaviorBase<VisualElement>
             return null;
         }
 
-        if (parent is Layout layout)
+        return FindTargetByNameInChildren(parent, name);
+    }
+
+    private static VisualElement? FindTargetByNameInChildren(IVisualTreeElement parent, string name)
+    {
+        foreach (var child in parent.GetVisualChildren())
         {
-            foreach (var child in layout.Children)
+            if (child is not VisualElement { IsEnabled: true, IsVisible: true } visual)
             {
-                if (!child.IsEnabled || (child is not VisualElement { IsVisible: true } visual))
-                {
-                    continue;
-                }
-
-                var key = Behavior.GetKey(visual);
-                if (key == name)
-                {
-                    return visual;
-                }
-
-                var result = FindTargetByName(visual, name);
-                if (result != null)
-                {
-                    return result;
-                }
+                continue;
             }
-        }
 
-        if (parent is IContentView { Content: VisualElement visualContent })
-        {
-            var result = FindTargetByName(visualContent, name);
-            if (result != null)
+            if (Behavior.GetKey(visual) == name)
+            {
+                return visual;
+            }
+
+            var result = FindTargetByNameInChildren(visual, name);
+            if (result is not null)
             {
                 return result;
             }
@@ -128,33 +120,25 @@ public sealed class FocusControlBehavior : BehaviorBase<VisualElement>
             return null;
         }
 
-        if (parent is Layout layout)
+        return FindFocusedInChildren(parent);
+    }
+
+    private static string? FindFocusedInChildren(IVisualTreeElement parent)
+    {
+        foreach (var child in parent.GetVisualChildren())
         {
-            foreach (var child in layout.Children)
+            if (child is not VisualElement { IsEnabled: true, IsVisible: true } visual)
             {
-                if (!child.IsEnabled || (child is not VisualElement { IsVisible: true } visual))
-                {
-                    continue;
-                }
-
-                if (visual.IsFocused)
-                {
-                    var key = Behavior.GetKey(visual);
-                    return key;
-                }
-
-                var result = FindFocused(visual);
-                if (result != null)
-                {
-                    return result;
-                }
+                continue;
             }
-        }
 
-        if (parent is IContentView { Content: VisualElement visualContent })
-        {
-            var result = FindFocused(visualContent);
-            if (result != null)
+            if (visual.IsFocused)
+            {
+                return Behavior.GetKey(visual);
+            }
+
+            var result = FindFocusedInChildren(visual);
+            if (result is not null)
             {
                 return result;
             }

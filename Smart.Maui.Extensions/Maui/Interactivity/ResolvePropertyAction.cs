@@ -5,6 +5,7 @@ using System.Reflection;
 
 using Smart.Mvvm.Messaging;
 
+[RequiresUnreferencedCode("Uses GetRuntimeProperty to find property by name; property metadata may be trimmed.")]
 public sealed class ResolvePropertyAction : BindableObject, IAction
 {
     public static readonly BindableProperty TargetObjectProperty = BindableProperty.Create(
@@ -34,12 +35,6 @@ public sealed class ResolvePropertyAction : BindableObject, IAction
 
     private Type? cachedType;
 
-    [RequiresUnreferencedCode("Uses GetRuntimeProperty to find property by name; property metadata may be trimmed.")]
-    public ResolvePropertyAction()
-    {
-    }
-
-    [UnconditionalSuppressMessage("Trimming", "IL2072", Justification = "Target type is determined at runtime via XAML; callers must ensure the type is preserved")]
     public void Execute(BindableObject associatedObject, object? parameter)
     {
         if (parameter is not ResolveEventArgs args)
