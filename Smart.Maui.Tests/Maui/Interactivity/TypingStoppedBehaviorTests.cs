@@ -69,4 +69,31 @@ public sealed class TypingStoppedBehaviorTests
         // Assert
         Assert.Equal("parameter", received);
     }
+
+    [Fact]
+    public void UsesNullWhenCommandParameterIsSetToNull()
+    {
+        // Arrange
+        var dispatcher = TestDispatcher.Install();
+        var entry = new Entry();
+        var executed = false;
+        object? received = "initial";
+        entry.Behaviors.Add(new TypingStoppedBehavior
+        {
+            Command = new DelegateCommand<object?>(x =>
+            {
+                executed = true;
+                received = x;
+            }),
+            CommandParameter = null
+        });
+
+        // Act
+        entry.Text = "abc";
+        Assert.Single(dispatcher.Timers).Fire();
+
+        // Assert
+        Assert.True(executed);
+        Assert.Null(received);
+    }
 }

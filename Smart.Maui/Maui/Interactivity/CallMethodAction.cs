@@ -4,6 +4,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 
+using Smart.Linq;
+
+[RequiresUnreferencedCode("Uses GetRuntimeMethods to find method by name; method metadata may be trimmed.")]
 public sealed class CallMethodAction : BindableObject, IAction
 {
     public static readonly BindableProperty TargetObjectProperty = BindableProperty.Create(
@@ -62,7 +65,9 @@ public sealed class CallMethodAction : BindableObject, IAction
         set => SetValue(ConverterParameterProperty, value);
     }
 
-    private MethodInfo? cachedMethod;
+    private MethodInvoker? cachedInvoker;
+
+    private string cachedMethodName = string.Empty;
 
     private Type? cachedType;
 
@@ -70,12 +75,6 @@ public sealed class CallMethodAction : BindableObject, IAction
 
     private bool cachedHasParameter;
 
-    [RequiresUnreferencedCode("Uses GetRuntimeMethods to find method by name; method metadata may be trimmed.")]
-    public CallMethodAction()
-    {
-    }
-
-    [UnconditionalSuppressMessage("Trimming", "IL2072", Justification = "Target type is determined at runtime via XAML; callers must ensure the type is preserved")]
     public void Execute(BindableObject associatedObject, object? parameter)
     {
         var target = TargetObject ?? associatedObject;
@@ -85,24 +84,26 @@ public sealed class CallMethodAction : BindableObject, IAction
             return;
         }
 
-        var parameterType = MethodParameter?.GetType();
-        if ((cachedMethod is null) ||
+        var methodParameter = MethodParameter;
+        var parameterType = methodParameter?.GetType();
+        if ((cachedInvoker is null) ||
             (cachedType != target.GetType()) ||
-            (cachedMethod.Name != methodName) ||
+            (cachedMethodName != methodName) ||
             (cachedParameterType != parameterType))
         {
-            var methodInfo = target.GetType().GetRuntimeMethods().FirstOrDefault(m =>
-                (m.Name == methodName) &&
+            var methodInfo = target.GetType().GetRuntimeMethods().FirstOrDefault((methodName, methodParameter), static (m, s) =>
+                (m.Name == s.methodName) &&
                 ((m.GetParameters().Length == 0) ||
                  ((m.GetParameters().Length == 1) &&
-                  ((MethodParameter is null) ||
-                   m.GetParameters()[0].ParameterType.GetTypeInfo().IsAssignableFrom(MethodParameter.GetType().GetTypeInfo())))));
+                  ((s.methodParameter is null) ||
+                   m.GetParameters()[0].ParameterType.GetTypeInfo().IsAssignableFrom(s.methodParameter.GetType().GetTypeInfo())))));
             if (methodInfo is null)
             {
                 return;
             }
 
-            cachedMethod = methodInfo;
+            cachedInvoker = MethodInvoker.Create(methodInfo);
+            cachedMethodName = methodName;
             cachedType = target.GetType();
             cachedParameterType = parameterType;
             cachedHasParameter = methodInfo.GetParameters().Length > 0;
@@ -110,16 +111,15 @@ public sealed class CallMethodAction : BindableObject, IAction
 
         if (cachedHasParameter)
         {
-            var methodParameter = MethodParameter;
             var converter = Converter;
             var argument = (methodParameter is not null) || IsSet(MethodParameterProperty)
                 ? methodParameter
                 : converter is not null ? converter.Convert(parameter, typeof(object), ConverterParameter, CultureInfo.CurrentCulture) : parameter;
-            cachedMethod.Invoke(target, [argument]);
+            cachedInvoker.Invoke(target, argument);
         }
         else
         {
-            cachedMethod.Invoke(target, null);
+            cachedInvoker.Invoke(target);
         }
     }
 }

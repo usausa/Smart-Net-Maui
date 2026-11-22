@@ -56,4 +56,19 @@ public sealed class EventActionBehaviorTests
         Assert.Same(entry, associatedObject);
         Assert.IsType<TextChangedEventArgs>(parameter);
     }
+
+    [Fact]
+    public void IgnoresEmptyEventName()
+    {
+        // Arrange
+        var button = new Button();
+        var behavior = new EventActionBehavior();
+        behavior.Actions.Add(new RecordAction());
+
+        // Act
+        var exception = Record.Exception(() => button.Behaviors.Add(behavior));
+
+        // Assert
+        Assert.Null(exception);
+    }
 }

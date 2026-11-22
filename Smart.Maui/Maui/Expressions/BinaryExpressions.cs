@@ -14,7 +14,7 @@ public static class BinaryExpressions
 
     private abstract class CompareExpression : IBinaryExpression
     {
-        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "ConvertHelper uses TypeDescriptor; callers are XAML-driven runtime expressions")]
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "The target type is the runtime type of an existing value; trimming keeps it and its TypeConverter, and it is never Nullable<T>.")]
         public object? Eval(object? left, object? right)
         {
             if ((left is IComparable comparable) && (right is not null))
@@ -52,7 +52,7 @@ public static class BinaryExpressions
 
     private abstract class ArithmeticExpression : IBinaryExpression
     {
-        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "ConvertHelper uses TypeDescriptor; callers are XAML-driven runtime expressions")]
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "The target type is the runtime type of an existing value; trimming keeps it and its TypeConverter, and it is never Nullable<T>.")]
         public object? Eval(object? left, object? right)
         {
             if ((left is null) || (right is null))

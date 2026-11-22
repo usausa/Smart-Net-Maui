@@ -3,8 +3,9 @@ namespace Smart.Maui.Interactivity;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
+using Smart.Linq;
+
 [RequiresUnreferencedCode("Uses reflection to subscribe to events and invoke methods by name; metadata may be trimmed.")]
-[RequiresDynamicCode("Uses CreateDelegate with a runtime-determined EventHandlerType.")]
 public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
 {
     public static readonly BindableProperty EventNameProperty = BindableProperty.Create(
@@ -36,7 +37,9 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
 
     private Delegate? handler;
 
-    private MethodInfo? cachedMethod;
+    private MethodInvoker? cachedInvoker;
+
+    private string cachedMethodName = string.Empty;
 
     private Type? cachedType;
 
@@ -82,8 +85,6 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
         base.OnDetachingFrom(bindable);
     }
 
-    [RequiresUnreferencedCode("Uses GetRuntimeEvent to find event by name; event metadata may be trimmed.")]
-    [RequiresDynamicCode("Uses CreateDelegate with a runtime-determined EventHandlerType.")]
     private void AddEventHandler(string eventName)
     {
         if (String.IsNullOrEmpty(eventName))
@@ -109,7 +110,6 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
     }
 
     // ReSharper disable UnusedParameter.Local
-    [RequiresUnreferencedCode("Uses GetRuntimeMethods to find method by name; method metadata may be trimmed.")]
     private void OnEvent(object sender, EventArgs e)
     {
         var target = TargetObject ?? BindingContext;
@@ -119,30 +119,39 @@ public sealed class CallMethodBehavior : BehaviorBase<BindableObject>
             return;
         }
 
-        var parameterType = MethodParameter?.GetType();
-        if ((cachedMethod is null) ||
+        var methodParameter = MethodParameter;
+        var parameterType = methodParameter?.GetType();
+        if ((cachedInvoker is null) ||
             (cachedType != target.GetType()) ||
-            (cachedMethod.Name != methodName) ||
+            (cachedMethodName != methodName) ||
             (cachedParameterType != parameterType))
         {
-            var methodInfo = target.GetType().GetRuntimeMethods().FirstOrDefault(m =>
-                (m.Name == methodName) &&
+            var methodInfo = target.GetType().GetRuntimeMethods().FirstOrDefault((methodName, methodParameter), static (m, s) =>
+                (m.Name == s.methodName) &&
                 ((m.GetParameters().Length == 0) ||
                  ((m.GetParameters().Length == 1) &&
-                  ((MethodParameter is null) ||
-                   m.GetParameters()[0].ParameterType.GetTypeInfo().IsAssignableFrom(MethodParameter.GetType().GetTypeInfo())))));
+                  ((s.methodParameter is null) ||
+                   m.GetParameters()[0].ParameterType.GetTypeInfo().IsAssignableFrom(s.methodParameter.GetType().GetTypeInfo())))));
             if (methodInfo is null)
             {
                 return;
             }
 
-            cachedMethod = methodInfo;
+            cachedInvoker = MethodInvoker.Create(methodInfo);
+            cachedMethodName = methodName;
             cachedType = target.GetType();
             cachedParameterType = parameterType;
             cachedHasParameter = methodInfo.GetParameters().Length > 0;
         }
 
-        cachedMethod.Invoke(target, cachedHasParameter ? [MethodParameter] : null);
+        if (cachedHasParameter)
+        {
+            cachedInvoker.Invoke(target, methodParameter);
+        }
+        else
+        {
+            cachedInvoker.Invoke(target);
+        }
     }
     // ReSharper restore UnusedParameter.Local
 

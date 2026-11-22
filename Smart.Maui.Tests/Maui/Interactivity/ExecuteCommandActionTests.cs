@@ -40,4 +40,28 @@ public sealed class ExecuteCommandActionTests
         Assert.True(executed);
         Assert.Null(received);
     }
+
+    [Fact]
+    public void PassesNullWhenCommandParameterIsSetToNull()
+    {
+        // Arrange
+        var executed = false;
+        object? received = "initial";
+        var action = new ExecuteCommandAction
+        {
+            Command = new DelegateCommand<object?>(x =>
+            {
+                executed = true;
+                received = x;
+            }),
+            CommandParameter = null
+        };
+
+        // Act
+        action.Execute(new TestBindable(), "eventArgument");
+
+        // Assert
+        Assert.True(executed);
+        Assert.Null(received);
+    }
 }

@@ -42,6 +42,32 @@ public sealed class EventToCommandBehaviorTests
     }
 
     [Fact]
+    public void PassesNullWhenCommandParameterIsSetToNull()
+    {
+        // Arrange
+        var executed = false;
+        object? received = "initial";
+        var button = new Button();
+        button.Behaviors.Add(new EventToCommandBehavior
+        {
+            EventName = nameof(Button.Clicked),
+            Command = new DelegateCommand<object?>(x =>
+            {
+                executed = true;
+                received = x;
+            }),
+            CommandParameter = null
+        });
+
+        // Act
+        ((IButtonController)button).SendClicked();
+
+        // Assert
+        Assert.True(executed);
+        Assert.Null(received);
+    }
+
+    [Fact]
     public void ExecutesOwnCommandForEachAttachedObject()
     {
         // Arrange
@@ -76,5 +102,19 @@ public sealed class EventToCommandBehaviorTests
 
         // Assert
         Assert.IsType<TextChangedEventArgs>(Assert.Single(received));
+    }
+
+    [Fact]
+    public void IgnoresEmptyEventName()
+    {
+        // Arrange
+        var button = new Button();
+        var behavior = new EventToCommandBehavior { Command = new DelegateCommand(static () => { }) };
+
+        // Act
+        var exception = Record.Exception(() => button.Behaviors.Add(behavior));
+
+        // Assert
+        Assert.Null(exception);
     }
 }

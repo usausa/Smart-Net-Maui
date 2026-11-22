@@ -7,7 +7,7 @@ using System.Globalization;
 
 public static class ConvertHelper
 {
-    [RequiresUnreferencedCode("Uses TypeDescriptor.GetConverter which is not AOT-compatible.")]
+    [RequiresUnreferencedCode("Uses TypeDescriptor which is not trim-compatible")]
     public static object? Convert(Type targetType, object value)
     {
         if (targetType == value.GetType())

@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Windows.Input;
 
 [RequiresUnreferencedCode("Uses reflection to subscribe to events by name; event metadata may be trimmed.")]
-[RequiresDynamicCode("Uses CreateDelegate with a runtime-determined EventHandlerType.")]
 public sealed class EventToCommandBehavior : BehaviorBase<BindableObject>
 {
     public static readonly BindableProperty EventNameProperty = BindableProperty.Create(
@@ -86,8 +85,6 @@ public sealed class EventToCommandBehavior : BehaviorBase<BindableObject>
         base.OnDetachingFrom(bindable);
     }
 
-    [RequiresUnreferencedCode("Uses GetRuntimeEvent to find event by name; event metadata may be trimmed.")]
-    [RequiresDynamicCode("Uses CreateDelegate with a runtime-determined EventHandlerType.")]
     private void AddEventHandler(string eventName)
     {
         if (String.IsNullOrEmpty(eventName))

@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 [RequiresUnreferencedCode("Uses reflection to subscribe to events by name; event metadata may be trimmed.")]
-[RequiresDynamicCode("Uses CreateDelegate with a runtime-determined EventHandlerType.")]
 public sealed class EventActionBehavior : ActionBehaviorBase<BindableObject>
 {
     public static readonly BindableProperty EventNameProperty = BindableProperty.Create(
@@ -40,8 +39,6 @@ public sealed class EventActionBehavior : ActionBehaviorBase<BindableObject>
         base.OnDetachingFrom(bindable);
     }
 
-    [RequiresUnreferencedCode("Uses GetRuntimeEvent to find event by name; event metadata may be trimmed.")]
-    [RequiresDynamicCode("Uses CreateDelegate with a runtime-determined EventHandlerType.")]
     private void AddEventHandler(string eventName)
     {
         if (String.IsNullOrEmpty(eventName))

@@ -18,7 +18,7 @@ public static class CompareExpressions
 
     private abstract class CompareExpression : ICompareExpression
     {
-        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "ConvertHelper uses TypeDescriptor; callers are XAML-driven runtime expressions")]
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "The target type is the runtime type of an existing value; trimming keeps it and its TypeConverter, and it is never Nullable<T>.")]
         public bool Eval(object? left, object? right)
         {
             if ((left is IComparable comparable) && (right is not null))
